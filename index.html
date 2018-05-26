@@ -95,7 +95,7 @@
     root: '/',
     scheme: 'Muse',
     version: '5.1.3',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    sidebar: {"position":"left","display":"always","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
     fancybox: true,
     tabs: true,
     motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
@@ -782,14 +782,18 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
       
         
           
-            <p>首先，我在公司用K3刷了Lede路由系统，并安装了KMS Windows全家桶激活软件。具体激活方法如下，我自己还没测试。</p>
+            <h1 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h1><p>首先，我在公司用K3刷了Lede路由系统，并安装了KMS Windows全家桶激活软件。具体激活方法如下，我自己还没测试。</p>
 <p>有的教程说需要填入序列号，有的教程说VOL版本的Office或者Windows自带了序列号，所以不需要输入。不管那么多，先记录下来，如果需要序列号，下面也陈列了序列号：</p>
-<h2 id="注意下面的所有反斜杠“-”，如果命令无效，可以考虑换为“-”"><a href="#注意下面的所有反斜杠“-”，如果命令无效，可以考虑换为“-”" class="headerlink" title=" 注意下面的所有反斜杠“/”，如果命令无效，可以考虑换为“-”"></a><strong> 注意下面的所有反斜杠“/”，如果命令无效，可以考虑换为“-”</strong></h2><h3 id="方法一"><a href="#方法一" class="headerlink" title=" 方法一 "></a><strong> 方法一 </strong></h3><h5 id="激活-Office2016（以-64-位为例子）"><a href="#激活-Office2016（以-64-位为例子）" class="headerlink" title="激活 Office2016（以 64 位为例子）"></a>激活 Office2016（以 64 位为例子）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Program Files\Microsoft Office\Office16</span><br><span class="line">CSCRIPT OSPP.VBS /SETHST:192.168.31.1</span><br><span class="line">CSCRIPT OSPP.VBS /ACT</span><br><span class="line">CSCRIPT OSPP.VBS /DSTATUS</span><br></pre></td></tr></table></figure>
-<h5 id="激活-Windows"><a href="#激活-Windows" class="headerlink" title="激活 Windows"></a>激活 Windows</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Windows\System32</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /SKMS 192.168.31.1</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /ATO</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /XPR</span><br></pre></td></tr></table></figure>
 <hr>
-<h3 id="方法二-（我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）"><a href="#方法二-（我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）" class="headerlink" title=" 方法二 （我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）"></a><strong> 方法二 （我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）</strong></h3><h5 id="激活-Office2016（以-32-位为例子）"><a href="#激活-Office2016（以-32-位为例子）" class="headerlink" title="激活 Office2016（以 32 位为例子）"></a>激活 Office2016（以 32 位为例子）</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &quot;C:\Program Files (x86)\Microsoft Office\Office16&quot;</span><br><span class="line">cscript  ospp.vbs /sethst:ip  #ip为你VPS的ip地址或者域名 </span><br><span class="line">cscript  ospp.vbs /act</span><br></pre></td></tr></table></figure>
-<h5 id="激活-Windows-1"><a href="#激活-Windows-1" class="headerlink" title="激活 Windows"></a>激活 Windows</h5><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">slmgr.vbs -upk			#如果有必要的话，可以先卸载现有的Key</span><br><span class="line">wmic os get caption		#查看windows系统版本，然后从下面找相应的版本的Key</span><br><span class="line">slmgr.vbs -ipk xxxxx-xxxxx-xxxxx-xxxxx</span><br><span class="line">slmgr.vbs -skms ip #ip为你VPS的ip地址或者域名 </span><br><span class="line">slmgr.vbs -atoato</span><br><span class="line">slmgr.vbs -dlv</span><br></pre></td></tr></table></figure>
-<h2 id="Windows-Server-2016"><a href="#Windows-Server-2016" class="headerlink" title="Windows Server 2016"></a>Windows Server 2016</h2><table>
+<h1 id="激活命令（Windows平台下）"><a href="#激活命令（Windows平台下）" class="headerlink" title="激活命令（Windows平台下）"></a>激活命令（Windows平台下）</h1><blockquote>
+<p>注意下面的所有反斜杠“/”，如果命令无效，可以考虑换为“-”</p>
+</blockquote>
+<h2 id="方法一"><a href="#方法一" class="headerlink" title=" 方法一 "></a><strong> 方法一 </strong></h2><h3 id="激活-Office2016（以-64-位为例子）"><a href="#激活-Office2016（以-64-位为例子）" class="headerlink" title="激活 Office2016（以 64 位为例子）"></a>激活 Office2016（以 64 位为例子）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Program Files\Microsoft Office\Office16</span><br><span class="line">CSCRIPT OSPP.VBS /SETHST:192.168.31.1</span><br><span class="line">CSCRIPT OSPP.VBS /ACT</span><br><span class="line">CSCRIPT OSPP.VBS /DSTATUS</span><br></pre></td></tr></table></figure>
+<h3 id="激活-Windows"><a href="#激活-Windows" class="headerlink" title="激活 Windows"></a>激活 Windows</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Windows\System32</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /SKMS 192.168.31.1</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /ATO</span><br><span class="line">CSCRIPT /NOLOGO SLMGR.VBS /XPR</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="方法二-（我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）"><a href="#方法二-（我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）" class="headerlink" title=" 方法二 （我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）"></a><strong> 方法二 （我怀疑LEDE自己搭建的KMS服务器，不能用这个方法）</strong></h2><h3 id="激活-Office2016（以-32-位为例子）"><a href="#激活-Office2016（以-32-位为例子）" class="headerlink" title="激活 Office2016（以 32 位为例子）"></a>激活 Office2016（以 32 位为例子）</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd &quot;C:\Program Files (x86)\Microsoft Office\Office16&quot;</span><br><span class="line">cscript  ospp.vbs /sethst:ip  #ip为你VPS的ip地址或者域名 </span><br><span class="line">cscript  ospp.vbs /act</span><br></pre></td></tr></table></figure>
+<h3 id="激活-Windows-1"><a href="#激活-Windows-1" class="headerlink" title="激活 Windows"></a>激活 Windows</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">slmgr.vbs -upk			#如果有必要的话，可以先卸载现有的Key</span><br><span class="line">wmic os get caption		#查看windows系统版本，然后从下面找相应的版本的Key</span><br><span class="line">slmgr.vbs -ipk xxxxx-xxxxx-xxxxx-xxxxx</span><br><span class="line">slmgr.vbs -skms ip #ip为你VPS的ip地址或者域名 </span><br><span class="line">slmgr.vbs -atoato</span><br><span class="line">slmgr.vbs -dlv</span><br></pre></td></tr></table></figure>
+<h1 id="KMS序列号"><a href="#KMS序列号" class="headerlink" title="KMS序列号"></a>KMS序列号</h1><h2 id="Windows-Server-2016"><a href="#Windows-Server-2016" class="headerlink" title="Windows Server 2016"></a>Windows Server 2016</h2><table>
 <thead>
 <tr>
 <th>操作系统</th>
@@ -1433,7 +1437,10 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
         
           
             <p>我在公司内网装了一个 K3路由器，自然也K3也就摆在我的办公桌上。</p>
-<p>固件版本<strong>OpenWrt v2.7 By stones r6132-c6e0c02d75 / LuCI Master (git-18.023.74248-ee409b6)</strong></p>
+<p>固件版本</p>
+<blockquote>
+<p><strong>OpenWrt v2.7 By stones r6132-c6e0c02d75 / LuCI Master (git-18.023.74248-ee409b6)</strong></p>
+</blockquote>
 <p>具体拿来做什么用，想来也不必多说，无非就是 SSR 以及 Koolproxy 以及其他的一些功能。</p>
 <p>但是，装好后，忽然发现，无法连接公司的 Exchange 域邮箱了。想来想去，应该是 DNS 解析的问题。</p>
 <p>于是，进入后台，看看网络-&gt;HDCP/DNS 设置，逐条查看。</p>
@@ -1441,11 +1448,13 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
 <p>最后找到了问题之所在<strong>『重绑定保护』</strong></p>
 <p><img src="http://7bv8db.com1.z0.glb.clouddn.com/15268862892927.jpg" alt=""></p>
 <p>其实说到底，我的理解是：公司内网的 DNS 解析设置是，如果终端在公司内网，用公司私有网络地址（RFC1918）进行公司邮箱域名解析。</p>
+<p><strong>例如<br>如果你的内网 IP 地址是公司私有域内的 IP，那么公司邮箱 mail.example.com 解析为 192.18.1.60</strong></p>
 <blockquote>
-<p>例如<br>如果你的内网 IP 地址是公司私有域内的 IP，那么公司邮箱 mail.example.com 解析为 192.18.1.60<br><img src="http://7bv8db.com1.z0.glb.clouddn.com/15268868256813.jpg" alt=""></p>
+<p><img src="http://7bv8db.com1.z0.glb.clouddn.com/15268868256813.jpg" alt=""></p>
 </blockquote>
+<p><strong>如果你的内网 IP 地址不是公司私有域内的 IP，例如你在自己家里，那么公司邮箱 mail.example.com 解析为外网 IP 27.115.1.1</strong></p>
 <blockquote>
-<p>如果你的内网 IP 地址不是公司私有域内的 IP，例如你在自己家里，那么公司邮箱 mail.example.com 解析为外网 IP 27.115.1.1<br><img src="http://7bv8db.com1.z0.glb.clouddn.com/15268869335354.jpg" alt=""></p>
+<p><img src="http://7bv8db.com1.z0.glb.clouddn.com/15268869335354.jpg" alt=""></p>
 </blockquote>
 
           
@@ -2064,6 +2073,13 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
       
 
       
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
 
     </div>
   </aside>
@@ -2110,11 +2126,6 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
       </div>
     </footer>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
     
 
     
