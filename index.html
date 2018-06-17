@@ -210,7 +210,7 @@
         <li class="menu-item menu-item-markdown">
           <a href="/editor/editor.html" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-monero"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
             
             撰写
           </a>
@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/06/17/未命名1/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/06/17/Hexo导航加入html页面/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -302,7 +302,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/06/17/未命名1/" itemprop="url">未命名</a></h1>
+                <a class="post-title-link" href="/2018/06/17/Hexo导航加入html页面/" itemprop="url">Hexo导航加入html页面</a></h1>
         
 
         <div class="post-meta">
@@ -324,6 +324,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hexo/" itemprop="url" rel="index">
+                    <span itemprop="name">Hexo</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -354,7 +376,17 @@
       
         
           
-            
+            <p>本想把一个 Markdown 在线编辑器页面加入到 Blog 中，废了老大得劲，所以这里总结一下。</p>
+<p>正常情况下，按照说明操作，应该流程如下：<br><strong>修改主题配置文件添加 MENU 分类字段</strong><br>修改文件为</p>
+<blockquote>
+<p>themes\next_config.yml</p>
+</blockquote>
+<p>修改代码大概如下，看 <code>markdown: /editor/editor.html || monero</code> 这一行，就是我加入的。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: / || home</span><br><span class="line">  #about: /about/ || user</span><br><span class="line">  #tags: /tags/ || tags</span><br><span class="line">  categories: /categories/ || th</span><br><span class="line">  archives: /archives/ || archive</span><br><span class="line">  markdown: /editor/editor.html || monero           （这一条是我新加入的）</span><br><span class="line">  #schedule: /schedule/ || calendar</span><br><span class="line">  #sitemap: /sitemap.xml || sitemap</span><br><span class="line">  #commonweal: /editor.html || heartbeat</span><br></pre></td></tr></table></figure></p>
+<p><strong>修改一下主目录下的语言配置文件。</strong><br>路径为<code>themes\next\languages</code> 文件为<code>zh-Hans.yml</code><br>修改代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menu:</span><br><span class="line">  home: 首页</span><br><span class="line">  archives: 归档</span><br><span class="line">  categories: 分类</span><br><span class="line">  tags: 标签</span><br><span class="line">  about: 关于</span><br><span class="line">  markdown: 撰写              （这一条是我新加入的）</span><br><span class="line">  search: 搜索</span><br><span class="line">  schedule: 日程表</span><br><span class="line">  sitemap: 站点地图</span><br><span class="line">  commonweal: 公益404</span><br></pre></td></tr></table></figure></p>
+<p>本来到此为止应该就OK了，但是我发现 Hexo 编译之后，无论如何都找不到我新加入的 <code>editor.html</code>文件的链接。</p>
+<p>然后网上找了好久，发现问题出在少了三行代码，就是下面这三行代码，要把这三行代码加入到 html 文件的代码的最前面。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">layout: false</span><br><span class="line">title: &quot;404&quot;</span><br><span class="line">---</span><br></pre></td></tr></table></figure></p>
+<p>也就是下面这张图，然后就OK了。<br><img src="https://i.loli.net/2018/06/17/5b2610c5b6bec.png" alt=""></p>
+
           
         
       
