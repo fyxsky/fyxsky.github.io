@@ -1,0 +1,139 @@
+<html lang="zh-cn" data-lang-code="zh-cn" data-user-country="cn">
+    <head>
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <title>Editor</title>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Rocky's MarkDown Editor</title>
+</head>
+
+</head><body>
+
+  <div id="loadingSplash" style="border: 1px solid #000; padding: 0 2em">
+
+  </div>
+
+  <textarea id="myTextarea" style="display:none">
+---
+title: 
+date: 
+categories: 
+---
+
+
+
+
+</textarea>
+
+
+  <!-- ----------------------------------------------------------------------------------- -->
+  <!-- CodeMirror -->
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror/addon/fold/foldgutter.css">
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/lib/codemirror.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/addon/fold/foldcode.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/addon/fold/foldgutter.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/addon/fold/markdown-fold.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/addon/mode/overlay.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/meta.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/markdown/markdown.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/xml/xml.js"></script> <!-- for embedded HTML -->
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/stex/stex.js"></script> <!-- for Math TeX Formular -->
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/yaml/yaml.js"></script> <!-- for Front Matters -->
+
+  <script src="https://cdn.jsdelivr.net/npm/codemirror/mode/javascript/javascript.js"></script> <!-- load more for code blocks -->
+
+  <!-- ----------------------------------------------------------------------------------- -->
+  <!-- HyperMD -->
+
+  <link rel="stylesheet" href="https://laobubu.net/HyperMD/mode/hypermd.css">
+  <link rel="stylesheet" href="https://laobubu.net/HyperMD/theme/hypermd-light.css">
+
+  <script src="https://laobubu.net/HyperMD/ai1.js"></script>
+
+  <!-- ----------------------------------------------------------------------------------- -->
+  <!-- (optional) PowerPacks with 3rd-party libs (Load them before creating editor!) -->
+
+  <!-- MathJax and powerpack/fold-math-with-mathjax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+        jax: ["input/TeX", "output/HTML-CSS","output/NativeMML","output/SVG"],
+        extensions: ["MathMenu.js","MathZoom.js", "AssistiveMML.js", "a11y/accessibility-menu.js"],
+        TeX: {
+            extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"]
+        }
+    });
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax/MathJax.js"></script>
+  <script src="https://laobubu.net/HyperMD/powerpack/fold-math-with-mathjax.js"></script>
+
+  <!-- marked and powerpack/hover-with-marked -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.js"></script>
+  <script src="https://laobubu.net/HyperMD/powerpack/hover-with-marked.js"></script>
+
+  <!-- Turndown and powerpack/paste-with-turndown -->
+  <script src="https://cdn.jsdelivr.net/npm/turndown/dist/turndown.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/turndown-plugin-gfm/dist/turndown-plugin-gfm.js"></script>
+  <script src="https://laobubu.net/HyperMD/powerpack/paste-with-turndown.js"></script>
+
+  <!-- Upload Images to https://sm.ms/  -->
+  <script src="https://laobubu.net/HyperMD/powerpack/insert-file-with-smms.js"></script>
+
+
+  <!-- ----------------------------------------------------------------------------------- -->
+  <script>
+  (function(u, c) {
+	  var d = document, t = 'script', o = d.createElement(t),
+    	 s = d.getElementsByTagName(t)[0];
+	  o.src = u;
+  if (c) { o.addEventListener('load', function(e) { c(e); }); }
+	s.parentNode.insertBefore(o, s);
+  })('//cdn.bootcss.com/pangu/3.3.0/pangu.min.js', function() {
+	 pangu.spacingPage();
+  });
+</script>
+
+  <!-- �̹����------------------------------------------------------------------------- -->
+  <!-- Let's ROCK -->
+
+  <style>
+    html,
+    body {
+      background: #EEE;
+      min-height: 100%;
+    }
+
+    .CodeMirror {
+      margin: auto;
+      border: 1px solid #999;
+      border-radius: 5px;
+      box-shadow: 0 1px 5px #AAA;
+      max-width: 1200px;
+    }
+  </style>
+
+  <script>
+    document.getElementById('loadingSplash').style.display = 'none' // hide the loading... line
+
+    var myTextarea = document.getElementById('myTextarea')
+    var cm = HyperMD.fromTextArea(myTextarea, {
+      // for code fence highlighting
+      hmdModeLoader: "https://cdn.jsdelivr.net/npm/codemirror/",
+    })
+
+    // and that's all
+    // now you get a editor `cm` and you can do whatever you want
+    cm.setSize(null, "900px") // set height
+    cm.focus()
+  </script>
+
+</body>
+
+</html>
