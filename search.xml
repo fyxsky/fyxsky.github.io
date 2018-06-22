@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Excel 中空值概念]]></title>
+    <url>%2F2018%2F06%2F22%2FExcel%20%E4%B8%AD%E7%A9%BA%E5%80%BC%E6%A6%82%E5%BF%B5%2F</url>
+    <content type="text"><![CDATA[这里要清晰几个Excel里面的概念：空白、空值、零值、空字符串（””””）其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。 如果是严格意义上的“空值”，就应该用：1=if(isblank(a1),0,1) 如果是“空白”，即包含空字符串的话，用1=if(A1=&quot;&quot;&quot;&quot;,0,1) 另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的， 但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理]]></content>
+      <categories>
+        <category>Work</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[Hexo导航加入html页面]]></title>
     <url>%2F2018%2F06%2F17%2FHexo%E5%AF%BC%E8%88%AA%E5%8A%A0%E5%85%A5html%E9%A1%B5%E9%9D%A2%2F</url>
     <content type="text"><![CDATA[本想把一个 Markdown 在线编辑器页面加入到 Blog 中，废了老大得劲，所以这里总结一下。 正常情况下，按照说明操作，应该流程如下：修改主题配置文件添加 MENU 分类字段修改文件为 themes\next_config.yml 修改代码大概如下，看 markdown: /editor/editor.html || monero 这一行，就是我加入的。12345678910menu: home: / || home #about: /about/ || user #tags: /tags/ || tags categories: /categories/ || th archives: /archives/ || archive markdown: /editor/editor.html || monero （这一条是我新加入的） #schedule: /schedule/ || calendar #sitemap: /sitemap.xml || sitemap #commonweal: /editor.html || heartbeat 修改一下主目录下的语言配置文件。路径为themes\next\languages 文件为zh-Hans.yml修改代码如下：1234567891011menu: home: 首页 archives: 归档 categories: 分类 tags: 标签 about: 关于 markdown: 撰写 （这一条是我新加入的） search: 搜索 schedule: 日程表 sitemap: 站点地图 commonweal: 公益404 本来到此为止应该就OK了，但是我发现 Hexo 编译之后，无论如何都找不到我新加入的 editor.html文件的链接。 然后网上找了好久，发现问题出在少了三行代码，就是下面这三行代码，要把这三行代码加入到 html 文件的代码的最前面。123layout: falsetitle: &quot;404&quot;--- 也就是下面这张图，然后就OK了。]]></content>
       <categories>
         <category>Hexo</category>
-      </categories>
-  </entry>
-  <entry>
-    <title><![CDATA[Excel 中空值概念]]></title>
-    <url>%2F2018%2F06%2F17%2FExcel%20%E4%B8%AD%E7%A9%BA%E5%80%BC%E6%A6%82%E5%BF%B5%2F</url>
-    <content type="text"><![CDATA[这里要清晰几个Excel里面的概念：空白、空值、零值、空字符串（””””）其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。 如果是严格意义上的“空值”，就应该用：1=if(isblank(a1),0,1) 如果是“空白”，即包含空字符串的话，用1=if(A1=&quot;&quot;&quot;&quot;,0,1) 另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的， 但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理]]></content>
-      <categories>
-        <category>Work</category>
       </categories>
   </entry>
   <entry>
