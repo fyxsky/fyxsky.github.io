@@ -13,7 +13,7 @@
     <url>%2F2018%2F06%2F17%2FExcel%20%E4%B8%AD%E7%A9%BA%E5%80%BC%E6%A6%82%E5%BF%B5%2F</url>
     <content type="text"><![CDATA[这里要清晰几个Excel里面的概念：空白、空值、零值、空字符串（””””）其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。 如果是严格意义上的“空值”，就应该用：1=if(isblank(a1),0,1) 如果是“空白”，即包含空字符串的话，用1=if(A1=&quot;&quot;&quot;&quot;,0,1) 另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的， 但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理]]></content>
       <categories>
-        <category>Hexo</category>
+        <category>Work</category>
       </categories>
   </entry>
   <entry>
