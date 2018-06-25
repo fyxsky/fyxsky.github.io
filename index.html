@@ -376,7 +376,7 @@
       
         
           
-            <p>这里要清晰几个Excel里面的概念：<br><strong>空白</strong>、<strong>空值</strong>、<strong>零值</strong>、<strong>空字符串（””””）</strong><br>其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。</p>
+            <p>这里要清晰几个Excel里面的概念：<br><strong>空白</strong>、<strong>空值</strong>、<strong>零值</strong>、<strong>空字符串<code>（&quot;&quot;&quot;&quot;）</code></strong><br>其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。</p>
 <p>如果是严格意义上的“空值”，就应该用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=if(isblank(a1),0,1)</span><br></pre></td></tr></table></figure></p>
 <p>如果是“空白”，即包含空字符串的话，用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=if(A1=&quot;&quot;&quot;&quot;,0,1)</span><br></pre></td></tr></table></figure></p>
 <p>另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的，<br><img src="https://i.loli.net/2018/06/22/5b2c9c753dee6.jpg" alt=""></p>
