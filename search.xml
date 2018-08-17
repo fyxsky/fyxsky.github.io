@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[C4C 客户附加属性地域选项修改]]></title>
+    <url>%2F2018%2F08%2F17%2FC4C%20%E5%AE%A2%E6%88%B7%E9%99%84%E5%8A%A0%E5%B1%9E%E6%80%A7%E5%9C%B0%E5%9F%9F%E9%80%89%E9%A1%B9%E4%BF%AE%E6%94%B9%2F</url>
+    <content type="text"><![CDATA[打开 BUSINESS CONFIGURATION,然后点开IMPLEMENTATION PROJECTS。 打开Edit Project Scope选项，一路点 Next 直到Questions。 在左下角Scoping Element窗口内，点击Communication and Information Exchange展开菜单，然后点击Integration with External Applications and Solutions,最后点击Integration of Master Data。 在右侧窗口内选择下图高亮部分，打勾。意思是是否接受 ERP 同步过来的数据在 C4C 内进行修改。最后点击上面的 Finish，就完成了第一步。 现在找到属性修改的位置Maintain Attributes 选择下图MA007 (City Coverage) 弹出窗口，点击右下角 Edit，然后如下图顺序，最后Save，全部搞定。]]></content>
+      <categories>
+        <category>C4C</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[大清亡了]]></title>
     <url>%2F2018%2F08%2F05%2F%E5%A4%A7%E6%B8%85%E4%BA%A1%E4%BA%86%2F</url>
     <content type="text"><![CDATA[那一天，一个时代的代表人物，大魔头离开了她肆虐了多年的国家。而她的宿敌小天使也躺在病榻上，仿佛眼光可以穿透病房的墙壁一般，远远的看着离开的方向，最终喃喃自语，也许只是默默的念着黑暗的咒语诅咒着什么。 城门口，不知道存在了多少年的大石，仿佛龟背一般沉寂。一位白发老翁吧嗒着旱烟，许久，吐出一口白烟。清明的双眼忽然混浊起来，时间在他眼中飞过，静止的那一刻，化作层层的忧伤刻画在眼底。城内不远处，惊慌的孩子从一处小巷跑出，手中紧紧攥着一张信纸，信纸因被攥紧而皱裂，却还是能看到上面有几个红色的字迹。 孩子跑到老人面前，双手撑在膝盖上努力的喘息着”爷……爷爷……，不好了”，不知是紧张还是惊慌，又或者跑的太急，孩子只能断断续续的说着。 老人转头慈爱的笑着说：”蛋蛋，别急，喘口气，慢慢说。” 孩子深喘几口气，咽了一口唾沫，”内买没了”，说着把皱巴的信纸递给老人。 老人并没有接过信纸，只是抬起手，抽了一口手中的旱烟，似乎思绪已经飘往许多许多年前。 半晌，老人轻轻吐出烟云，在石头上磕了磕烟锅，转头看向城门内，笑了，笑得那般苦涩，那般死气沉沉。那一瞬间似乎眼角的皱纹更深刻了许多。随后，老人叹了一口气。 “大清，亡了！”]]></content>
