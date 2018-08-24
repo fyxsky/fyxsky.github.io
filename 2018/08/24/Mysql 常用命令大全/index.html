@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="开始使用 登录MySQL 创建数据库 创建数据库表   增删改查 SELECT UPDATE INSERT DELETE   WHERE AND 和 OR AND OR   ORDER BY IN NOT UNION AS JOIN SQL 函数 COUNT MAX   触发器 添加索引 普通索引(INDEX) 主键索引(PRIMARY key) 唯一索引(UNIQUE) 全文索引(FULLT">
+<meta name="description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mysql 常用命令大全">
 <meta property="og:url" content="http://fyxsky.github.io/2018/08/24/Mysql 常用命令大全/index.html">
 <meta property="og:site_name" content="夜色凉薄">
-<meta property="og:description" content="开始使用 登录MySQL 创建数据库 创建数据库表   增删改查 SELECT UPDATE INSERT DELETE   WHERE AND 和 OR AND OR   ORDER BY IN NOT UNION AS JOIN SQL 函数 COUNT MAX   触发器 添加索引 普通索引(INDEX) 主键索引(PRIMARY key) 唯一索引(UNIQUE) 全文索引(FULLT">
+<meta property="og:description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-24T02:29:51.000Z">
+<meta property="og:updated_time" content="2018-08-24T02:32:39.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 常用命令大全">
-<meta name="twitter:description" content="开始使用 登录MySQL 创建数据库 创建数据库表   增删改查 SELECT UPDATE INSERT DELETE   WHERE AND 和 OR AND OR   ORDER BY IN NOT UNION AS JOIN SQL 函数 COUNT MAX   触发器 添加索引 普通索引(INDEX) 主键索引(PRIMARY key) 唯一索引(UNIQUE) 全文索引(FULLT">
+<meta name="twitter:description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
 
 
 
@@ -375,66 +375,7 @@
       
 
       
-        <!-- TOC -->
-<ul>
-<li><a href="#开始使用">开始使用</a><ul>
-<li><a href="#登录mysql">登录MySQL</a></li>
-<li><a href="#创建数据库">创建数据库</a></li>
-<li><a href="#创建数据库表">创建数据库表</a></li>
-</ul>
-</li>
-<li><a href="#增删改查">增删改查</a><ul>
-<li><a href="#select">SELECT</a></li>
-<li><a href="#update">UPDATE</a></li>
-<li><a href="#insert">INSERT</a></li>
-<li><a href="#delete">DELETE</a></li>
-</ul>
-</li>
-<li><a href="#where">WHERE</a></li>
-<li><a href="#and-和-or">AND 和 OR</a><ul>
-<li><a href="#and">AND</a></li>
-<li><a href="#or">OR</a></li>
-</ul>
-</li>
-<li><a href="#order-by">ORDER BY</a></li>
-<li><a href="#in">IN</a></li>
-<li><a href="#not">NOT</a></li>
-<li><a href="#union">UNION</a></li>
-<li><a href="#as">AS</a></li>
-<li><a href="#join">JOIN</a></li>
-<li><a href="#sql-函数">SQL 函数</a><ul>
-<li><a href="#count">COUNT</a></li>
-<li><a href="#max">MAX</a></li>
-</ul>
-</li>
-<li><a href="#触发器">触发器</a></li>
-<li><a href="#添加索引">添加索引</a><ul>
-<li><a href="#普通索引index">普通索引(INDEX)</a></li>
-<li><a href="#主键索引primary-key">主键索引(PRIMARY key)</a></li>
-<li><a href="#唯一索引unique">唯一索引(UNIQUE)</a></li>
-<li><a href="#全文索引fulltext">全文索引(FULLTEXT)</a></li>
-<li><a href="#添加多列索引">添加多列索引</a></li>
-<li><a href="#建立索引的时机">建立索引的时机</a></li>
-</ul>
-</li>
-<li><a href="#创建后表的修改">创建后表的修改</a><ul>
-<li><a href="#添加列">添加列</a></li>
-<li><a href="#修改列">修改列</a></li>
-<li><a href="#删除列">删除列</a></li>
-<li><a href="#重命名表">重命名表</a></li>
-<li><a href="#清空表数据">清空表数据</a></li>
-<li><a href="#删除整张表">删除整张表</a></li>
-<li><a href="#删除整个数据库">删除整个数据库</a></li>
-</ul>
-</li>
-<li><a href="#其它实例">其它实例</a><ul>
-<li><a href="#sql删除重复记录">SQL删除重复记录</a></li>
-</ul>
-</li>
-<li><a href="#参考手册">参考手册</a></li>
-</ul>
-<!-- /TOC -->
-<h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>我下面所有的SQL语句是基于MySQL 5.6+运行。 </p>
+        <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>我下面所有的SQL语句是基于MySQL 5.6+运行。 </p>
 <p>MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：</p>
 <ul>
 <li><code>表头(header)</code>: 每一列的名称;</li>
