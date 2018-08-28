@@ -283,6 +283,174 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/29/如何临时修改 macOS 应用的界面语言/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/29/如何临时修改 macOS 应用的界面语言/" itemprop="url">如何临时修改 macOS 应用的界面语言</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-29T09:56:58+08:00">
+                2018-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a3f9039562.jpg" alt="如何临时修改 macOS 应用的界面语言"></p>
+<h1 id="终端命令解决界面语言"><a href="#终端命令解决界面语言" class="headerlink" title="终端命令解决界面语言"></a>终端命令解决界面语言</h1><p>一般情况下，应用程序的界面语言会和系统语言保持一致。但有些时候，我们也会希望临时换用一种不同的界面语言。例如，一些程序的中文翻译词不达意，有必要参考英文界面来确定功能的准确含义；又如，一些网页会强制按照浏览器语言显示不同版本，因此必须通过切换浏览器语言来控制网页语言。</p>
+<p>问题是，并不是所有的应用程序都提供了切换界面语言的选项。事实上，大多数 macOS 的内建应用都没有这样的设置。如果每次遇到这种需求都去临时改变系统语言，未免过于耗时和麻烦。</p>
+<p>这个问题可以通过终端命令来解决。macOS 允许在运行应用程序时向其传递特定参数，其中，<strong><code>-AppleLanguages</code></strong> 参数就是用来控制应用程序的语言的。例如：</p>
+<pre><code># 以简体中文界面启动 Safari 浏览器 $ open -a /Applications/Safari.app --args -AppleLanguages &apos;(zh-CN)&apos;   # 以英文界面启动 Pages $ open -a /Applications/Pages.app --args -AppleLanguages &apos;(en)&apos; 
+</code></pre><p>如果想以其他语言启动某个应用程序，只需要修改将上述命令最后的地区代码。其他一些常用的代码包括繁体中文（<code>zh-TW</code>）、日文（<code>ja</code>）、法文（<code>fr</code>）、德文（<code>de</code>）等。</p>
+<p><strong>要知道一个应用都支持哪些界面语言</strong>，可以在 Finder 中找到该应用，点击右键选择 <strong>显示包内容</strong>，然后查看 <code>/Contents/Resources</code> 目录下以 <code>.lproj</code> 结尾的语言文件目录；<code>.lproj</code> 之前的部分就是各语言对应的地区代码。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a3fb16bcec.jpg" alt=""><br>Safari 的语言文件</p>
+<p>当然，更快捷的方法还是使用终端命令。例如：</p>
+<pre><code># 查看 Ulysses 支持的界面语言 $ ls /Applications/Ulysses.app/Contents/Resources | grep lproj &gt; Base.lproj &gt; de.lproj &gt; en.lproj &gt; … 
+</code></pre><h1 id="为应用程序的特定语言创建快捷方式"><a href="#为应用程序的特定语言创建快捷方式" class="headerlink" title="为应用程序的特定语言创建快捷方式"></a>为应用程序的特定语言创建快捷方式</h1><p><strong>如果需要比较频繁地用不同语言显示某个应用</strong>，那么可以为其创建一个快捷方式。</p>
+<p>方法是：打开系统内建的「脚本编辑器」应用，新建一个文档，在命令栏输入：</p>
+<pre><code>do shell script &quot;&quot;open -a [应用程序路径] --args -AppleLanguages &apos;([要显示的语言])&apos;&quot;&quot; 
+</code></pre><p>点击 <strong>文件</strong> &gt; <strong>导出</strong>，起一个易认的名字（例如「Safari CN」），并将「文件格式」选为「脚本」，然后将其导出到 Applications 文件夹。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a3fc09020f.jpg" alt=""><br>用脚本编辑器为特定语言创建快捷方式</p>
+<p>这样，就可以直接从 Launchpad 以特定语言启动这一应用了。</p>
+<p><a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a> 或 <a href="https://www.obdev.at/products/launchbar/index.html" target="_blank" rel="noopener">LaunchBar</a> 用户可以用该原理制作动作来实现同样效果，在此不赘。</p>
+<h1 id="默认以特定语言启动应用程序"><a href="#默认以特定语言启动应用程序" class="headerlink" title="默认以特定语言启动应用程序"></a>默认以特定语言启动应用程序</h1><p>最后，<strong>如果希望始终以某种与系统设置不同的语言启动特定应用</strong>，可以用 <code>defaults write</code> 命令来修改其默认设置。具体语法是：</p>
+<pre><code>$ defaults write [应用的 Bundle ID] AppleLanguages &apos;([要默认显示的语言])&apos; 
+</code></pre><p>例如：</p>
+<pre><code># 默认以简体中文打开「文本编辑」应用 $ defaults write com.apple.TextEdit AppleLanguages &apos;(zh-CN)&apos; 
+</code></pre><p>其中，应用的 Bundle ID 可以通过运行 <code>mdls -name kMDItemCFBundleIdentifier [应用程序路径]</code>来查找。例如：</p>
+<pre><code># Chrome 浏览器的 Bundle ID $ mdls -name kMDItemCFBundleIdentifier /Applications/Google\ Chrome.app &gt; kMDItemCFBundleIdentifier = &quot;&quot;com.google.Chrome&quot;&quot; 
+</code></pre><p>如果不再需要固定应用程序的显示语言，在终端运行：</p>
+<pre><code>$ defaults delete [应用的 Bundle ID] AppleLanguages 
+</code></pre><p>即可解除上述默认语言设置。</p>
+<p>转载自<a href="https://sspai.com/post/44536" target="_blank" rel="noopener">少数派</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/27/Audacity降低音频回音的方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -447,7 +615,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/26/Lede-KMS激活Windows&Office/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/24/Light a Candle or Curse the Darkness/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -466,7 +634,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/26/Lede-KMS激活Windows&Office/" itemprop="url">Lede-KMS激活Windows&Office</a></h1>
+                <a class="post-title-link" href="/2018/05/24/Light a Candle or Curse the Darkness/" itemprop="url">Light a Candle or Curse the Darkness</a></h1>
         
 
         <div class="post-meta">
@@ -478,8 +646,458 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T15:59:15+08:00">
-                2018-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-24T22:54:15+08:00">
+                2018-05-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Work/" itemprop="url" rel="index">
+                    <span itemprop="name">Work</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a3ff74ac96.jpg" alt=""></p>
+<blockquote>
+<h2 id="Better-to-light-a-candle-than-to-curse-darkness"><a href="#Better-to-light-a-candle-than-to-curse-darkness" class="headerlink" title="Better to light a candle than to curse darkness."></a><em>Better to light a candle than to curse darkness.</em></h2></blockquote>
+<p><strong>虽然</strong>大部分时候我能很快想清楚自己应该怎么做，但是坦白讲，这种想明白不是我的本性。</p>
+<p>我的本性还是一个冲动易怒的人。虽然从小就努力调整克制，但是终究很多时候遇到烦躁的事情就会露出本性中的冲动的部分。</p>
+<p>其实这个 Project，最后变成谁来做，也都是无所谓的。但是当时一想到我们前期做了那么多工作，整理好所有的思路以后，会被别人拿去用，我内心就暴怒了。</p>
+<p>虽然我知道，工作就是这样，贡献自己的脑力，公司给我发工资，如此而已。至于我们所做的所有事情，其实归根结底也只是工作的一部分，公司想怎么用就是公司自己的事情，又或者，集团想怎么用也是集团自己的事情。而对我们来说，整理思路，继续前行就是了，无需因此而愤怒，毕竟公司相当于花钱买下了我们的思路和想法。</p>
+<p>只不过，现实情况下，太多人在公司混日子，所以我才会觉得我们所做的这个 Project 对我们来说很重要。如果全公司的人，大部分都是发挥自己的脑力在工作，而不是每天勾心斗角或者每天混日子，那么我想，我也不会觉得这次的事情有什么，毕竟大家都在贡献脑力为了公司，为了自己的简历变得更漂亮。</p>
+<p>然而，无论如何，无论环境是怎样，无论开心或者不开心，关键的问题还是个人的成长和经验的积累。当然对我来说还有一个很大的问题就是英文，如果英文 OK 的话，我觉得我应该还是有很大的成长空间的，虽然现在来看，我的年龄真的不小了。</p>
+<p><strong>今天早上</strong>睡梦中忽然醒来，反思昨天发生的一些事情，自己说过的话，意识到自己话说多了。以后一定要注意，自己的性格是冲动的，有什么想要爆发出来的想法，一定要压抑住，让自己多一些时间去思考，要不要说出来，要不要换个思路去思考。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/22/坚持学英文/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/22/坚持学英文/" itemprop="url">坚持学英语</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T16:32:44+08:00">
+                2018-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Study/" itemprop="url" rel="index">
+                    <span itemprop="name">Study</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a3f5dc71c7.jpg" alt=""></p>
+<p>怎么说呢，在外企里也待着，英文不好总不是个事儿。原来我觉得英文嘛，学不学都无所谓，反正自己有能力就够了。然而随着级别越来越高，英文就变成了天花板。</p>
+<p>见的太多，没啥能力，但是混的风生水起，只因为英文好。</p>
+<p>英文好就可以和CEO各种吹水，和品牌方各种吹牛逼等等。</p>
+<p>不过这些东西也羡慕不来，说实话，我也不怎么羡慕，只是觉得要想走的更高，英文真的要抓起来了。</p>
+<p>每天回到家，不能再窝在椅子里看看视频，撸撸猫，不知不觉就到了12点，上床睡觉。</p>
+<p>我也知道想要坚持下去把英文学好，真的是很难。毕竟如果简单，早就学好了。但是既然是绕不过去的坎儿，也没有办法。</p>
+<p>现在我的薪资，在外企，我感觉以我的英文水平，已经很难再有多大的提升，顶多就是每年固定的涨薪。这个涨薪，想要薪资到我想要的水平，猴年马月了。想要跳槽到其他公司，人家也要看你的英文水平。绕不开啊绕不开。</p>
+<p>只怪当年太年轻，觉得这些小缺点，不影响自己的发展。所以说，人无远虑必有近忧，现在近忧就在眼前，也没有瞬间速成的方法，只能一点一点的学起来了。</p>
+<p>之前只觉得公司里的一些人英文真好。后来发现这帮人不只是英文好，毕竟公司是个法国公司，这帮人法文竟然也很溜。这简直是，唉<del>~</del></p>
+<p>啥也别说了，看自己能坚持多久吧。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/22/Mac 隐藏文件命令&快捷键/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/22/Mac 隐藏文件命令&快捷键/" itemprop="url">Mac 隐藏文件命令&快捷键</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T09:36:59+08:00">
+                2018-05-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="终端命令："><a href="#终端命令：" class="headerlink" title="终端命令："></a>终端命令：</h2><p>打开 “终端”，根据自己的版本选择命令</p>
+<p>早期的 OS X（10.6~10.8）系统可以使用如下两条命令来开始或者关闭系统隐藏文件的显示：<br><code>defaults write com.apple.Finder AppleShowAllFiles Yes &amp;&amp; killall Finder // 显示隐藏文件
+defaults write com.apple.Finder AppleShowAllFiles No &amp;&amp; killall Finder // 不显示隐藏文件</code></p>
+<p>当升级到 OS X 10.9 Mavericks 版本之后，这两条命令需要做一些修改，变成了如下命令：<br><code>defaults write com.apple.finder AppleShowAllFiles Yes &amp;&amp; killall Finder // 显示隐藏文件
+defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder // 不显示隐藏文件</code></p>
+<h2 id="快捷键："><a href="#快捷键：" class="headerlink" title="快捷键："></a>快捷键：</h2><p>在 macOS Sierra，我们可以使用快捷键⌘⇧.(Command + Shift + .) 来快速（在 Finder 中）显示和隐藏隐藏文件了。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/Lede-KMS激活Windows&Office/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/Lede-KMS激活Windows&Office/" itemprop="url">Lede-KMS激活Windows&Office</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:22:54+08:00">
+                2018-05-21
               </time>
             
 
@@ -1101,7 +1719,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/26/Lede-K3无法连接公司域邮箱问题/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/Lede-K3无法连接公司域邮箱问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1120,7 +1738,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/26/Lede-K3无法连接公司域邮箱问题/" itemprop="url">Lede-K3无法连接公司域邮箱问题</a></h1>
+                <a class="post-title-link" href="/2018/05/21/Lede-K3无法连接公司域邮箱问题/" itemprop="url">Lede-K3无法连接公司域邮箱问题</a></h1>
         
 
         <div class="post-meta">
@@ -1132,8 +1750,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-26T15:51:42+08:00">
-                2018-05-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
               </time>
             
 
@@ -1262,456 +1880,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/25/Light a Candle or Curse the Darkness/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/25/Light a Candle or Curse the Darkness/" itemprop="url">Light a Candle or Curse the Darkness</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-25T00:21:48+08:00">
-                2018-05-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Work/" itemprop="url" rel="index">
-                    <span itemprop="name">Work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://i.loli.net/2018/06/08/5b1a3ff74ac96.jpg" alt=""></p>
-<blockquote>
-<h2 id="Better-to-light-a-candle-than-to-curse-darkness"><a href="#Better-to-light-a-candle-than-to-curse-darkness" class="headerlink" title="Better to light a candle than to curse darkness."></a><em>Better to light a candle than to curse darkness.</em></h2></blockquote>
-<p><strong>虽然</strong>大部分时候我能很快想清楚自己应该怎么做，但是坦白讲，这种想明白不是我的本性。</p>
-<p>我的本性还是一个冲动易怒的人。虽然从小就努力调整克制，但是终究很多时候遇到烦躁的事情就会露出本性中的冲动的部分。</p>
-<p>其实这个 Project，最后变成谁来做，也都是无所谓的。但是当时一想到我们前期做了那么多工作，整理好所有的思路以后，会被别人拿去用，我内心就暴怒了。</p>
-<p>虽然我知道，工作就是这样，贡献自己的脑力，公司给我发工资，如此而已。至于我们所做的所有事情，其实归根结底也只是工作的一部分，公司想怎么用就是公司自己的事情，又或者，集团想怎么用也是集团自己的事情。而对我们来说，整理思路，继续前行就是了，无需因此而愤怒，毕竟公司相当于花钱买下了我们的思路和想法。</p>
-<p>只不过，现实情况下，太多人在公司混日子，所以我才会觉得我们所做的这个 Project 对我们来说很重要。如果全公司的人，大部分都是发挥自己的脑力在工作，而不是每天勾心斗角或者每天混日子，那么我想，我也不会觉得这次的事情有什么，毕竟大家都在贡献脑力为了公司，为了自己的简历变得更漂亮。</p>
-<p>然而，无论如何，无论环境是怎样，无论开心或者不开心，关键的问题还是个人的成长和经验的积累。当然对我来说还有一个很大的问题就是英文，如果英文 OK 的话，我觉得我应该还是有很大的成长空间的，虽然现在来看，我的年龄真的不小了。</p>
-<p><strong>今天早上</strong>睡梦中忽然醒来，反思昨天发生的一些事情，自己说过的话，意识到自己话说多了。以后一定要注意，自己的性格是冲动的，有什么想要爆发出来的想法，一定要压抑住，让自己多一些时间去思考，要不要说出来，要不要换个思路去思考。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/22/坚持学英文/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/22/坚持学英文/" itemprop="url">坚持学英语</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T16:32:17+08:00">
-                2018-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Study/" itemprop="url" rel="index">
-                    <span itemprop="name">Study</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://i.loli.net/2018/06/08/5b1a3f5dc71c7.jpg" alt=""></p>
-<p>怎么说呢，在外企里也待着，英文不好总不是个事儿。原来我觉得英文嘛，学不学都无所谓，反正自己有能力就够了。然而随着级别越来越高，英文就变成了天花板。</p>
-<p>见的太多，没啥能力，但是混的风生水起，只因为英文好。</p>
-<p>英文好就可以和CEO各种吹水，和品牌方各种吹牛逼等等。</p>
-<p>不过这些东西也羡慕不来，说实话，我也不怎么羡慕，只是觉得要想走的更高，英文真的要抓起来了。</p>
-<p>每天回到家，不能再窝在椅子里看看视频，撸撸猫，不知不觉就到了12点，上床睡觉。</p>
-<p>我也知道想要坚持下去把英文学好，真的是很难。毕竟如果简单，早就学好了。但是既然是绕不过去的坎儿，也没有办法。</p>
-<p>现在我的薪资，在外企，我感觉以我的英文水平，已经很难再有多大的提升，顶多就是每年固定的涨薪。这个涨薪，想要薪资到我想要的水平，猴年马月了。想要跳槽到其他公司，人家也要看你的英文水平。绕不开啊绕不开。</p>
-<p>只怪当年太年轻，觉得这些小缺点，不影响自己的发展。所以说，人无远虑必有近忧，现在近忧就在眼前，也没有瞬间速成的方法，只能一点一点的学起来了。</p>
-<p>之前只觉得公司里的一些人英文真好。后来发现这帮人不只是英文好，毕竟公司是个法国公司，这帮人法文竟然也很溜。这简直是，唉<del>~</del></p>
-<p>啥也别说了，看自己能坚持多久吧。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/22/Mac 隐藏文件命令&快捷键/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/22/Mac 隐藏文件命令&快捷键/" itemprop="url">Mac 隐藏文件命令&快捷键</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-22T09:34:06+08:00">
-                2018-05-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="终端命令："><a href="#终端命令：" class="headerlink" title="终端命令："></a>终端命令：</h2><p>打开 “终端”，根据自己的版本选择命令</p>
-<p>早期的 OS X（10.6~10.8）系统可以使用如下两条命令来开始或者关闭系统隐藏文件的显示：<br><code>defaults write com.apple.Finder AppleShowAllFiles Yes &amp;&amp; killall Finder // 显示隐藏文件
-defaults write com.apple.Finder AppleShowAllFiles No &amp;&amp; killall Finder // 不显示隐藏文件</code></p>
-<p>当升级到 OS X 10.9 Mavericks 版本之后，这两条命令需要做一些修改，变成了如下命令：<br><code>defaults write com.apple.finder AppleShowAllFiles Yes &amp;&amp; killall Finder // 显示隐藏文件
-defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder // 不显示隐藏文件</code></p>
-<h2 id="快捷键："><a href="#快捷键：" class="headerlink" title="快捷键："></a>快捷键：</h2><p>在 macOS Sierra，我们可以使用快捷键⌘⇧.(Command + Shift + .) 来快速（在 Finder 中）显示和隐藏隐藏文件了。</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/关于 AI 和 Marketing/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1743,7 +1911,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T16:35:34+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
                 2018-05-21
               </time>
             
@@ -1876,7 +2044,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/15/更自由的在线听：随便听点什么。/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/更自由的在线听：随便听点什么。/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1895,7 +2063,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/05/15/更自由的在线听：随便听点什么。/" itemprop="url">更自由的在线听：随便听点什么。</a></h1>
+                <a class="post-title-link" href="/2018/05/21/更自由的在线听：随便听点什么。/" itemprop="url">更自由的在线听：随便听点什么。</a></h1>
         
 
         <div class="post-meta">
@@ -1907,8 +2075,8 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-15T17:32:24+08:00">
-                2018-05-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
               </time>
             
 
@@ -2064,7 +2232,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2017/12/03/HEXO文章发布命令/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/HEXO文章发布命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -2083,7 +2251,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/12/03/HEXO文章发布命令/" itemprop="url">HEXO 文章发布命令</a></h1>
+                <a class="post-title-link" href="/2018/05/21/HEXO文章发布命令/" itemprop="url">HEXO 文章发布命令</a></h1>
         
 
         <div class="post-meta">
@@ -2095,8 +2263,8 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-03T16:58:57+08:00">
-                2017-12-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
               </time>
             
 
@@ -2244,7 +2412,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2255,7 +2423,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>

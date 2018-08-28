@@ -79,17 +79,17 @@
 
 
 
-<meta name="description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
+<meta name="description" content="开始使用我下面所有的SQL语句是基于Mysql5.6+运行。  Mysql为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必须与">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Mysql 常用命令大全">
+<meta property="og:title" content="Mysql常用命令大全">
 <meta property="og:url" content="http://fyxsky.github.io/2018/08/24/Mysql 常用命令大全/index.html">
 <meta property="og:site_name" content="夜色凉薄">
-<meta property="og:description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
+<meta property="og:description" content="开始使用我下面所有的SQL语句是基于Mysql5.6+运行。  Mysql为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必须与">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-24T02:32:39.000Z">
+<meta property="og:updated_time" content="2018-08-24T13:11:22.104Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Mysql 常用命令大全">
-<meta name="twitter:description" content="开始使用我下面所有的SQL语句是基于MySQL 5.6+运行。  MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必">
+<meta name="twitter:title" content="Mysql常用命令大全">
+<meta name="twitter:description" content="开始使用我下面所有的SQL语句是基于Mysql5.6+运行。  Mysql为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：  表头(header): 每一列的名称; 列(col): 具有相同数据类型的数据的集合; 行(row): 每一行用来描述某个人/物的具体信息; 值(value): 行的具体信息, 每个值必须与">
 
 
 
@@ -125,7 +125,7 @@
 
 
 
-  <title>Mysql 常用命令大全 | 夜色凉薄</title>
+  <title>Mysql常用命令大全 | 夜色凉薄</title>
   
 
 
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Mysql 常用命令大全</h1>
+          <h1 class="post-title" itemprop="name headline">Mysql常用命令大全</h1>
         
 
         <div class="post-meta">
@@ -315,7 +315,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-24T09:45:50+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-24T09:45:55+08:00">
                 2018-08-24
               </time>
             
@@ -375,8 +375,8 @@
       
 
       
-        <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>我下面所有的SQL语句是基于MySQL 5.6+运行。 </p>
-<p>MySQL 为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：</p>
+        <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>我下面所有的SQL语句是基于Mysql5.6+运行。 </p>
+<p>Mysql为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：</p>
 <ul>
 <li><code>表头(header)</code>: 每一列的名称;</li>
 <li><code>列(col)</code>: 具有相同数据类型的数据的集合;</li>
@@ -384,7 +384,7 @@
 <li><code>值(value)</code>: 行的具体信息, 每个值必须与该列的数据类型相同;</li>
 <li><code>键(key)</code>: 表中用来识别某个特定的人\物的方法, 键的值在当前列中具有唯一性。</li>
 </ul>
-<h3 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql -h 127.0.0.1 -u 用户名 -p</span><br><span class="line">mysql -D 所选择的数据库名 -h 主机名 -u 用户名 -p</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">exit</span> <span class="comment"># 退出 使用 “quit;” 或 “\q;” 一样的效果</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> status;  <span class="comment"># 显示当前mysql的version的各种信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select version(); <span class="comment"># 显示当前mysql的version信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show global variables like <span class="string">'port'</span>; <span class="comment"># 查看MySQL端口号</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql-h 127.0.0.1 -u 用户名 -p</span><br><span class="line">mysql-D 所选择的数据库名 -h 主机名 -u 用户名 -p</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">exit</span> <span class="comment"># 退出 使用 “quit;” 或 “\q;” 一样的效果</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> status;  <span class="comment"># 显示当前mysql的version的各种信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select version(); <span class="comment"># 显示当前mysql的version信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show global variables like <span class="string">'port'</span>; <span class="comment"># 查看MySQL端口号</span></span></span><br></pre></td></tr></table></figure>
 <h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>对于表的操作需要先进入库<code>use 库名;</code></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建一个名为 samp_db 的数据库，数据库字符编码指定为 gbk</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> samp_db <span class="built_in">character</span> <span class="keyword">set</span> gbk;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> samp_db; <span class="comment">-- 删除 库名为samp_db的库</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;        <span class="comment">-- 显示数据库列表。</span></span><br><span class="line"><span class="keyword">use</span> samp_db;     <span class="comment">-- 选择创建的数据库samp_db</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;     <span class="comment">-- 显示samp_db下面所有的表名字</span></span><br><span class="line"><span class="keyword">describe</span> 表名;    <span class="comment">-- 显示数据表的结构</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> 表名; <span class="comment">-- 清空表中记录</span></span><br></pre></td></tr></table></figure>
 <h3 id="创建数据库表"><a href="#创建数据库表" class="headerlink" title="创建数据库表"></a>创建数据库表</h3><blockquote>
@@ -455,10 +455,10 @@
 <li><code>INNER JOIN</code>:在表中存在至少一个匹配时，INNER JOIN 关键字返回行。</li>
 <li><code>LEFT JOIN</code>: 即使右表中没有匹配，也从左表返回所有的行</li>
 <li><code>RIGHT JOIN</code>: 即使左表中没有匹配，也从右表返回所有的行</li>
-<li><code>FULL JOIN</code>: 只要其中一个表中存在匹配，就返回行(MySQL 是不支持的，通过  <code>LEFT JOIN + UNION + RIGHT JOIN</code> 的方式 来实现)</li>
+<li><code>FULL JOIN</code>: 只要其中一个表中存在匹配，就返回行(Mysql是不支持的，通过  <code>LEFT JOIN + UNION + RIGHT JOIN</code> 的方式 来实现)</li>
 </ul>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Persons.LastName, Persons.FirstName, Orders.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Orders</span><br><span class="line"><span class="keyword">ON</span> Persons.Id_P = Orders.Id_P</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> Persons.LastName;</span><br></pre></td></tr></table></figure>
-<h2 id="SQL-函数"><a href="#SQL-函数" class="headerlink" title="SQL 函数"></a>SQL 函数</h2><h3 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT"></a>COUNT</h3><blockquote>
+<h2 id="sql函数"><a href="#sql函数" class="headerlink" title="sql函数"></a>sql函数</h2><h3 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT"></a>COUNT</h3><blockquote>
 <p>COUNT 让我们能够数出在表格中有多少笔资料被选出来。<br>语法：<code>SELECT COUNT(&quot;字段名&quot;) FROM &quot;表格名&quot;;</code></p>
 </blockquote>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 表 Store_Information 有几笔 store_name 栏不是空白的资料。</span></span><br><span class="line"><span class="comment">-- "IS NOT NULL" 是 "这个栏位不是空白" 的意思。</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span> (Store_Name) <span class="keyword">FROM</span> Store_Information <span class="keyword">WHERE</span> Store_Name <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>; </span><br><span class="line"><span class="comment">-- 获取 Persons 表的总数</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="number">1</span>) <span class="keyword">AS</span> totals <span class="keyword">FROM</span> Persons;</span><br><span class="line"><span class="comment">-- 获取表 station 字段 user_id 相同的总数</span></span><br><span class="line"><span class="keyword">select</span> user_id, <span class="keyword">count</span>(*) <span class="keyword">as</span> totals <span class="keyword">from</span> station <span class="keyword">group</span> <span class="keyword">by</span> user_id;</span><br></pre></td></tr></table></figure>
@@ -571,7 +571,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/23/Navicat 导入 CSV 文件/" rel="next" title="Navicat 导入 CSV 文件">
+              <a href="/2018/08/24/Navicat 导入 CSV 文件/" rel="next" title="Navicat 导入 CSV 文件">
                 <i class="fa fa-chevron-left"></i> Navicat 导入 CSV 文件
               </a>
             
@@ -580,6 +580,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/28/Tableau Desktop 教程/" rel="prev" title="Tableau Desktop教程">
+                Tableau Desktop教程 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -656,7 +660,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -667,7 +671,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -704,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-number">1.</span> <span class="nav-text">开始使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">登录MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库"><span class="nav-number">1.2.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库表"><span class="nav-number">1.3.</span> <span class="nav-text">创建数据库表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改查"><span class="nav-number">2.</span> <span class="nav-text">增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT"><span class="nav-number">2.1.</span> <span class="nav-text">SELECT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UPDATE"><span class="nav-number">2.2.</span> <span class="nav-text">UPDATE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INSERT"><span class="nav-number">2.3.</span> <span class="nav-text">INSERT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DELETE"><span class="nav-number">2.4.</span> <span class="nav-text">DELETE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WHERE"><span class="nav-number">3.</span> <span class="nav-text">WHERE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AND-和-OR"><span class="nav-number">4.</span> <span class="nav-text">AND 和 OR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AND"><span class="nav-number">4.1.</span> <span class="nav-text">AND</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OR"><span class="nav-number">4.2.</span> <span class="nav-text">OR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">5.</span> <span class="nav-text">ORDER BY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IN"><span class="nav-number">6.</span> <span class="nav-text">IN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT"><span class="nav-number">7.</span> <span class="nav-text">NOT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION"><span class="nav-number">8.</span> <span class="nav-text">UNION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AS"><span class="nav-number">9.</span> <span class="nav-text">AS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JOIN"><span class="nav-number">10.</span> <span class="nav-text">JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SQL-函数"><span class="nav-number">11.</span> <span class="nav-text">SQL 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#COUNT"><span class="nav-number">11.1.</span> <span class="nav-text">COUNT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAX"><span class="nav-number">11.2.</span> <span class="nav-text">MAX</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器"><span class="nav-number">12.</span> <span class="nav-text">触发器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加索引"><span class="nav-number">13.</span> <span class="nav-text">添加索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通索引-INDEX"><span class="nav-number">13.1.</span> <span class="nav-text">普通索引(INDEX)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引-PRIMARY-key"><span class="nav-number">13.2.</span> <span class="nav-text">主键索引(PRIMARY key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一索引-UNIQUE"><span class="nav-number">13.3.</span> <span class="nav-text">唯一索引(UNIQUE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文索引-FULLTEXT"><span class="nav-number">13.4.</span> <span class="nav-text">全文索引(FULLTEXT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加多列索引"><span class="nav-number">13.5.</span> <span class="nav-text">添加多列索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立索引的时机"><span class="nav-number">13.6.</span> <span class="nav-text">建立索引的时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建后表的修改"><span class="nav-number">14.</span> <span class="nav-text">创建后表的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加列"><span class="nav-number">14.1.</span> <span class="nav-text">添加列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改列"><span class="nav-number">14.2.</span> <span class="nav-text">修改列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除列"><span class="nav-number">14.3.</span> <span class="nav-text">删除列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重命名表"><span class="nav-number">14.4.</span> <span class="nav-text">重命名表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清空表数据"><span class="nav-number">14.5.</span> <span class="nav-text">清空表数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除整张表"><span class="nav-number">14.6.</span> <span class="nav-text">删除整张表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除整个数据库"><span class="nav-number">14.7.</span> <span class="nav-text">删除整个数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它实例"><span class="nav-number">15.</span> <span class="nav-text">其它实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL删除重复记录"><span class="nav-number">15.1.</span> <span class="nav-text">SQL删除重复记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考手册"><span class="nav-number">16.</span> <span class="nav-text">参考手册</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#开始使用"><span class="nav-number">1.</span> <span class="nav-text">开始使用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#登录MySQL"><span class="nav-number">1.1.</span> <span class="nav-text">登录MySQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库"><span class="nav-number">1.2.</span> <span class="nav-text">创建数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建数据库表"><span class="nav-number">1.3.</span> <span class="nav-text">创建数据库表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增删改查"><span class="nav-number">2.</span> <span class="nav-text">增删改查</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SELECT"><span class="nav-number">2.1.</span> <span class="nav-text">SELECT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UPDATE"><span class="nav-number">2.2.</span> <span class="nav-text">UPDATE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#INSERT"><span class="nav-number">2.3.</span> <span class="nav-text">INSERT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DELETE"><span class="nav-number">2.4.</span> <span class="nav-text">DELETE</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WHERE"><span class="nav-number">3.</span> <span class="nav-text">WHERE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AND-和-OR"><span class="nav-number">4.</span> <span class="nav-text">AND 和 OR</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AND"><span class="nav-number">4.1.</span> <span class="nav-text">AND</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OR"><span class="nav-number">4.2.</span> <span class="nav-text">OR</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ORDER-BY"><span class="nav-number">5.</span> <span class="nav-text">ORDER BY</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#IN"><span class="nav-number">6.</span> <span class="nav-text">IN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NOT"><span class="nav-number">7.</span> <span class="nav-text">NOT</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UNION"><span class="nav-number">8.</span> <span class="nav-text">UNION</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AS"><span class="nav-number">9.</span> <span class="nav-text">AS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JOIN"><span class="nav-number">10.</span> <span class="nav-text">JOIN</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sql函数"><span class="nav-number">11.</span> <span class="nav-text">sql函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#COUNT"><span class="nav-number">11.1.</span> <span class="nav-text">COUNT</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MAX"><span class="nav-number">11.2.</span> <span class="nav-text">MAX</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#触发器"><span class="nav-number">12.</span> <span class="nav-text">触发器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#添加索引"><span class="nav-number">13.</span> <span class="nav-text">添加索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#普通索引-INDEX"><span class="nav-number">13.1.</span> <span class="nav-text">普通索引(INDEX)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#主键索引-PRIMARY-key"><span class="nav-number">13.2.</span> <span class="nav-text">主键索引(PRIMARY key)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#唯一索引-UNIQUE"><span class="nav-number">13.3.</span> <span class="nav-text">唯一索引(UNIQUE)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#全文索引-FULLTEXT"><span class="nav-number">13.4.</span> <span class="nav-text">全文索引(FULLTEXT)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加多列索引"><span class="nav-number">13.5.</span> <span class="nav-text">添加多列索引</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立索引的时机"><span class="nav-number">13.6.</span> <span class="nav-text">建立索引的时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建后表的修改"><span class="nav-number">14.</span> <span class="nav-text">创建后表的修改</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#添加列"><span class="nav-number">14.1.</span> <span class="nav-text">添加列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改列"><span class="nav-number">14.2.</span> <span class="nav-text">修改列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除列"><span class="nav-number">14.3.</span> <span class="nav-text">删除列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#重命名表"><span class="nav-number">14.4.</span> <span class="nav-text">重命名表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清空表数据"><span class="nav-number">14.5.</span> <span class="nav-text">清空表数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除整张表"><span class="nav-number">14.6.</span> <span class="nav-text">删除整张表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除整个数据库"><span class="nav-number">14.7.</span> <span class="nav-text">删除整个数据库</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它实例"><span class="nav-number">15.</span> <span class="nav-text">其它实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SQL删除重复记录"><span class="nav-number">15.1.</span> <span class="nav-text">SQL删除重复记录</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考手册"><span class="nav-number">16.</span> <span class="nav-text">参考手册</span></a></li></ol></div>
             
 
           </div>
