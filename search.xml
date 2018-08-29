@@ -19,7 +19,7 @@
   <entry>
     <title><![CDATA[Navicat 导入 CSV 文件]]></title>
     <url>%2F2018%2F08%2F23%2FNavicat%20%E5%AF%BC%E5%85%A5%20CSV%20%E6%96%87%E4%BB%B6%2F</url>
-    <content type="text"><![CDATA[安装好 Mysql 在 Mac 中。 配置 PATH : $PATH&quot;:/usr/local/mysql/bin 登录 Mysql： mysql -u root -p 关闭 Mysql 限制：set @@global.sql_mode=&#39;&#39;; 然后登录 Navicat 连接数据库，导入 CSV。]]></content>
+    <content type="text"><![CDATA[安装好 Mysql 在 Mac 中。 配置 PATH : PATH=&quot;$PATH&quot;:/usr/local/mysql/bin 登录 Mysql： mysql -u root -p 关闭 Mysql 限制：set @@global.sql_mode=&#39;&#39;; 然后登录 Navicat 连接数据库，导入 CSV。]]></content>
       <categories>
         <category>MYSQL</category>
       </categories>
