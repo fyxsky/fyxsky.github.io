@@ -87,7 +87,7 @@
 <meta property="og:description" content="一、MySQL删除单列重复数据保留Id最小的 需求：如表所示，其中GOODS_ID有数据重复的现象，现在要删除MER_GROUP_ID为90的重复数据     GOODS_PRICE_ID GOODS_ID MER_GROUP_ID     1 aa 90   2 aa 90   3 bb 90   4 bb 90   5 cc 99   6 cc 98   7 dd 71   8 dd 19">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://i.loli.net/2018/09/03/5b8cb499c16ac.jpg">
-<meta property="og:updated_time" content="2018-09-03T04:12:17.000Z">
+<meta property="og:updated_time" content="2018-09-03T04:20:20.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Mysql 删除重复字段行">
 <meta name="twitter:description" content="一、MySQL删除单列重复数据保留Id最小的 需求：如表所示，其中GOODS_ID有数据重复的现象，现在要删除MER_GROUP_ID为90的重复数据     GOODS_PRICE_ID GOODS_ID MER_GROUP_ID     1 aa 90   2 aa 90   3 bb 90   4 bb 90   5 cc 99   6 cc 98   7 dd 71   8 dd 19">
@@ -431,46 +431,18 @@
 </tr>
 </tbody>
 </table>
-<h2 id="1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。"><a href="#1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。" class="headerlink" title="1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。"></a>1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。</h2><pre><code>SELECT max(GOODS_PRICE_ID) as GOODS_PRICE_ID 
-    FROM GOODS_PRICE 
-    WHERE MER_GROUP_ID = &apos;90&apos; 
-    GROUP BY GOODS_ID 
-    HAVING count(GOODS_ID) &gt; 1 
-</code></pre><h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><pre><code>DELETE FROM GOODS_PRICE WHERE GOODS_PRICE_ID in (
-SELECT * FROM ( 
-SELECT max(GOODS_PRICE_ID) as GOODS_PRICE_ID 
-    FROM GOODS_PRICE 
-    WHERE MER_GROUP_ID = &apos;90&apos; 
-    GROUP BY GOODS_ID 
-HAVING count(GOODS_ID) &gt; 1) b 
-) ; 
-</code></pre><h1 id="二、MySQL删除多列数据重复问题"><a href="#二、MySQL删除多列数据重复问题" class="headerlink" title="二、MySQL删除多列数据重复问题"></a>二、MySQL删除多列数据重复问题</h1><blockquote>
+<h2 id="1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。"><a href="#1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。" class="headerlink" title="1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。"></a>1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="keyword">max</span>(GOODS_PRICE_ID) <span class="keyword">as</span> GOODS_PRICE_ID </span><br><span class="line">       <span class="keyword">FROM</span> GOODS_PRICE </span><br><span class="line">       <span class="keyword">WHERE</span> MER_GROUP_ID = <span class="string">'90'</span> </span><br><span class="line">       <span class="keyword">GROUP</span> <span class="keyword">BY</span> GOODS_ID </span><br><span class="line">       <span class="keyword">HAVING</span> <span class="keyword">count</span>(GOODS_ID) &gt; <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> GOODS_PRICE <span class="keyword">WHERE</span> GOODS_PRICE_ID <span class="keyword">in</span> (</span><br><span class="line">    <span class="keyword">SELECT</span> * <span class="keyword">FROM</span> ( </span><br><span class="line">    <span class="keyword">SELECT</span> <span class="keyword">max</span>(GOODS_PRICE_ID) <span class="keyword">as</span> GOODS_PRICE_ID </span><br><span class="line">        <span class="keyword">FROM</span> GOODS_PRICE </span><br><span class="line">        <span class="keyword">WHERE</span> MER_GROUP_ID = <span class="string">'90'</span> </span><br><span class="line">        <span class="keyword">GROUP</span> <span class="keyword">BY</span> GOODS_ID </span><br><span class="line">    <span class="keyword">HAVING</span> <span class="keyword">count</span>(GOODS_ID) &gt; <span class="number">1</span>) b </span><br><span class="line">    ) ;</span><br></pre></td></tr></table></figure>
+<h1 id="二、MySQL删除多列数据重复问题"><a href="#二、MySQL删除多列数据重复问题" class="headerlink" title="二、MySQL删除多列数据重复问题"></a>二、MySQL删除多列数据重复问题</h1><blockquote>
 <p>需求：删除PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID多余的数据，保留STOCK_BILL_ID最小的一条</p>
 </blockquote>
 <p><img src="https://i.loli.net/2018/09/03/5b8cb499c16ac.jpg" alt=""></p>
-<h2 id="1-先查询出重复数据"><a href="#1-先查询出重复数据" class="headerlink" title="1. 先查询出重复数据"></a>1. 先查询出重复数据</h2><pre><code>查询出重复数据中STOCK_BILL_ID最大的 
-SELECT MAX(STOCK_BILL_ID) 
-    FROM `GOODS_STOCK_BILLS` 
-    GROUP BY PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID HAVING(COUNT(1)&gt;1); 
-</code></pre><h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。-1"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。-1" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><pre><code>DELETE FROM 
-    GOODS_STOCK_BILLS WHERE 
-    STOCK_BILL_ID IN ( 
-SELECT * FROM ( 
-SELECT MAX(STOCK_BILL_ID) FROM `GOODS_STOCK_BILLS` 
-GROUP BY PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID 
-HAVING (COUNT(*) &gt; 1) 
-    ) B 
-); 
-</code></pre><h2 id="3-将一张表里的某列值更新到另外一张表的某列去"><a href="#3-将一张表里的某列值更新到另外一张表的某列去" class="headerlink" title="3. 将一张表里的某列值更新到另外一张表的某列去"></a>3. 将一张表里的某列值更新到另外一张表的某列去</h2><p>on后面是行数据的唯一性，开始我只用了<code>g.OWNER_ID = d.OWNER_ID</code>报错了，后来把<code>g.GOODS_ID=d.GOODS_ID</code>加上就好了</p>
-<pre><code>UPDATE GOODS_STOCK AS g
-LEFT JOIN GOODS_STOCK_DETAIL AS d ON ( g.OWNER_ID = d.OWNER_ID AND g.GOODS_ID = d.GOODS_ID ) 
-SET g.STOCK_AMOUNT = d.STOCK_COUNT 
-WHERE
-g.OWNER_ID = &apos;a-6b4b6e70-b66d-4739-818b-ea9e6524113b&apos;;
-</code></pre><h1 id="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"><a href="#三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段" class="headerlink" title="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"></a>三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段</h1><pre><code>UPDATE GOODS_STOCK A 
-INNER JOIN (SELECT GOODS_ID,OWNER_ID,SUM(STOCK_COUNT) AS STOCK_COUNT FROM GOODS_STOCK_DETAIL GROUP BY GOODS_ID,OWNER_ID) as B ON (A.GOODS_ID = B.GOODS_ID AND A.OWNER_ID = B.OWNER_ID) 
-SET A.STOCK_AMOUNT = B.STOCK_COUNT 
-</code></pre>
+<h2 id="1-先查询出重复数据"><a href="#1-先查询出重复数据" class="headerlink" title="1. 先查询出重复数据"></a>1. 先查询出重复数据</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">查询出重复数据中STOCK_BILL_ID最大的 </span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(STOCK_BILL_ID) </span><br><span class="line">    <span class="keyword">FROM</span> <span class="string">`GOODS_STOCK_BILLS`</span> </span><br><span class="line">    <span class="keyword">GROUP</span> <span class="keyword">BY</span> PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID <span class="keyword">HAVING</span>(<span class="keyword">COUNT</span>(<span class="number">1</span>)&gt;<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。-1"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。-1" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> </span><br><span class="line">    GOODS_STOCK_BILLS <span class="keyword">WHERE</span> </span><br><span class="line">    STOCK_BILL_ID <span class="keyword">IN</span> ( </span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> ( </span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(STOCK_BILL_ID) <span class="keyword">FROM</span> <span class="string">`GOODS_STOCK_BILLS`</span> </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span> PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID </span><br><span class="line"><span class="keyword">HAVING</span> (<span class="keyword">COUNT</span>(*) &gt; <span class="number">1</span>) </span><br><span class="line">    ) B </span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<h2 id="3-将一张表里的某列值更新到另外一张表的某列去"><a href="#3-将一张表里的某列值更新到另外一张表的某列去" class="headerlink" title="3. 将一张表里的某列值更新到另外一张表的某列去"></a>3. 将一张表里的某列值更新到另外一张表的某列去</h2><p>on后面是行数据的唯一性，开始我只用了<code>g.OWNER_ID = d.OWNER_ID</code>报错了，后来把<code>g.GOODS_ID=d.GOODS_ID</code>加上就好了</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> GOODS_STOCK <span class="keyword">AS</span> g</span><br><span class="line"><span class="keyword">LEFT</span> <span class="keyword">JOIN</span> GOODS_STOCK_DETAIL <span class="keyword">AS</span> d <span class="keyword">ON</span> ( g.OWNER_ID = d.OWNER_ID <span class="keyword">AND</span> g.GOODS_ID = d.GOODS_ID ) </span><br><span class="line"><span class="keyword">SET</span> g.STOCK_AMOUNT = d.STOCK_COUNT </span><br><span class="line"><span class="keyword">WHERE</span></span><br><span class="line">g.OWNER_ID = <span class="string">'a-6b4b6e70-b66d-4739-818b-ea9e6524113b'</span>;</span><br></pre></td></tr></table></figure>
+<h1 id="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"><a href="#三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段" class="headerlink" title="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"></a>三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段</h1><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> GOODS_STOCK A </span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> (<span class="keyword">SELECT</span> GOODS_ID,OWNER_ID,<span class="keyword">SUM</span>(STOCK_COUNT) <span class="keyword">AS</span> STOCK_COUNT <span class="keyword">FROM</span> GOODS_STOCK_DETAIL <span class="keyword">GROUP</span> <span class="keyword">BY</span> GOODS_ID,OWNER_ID) <span class="keyword">as</span> B <span class="keyword">ON</span> (A.GOODS_ID = B.GOODS_ID <span class="keyword">AND</span> A.OWNER_ID = B.OWNER_ID) </span><br><span class="line"><span class="keyword">SET</span> A.STOCK_AMOUNT = B.STOCK_COUNT</span><br></pre></td></tr></table></figure>
+
       
     </div>
     
