@@ -81,7 +81,7 @@
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="夜色凉薄">
-<meta property="og:url" content="http://fyxsky.github.io/categories/MYSQL/index.html">
+<meta property="og:url" content="http://fyxsky.github.io/categories/Mysql/index.html">
 <meta property="og:site_name" content="夜色凉薄">
 <meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
@@ -115,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://fyxsky.github.io/categories/MYSQL/"/>
+  <link rel="canonical" href="http://fyxsky.github.io/categories/Mysql/"/>
 
 
 
 
 
-  <title>分类: MYSQL | 夜色凉薄</title>
+  <title>分类: Mysql | 夜色凉薄</title>
   
 
 
@@ -275,7 +275,7 @@
 
     <div id="posts" class="posts-collapse">
       <div class="collection-title">
-        <h1>MYSQL<small>分类</small>
+        <h1>Mysql<small>分类</small>
         </h1>
       </div>
 
@@ -287,37 +287,9 @@
 
       <h2 class="post-title">
         
-            <a class="post-title-link" href="/2018/08/24/Mysql 常用命令大全/" itemprop="url">
+            <a class="post-title-link" href="/2018/09/03/Mysql 删除重复字段行/" itemprop="url">
               
-                <span itemprop="name">Mysql常用命令大全</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-24T21:11:22+08:00"
-              content="2018-08-24" >
-          08-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-      
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/08/23/Navicat 导入 CSV 文件/" itemprop="url">
-              
-                <span itemprop="name">Navicat 导入 CSV 文件</span>
+                <span itemprop="name">Mysql 删除重复字段行</span>
               
             </a>
         
@@ -325,9 +297,9 @@
 
       <div class="post-meta">
         <time class="post-time" itemprop="dateCreated"
-              datetime="2018-08-23T16:19:15+08:00"
-              content="2018-08-23" >
-          08-23
+              datetime="2018-09-03T11:58:47+08:00"
+              content="2018-09-03" >
+          09-03
         </time>
       </div>
 
@@ -388,7 +360,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -399,7 +371,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -906,6 +878,50 @@
     }
 
     // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+igger popup window;
     $('.popup-trigger').click(function(e) {
       e.stopPropagation();
       if (isfetched === false) {

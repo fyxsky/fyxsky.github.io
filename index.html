@@ -283,6 +283,240 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/09/03/Mysql 删除重复字段行/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/09/03/Mysql 删除重复字段行/" itemprop="url">Mysql 删除重复字段行</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-03T11:58:47+08:00">
+                2018-09-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Mysql/" itemprop="url" rel="index">
+                    <span itemprop="name">Mysql</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="一、MySQL删除单列重复数据保留Id最小的"><a href="#一、MySQL删除单列重复数据保留Id最小的" class="headerlink" title="一、MySQL删除单列重复数据保留Id最小的"></a>一、MySQL删除单列重复数据保留Id最小的</h1><blockquote>
+<p>需求：如表所示，其中GOODS_ID有数据重复的现象，现在要删除MER_GROUP_ID为90的重复数据</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>GOODS_PRICE_ID</th>
+<th>GOODS_ID</th>
+<th>MER_GROUP_ID</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>aa</td>
+<td>90</td>
+</tr>
+<tr>
+<td>2</td>
+<td>aa</td>
+<td>90</td>
+</tr>
+<tr>
+<td>3</td>
+<td>bb</td>
+<td>90</td>
+</tr>
+<tr>
+<td>4</td>
+<td>bb</td>
+<td>90</td>
+</tr>
+<tr>
+<td>5</td>
+<td>cc</td>
+<td>99</td>
+</tr>
+<tr>
+<td>6</td>
+<td>cc</td>
+<td>98</td>
+</tr>
+<tr>
+<td>7</td>
+<td>dd</td>
+<td>71</td>
+</tr>
+<tr>
+<td>8</td>
+<td>dd</td>
+<td>19</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。"><a href="#1-里面嵌套的sql语句是找出重复列GOODS-ID中GOODS-PRICE-ID最大的数据，用SELECT语句将重复字段查找出来。" class="headerlink" title="1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。"></a>1. 里面嵌套的sql语句是找出重复列GOODS_ID中GOODS_PRICE_ID最大的数据，用SELECT语句将重复字段查找出来。</h2><pre><code>SELECT max(GOODS_PRICE_ID) as GOODS_PRICE_ID 
+    FROM GOODS_PRICE 
+    WHERE MER_GROUP_ID = &apos;90&apos; 
+    GROUP BY GOODS_ID 
+    HAVING count(GOODS_ID) &gt; 1 
+</code></pre><h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><pre><code>DELETE FROM GOODS_PRICE WHERE GOODS_PRICE_ID in (
+SELECT * FROM ( 
+SELECT max(GOODS_PRICE_ID) as GOODS_PRICE_ID 
+    FROM GOODS_PRICE 
+    WHERE MER_GROUP_ID = &apos;90&apos; 
+    GROUP BY GOODS_ID 
+HAVING count(GOODS_ID) &gt; 1) b 
+) ; 
+</code></pre><h1 id="二、MySQL删除多列数据重复问题"><a href="#二、MySQL删除多列数据重复问题" class="headerlink" title="二、MySQL删除多列数据重复问题"></a>二、MySQL删除多列数据重复问题</h1><blockquote>
+<p>需求：删除PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID多余的数据，保留STOCK_BILL_ID最小的一条</p>
+</blockquote>
+<p><img src="https://i.loli.net/2018/09/03/5b8cb499c16ac.jpg" alt=""></p>
+<h2 id="1-先查询出重复数据"><a href="#1-先查询出重复数据" class="headerlink" title="1. 先查询出重复数据"></a>1. 先查询出重复数据</h2><pre><code>查询出重复数据中STOCK_BILL_ID最大的 
+SELECT MAX(STOCK_BILL_ID) 
+    FROM `GOODS_STOCK_BILLS` 
+    GROUP BY PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID HAVING(COUNT(1)&gt;1); 
+</code></pre><h2 id="2-删除最大的GOODS-PRICE-ID，保留小的。-1"><a href="#2-删除最大的GOODS-PRICE-ID，保留小的。-1" class="headerlink" title="2. 删除最大的GOODS_PRICE_ID，保留小的。"></a>2. 删除最大的GOODS_PRICE_ID，保留小的。</h2><pre><code>DELETE FROM 
+    GOODS_STOCK_BILLS WHERE 
+    STOCK_BILL_ID IN ( 
+SELECT * FROM ( 
+SELECT MAX(STOCK_BILL_ID) FROM `GOODS_STOCK_BILLS` 
+GROUP BY PURCHASE_ORDER_ID,STOCK_ORDER_ID,OWNER_ID 
+HAVING (COUNT(*) &gt; 1) 
+    ) B 
+); 
+</code></pre><h2 id="3-将一张表里的某列值更新到另外一张表的某列去"><a href="#3-将一张表里的某列值更新到另外一张表的某列去" class="headerlink" title="3. 将一张表里的某列值更新到另外一张表的某列去"></a>3. 将一张表里的某列值更新到另外一张表的某列去</h2><p>on后面是行数据的唯一性，开始我只用了<code>g.OWNER_ID = d.OWNER_ID</code>报错了，后来把<code>g.GOODS_ID=d.GOODS_ID</code>加上就好了</p>
+<pre><code>UPDATE GOODS_STOCK AS g
+LEFT JOIN GOODS_STOCK_DETAIL AS d ON ( g.OWNER_ID = d.OWNER_ID AND g.GOODS_ID = d.GOODS_ID ) 
+SET g.STOCK_AMOUNT = d.STOCK_COUNT 
+WHERE
+g.OWNER_ID = &apos;a-6b4b6e70-b66d-4739-818b-ea9e6524113b&apos;;
+</code></pre><h1 id="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"><a href="#三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段" class="headerlink" title="三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段"></a>三、MySQL将A表某字段分组求和的数据更新到B表中另外一字段</h1><pre><code>UPDATE GOODS_STOCK A 
+INNER JOIN (SELECT GOODS_ID,OWNER_ID,SUM(STOCK_COUNT) AS STOCK_COUNT FROM GOODS_STOCK_DETAIL GROUP BY GOODS_ID,OWNER_ID) as B ON (A.GOODS_ID = B.GOODS_ID AND A.OWNER_ID = B.OWNER_ID) 
+SET A.STOCK_AMOUNT = B.STOCK_COUNT 
+</code></pre>
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/28/Tableau Desktop 教程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2641,162 +2875,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/06/17/Hexo导航加入html页面/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/17/Hexo导航加入html页面/" itemprop="url">Hexo导航加入html页面</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-17T15:22:37+08:00">
-                2018-06-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本想把一个 Markdown 在线编辑器页面加入到 Blog 中，废了老大得劲，所以这里总结一下。</p>
-<p>正常情况下，按照说明操作，应该流程如下：<br><strong>修改主题配置文件添加 MENU 分类字段</strong><br>修改文件为</p>
-<blockquote>
-<p>themes\next_config.yml</p>
-</blockquote>
-<p>修改代码大概如下，看 <code>markdown: /editor/editor.html || monero</code> 这一行，就是我加入的。<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">menu:</span></span><br><span class="line"><span class="symbol">  home:</span> / || home</span><br><span class="line">  <span class="meta">#about: /about/ || user</span></span><br><span class="line">  <span class="meta">#tags: /tags/ || tags</span></span><br><span class="line"><span class="symbol">  categories:</span> <span class="meta-keyword">/categories/</span> || th</span><br><span class="line"><span class="symbol">  archives:</span> <span class="meta-keyword">/archives/</span> || archive</span><br><span class="line"><span class="symbol">  markdown:</span> <span class="meta-keyword">/editor/</span>editor.html || monero           （这一条是我新加入的）</span><br><span class="line">  <span class="meta">#schedule: /schedule/ || calendar</span></span><br><span class="line">  <span class="meta">#sitemap: /sitemap.xml || sitemap</span></span><br><span class="line">  <span class="meta">#commonweal: /editor.html || heartbeat</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>修改一下主目录下的语言配置文件。</strong><br>路径为<code>themes\next\languages</code> 文件为<code>zh-Hans.yml</code><br>修改代码如下：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">menu:</span></span><br><span class="line"><span class="symbol">  home:</span> 首页</span><br><span class="line"><span class="symbol">  archives:</span> 归档</span><br><span class="line"><span class="symbol">  categories:</span> 分类</span><br><span class="line"><span class="symbol">  tags:</span> 标签</span><br><span class="line"><span class="symbol">  about:</span> 关于</span><br><span class="line"><span class="symbol">  markdown:</span> 撰写              （这一条是我新加入的）</span><br><span class="line"><span class="symbol">  search:</span> 搜索</span><br><span class="line"><span class="symbol">  schedule:</span> 日程表</span><br><span class="line"><span class="symbol">  sitemap:</span> 站点地图</span><br><span class="line"><span class="symbol">  commonweal:</span> 公益<span class="number">404</span></span><br></pre></td></tr></table></figure></p>
-<p>本来到此为止应该就OK了，但是我发现 Hexo 编译之后，无论如何都找不到我新加入的 <code>editor.html</code>文件的链接。</p>
-<p>然后网上找了好久，发现问题出在少了三行代码，就是下面这三行代码，要把这三行代码加入到 html 文件的代码的最前面。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">layout:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">"404"</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></p>
-<p>也就是下面这张图，然后就OK了。<br><img src="https://i.loli.net/2018/06/17/5b2610c5b6bec.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -2842,7 +2925,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-count">21</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2853,7 +2936,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
