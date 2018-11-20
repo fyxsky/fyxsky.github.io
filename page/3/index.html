@@ -283,6 +283,338 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/29/如何临时修改 macOS 应用的界面语言/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/29/如何临时修改 macOS 应用的界面语言/" itemprop="url">如何临时修改 macOS 应用的界面语言</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-29T09:56:58+08:00">
+                2018-05-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a3f9039562.jpg" alt="如何临时修改 macOS 应用的界面语言"></p>
+<h1 id="终端命令解决界面语言"><a href="#终端命令解决界面语言" class="headerlink" title="终端命令解决界面语言"></a>终端命令解决界面语言</h1><p>一般情况下，应用程序的界面语言会和系统语言保持一致。但有些时候，我们也会希望临时换用一种不同的界面语言。例如，一些程序的中文翻译词不达意，有必要参考英文界面来确定功能的准确含义；又如，一些网页会强制按照浏览器语言显示不同版本，因此必须通过切换浏览器语言来控制网页语言。</p>
+<p>问题是，并不是所有的应用程序都提供了切换界面语言的选项。事实上，大多数 macOS 的内建应用都没有这样的设置。如果每次遇到这种需求都去临时改变系统语言，未免过于耗时和麻烦。</p>
+<p>这个问题可以通过终端命令来解决。macOS 允许在运行应用程序时向其传递特定参数，其中，<strong><code>-AppleLanguages</code></strong> 参数就是用来控制应用程序的语言的。例如：</p>
+<pre><code># 以简体中文界面启动 Safari 浏览器 $ open -a /Applications/Safari.app --args -AppleLanguages &apos;(zh-CN)&apos;   # 以英文界面启动 Pages $ open -a /Applications/Pages.app --args -AppleLanguages &apos;(en)&apos; 
+</code></pre><p>如果想以其他语言启动某个应用程序，只需要修改将上述命令最后的地区代码。其他一些常用的代码包括繁体中文（<code>zh-TW</code>）、日文（<code>ja</code>）、法文（<code>fr</code>）、德文（<code>de</code>）等。</p>
+<p><strong>要知道一个应用都支持哪些界面语言</strong>，可以在 Finder 中找到该应用，点击右键选择 <strong>显示包内容</strong>，然后查看 <code>/Contents/Resources</code> 目录下以 <code>.lproj</code> 结尾的语言文件目录；<code>.lproj</code> 之前的部分就是各语言对应的地区代码。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a3fb16bcec.jpg" alt=""><br>Safari 的语言文件</p>
+<p>当然，更快捷的方法还是使用终端命令。例如：</p>
+<pre><code># 查看 Ulysses 支持的界面语言 $ ls /Applications/Ulysses.app/Contents/Resources | grep lproj &gt; Base.lproj &gt; de.lproj &gt; en.lproj &gt; … 
+</code></pre><h1 id="为应用程序的特定语言创建快捷方式"><a href="#为应用程序的特定语言创建快捷方式" class="headerlink" title="为应用程序的特定语言创建快捷方式"></a>为应用程序的特定语言创建快捷方式</h1><p><strong>如果需要比较频繁地用不同语言显示某个应用</strong>，那么可以为其创建一个快捷方式。</p>
+<p>方法是：打开系统内建的「脚本编辑器」应用，新建一个文档，在命令栏输入：</p>
+<pre><code>do shell script &quot;&quot;open -a [应用程序路径] --args -AppleLanguages &apos;([要显示的语言])&apos;&quot;&quot; 
+</code></pre><p>点击 <strong>文件</strong> &gt; <strong>导出</strong>，起一个易认的名字（例如「Safari CN」），并将「文件格式」选为「脚本」，然后将其导出到 Applications 文件夹。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a3fc09020f.jpg" alt=""><br>用脚本编辑器为特定语言创建快捷方式</p>
+<p>这样，就可以直接从 Launchpad 以特定语言启动这一应用了。</p>
+<p><a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a> 或 <a href="https://www.obdev.at/products/launchbar/index.html" target="_blank" rel="noopener">LaunchBar</a> 用户可以用该原理制作动作来实现同样效果，在此不赘。</p>
+<h1 id="默认以特定语言启动应用程序"><a href="#默认以特定语言启动应用程序" class="headerlink" title="默认以特定语言启动应用程序"></a>默认以特定语言启动应用程序</h1><p>最后，<strong>如果希望始终以某种与系统设置不同的语言启动特定应用</strong>，可以用 <code>defaults write</code> 命令来修改其默认设置。具体语法是：</p>
+<pre><code>$ defaults write [应用的 Bundle ID] AppleLanguages &apos;([要默认显示的语言])&apos; 
+</code></pre><p>例如：</p>
+<pre><code># 默认以简体中文打开「文本编辑」应用 $ defaults write com.apple.TextEdit AppleLanguages &apos;(zh-CN)&apos; 
+</code></pre><p>其中，应用的 Bundle ID 可以通过运行 <code>mdls -name kMDItemCFBundleIdentifier [应用程序路径]</code>来查找。例如：</p>
+<pre><code># Chrome 浏览器的 Bundle ID $ mdls -name kMDItemCFBundleIdentifier /Applications/Google\ Chrome.app &gt; kMDItemCFBundleIdentifier = &quot;&quot;com.google.Chrome&quot;&quot; 
+</code></pre><p>如果不再需要固定应用程序的显示语言，在终端运行：</p>
+<pre><code>$ defaults delete [应用的 Bundle ID] AppleLanguages 
+</code></pre><p>即可解除上述默认语言设置。</p>
+<p>转载自<a href="https://sspai.com/post/44536" target="_blank" rel="noopener">少数派</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/27/Audacity降低音频回音的方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/27/Audacity降低音频回音的方法/" itemprop="url">Audacity降低音频回音的方法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-27T02:11:45+08:00">
+                2018-05-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Software/" itemprop="url" rel="index">
+                    <span itemprop="name">Software</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a403ff1340.jpg" alt=""></p>
+<h1 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h1><p>我在之前的 <a href="https://macfan.cn/2018/05/21/%E6%9B%B4%E8%87%AA%E7%94%B1%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%90%AC%EF%BC%9A%E9%9A%8F%E4%BE%BF%E5%90%AC%E7%82%B9%E4%BB%80%E4%B9%88%E3%80%82/" target="_blank" rel="noopener">【更自由的在线听：随便听点什么。】</a>一文中提到年纪大了，就慢慢不喜欢捧着书看了。现在喜欢听书，听新闻，听相声，什么都用听的。</p>
+<p>我经常会在 Youtube 上看一些讲座视频。但是上班路上，其实往往无法看视频，而如果用 IOS 的 Youtube APP，就会出现因为不是 Youtube 的会员，所以 Youtube 无法在后台播放。而总不能上班路上一直把手机屏幕开着。所以我选的的方式是把 Youtube 上的视频转换为Mp3格式，然后上传到 Google Drive 上去。</p>
+<p>至于上传 Google Drive 后，怎么听，在之前的 <a href="https://macfan.cn/2018/05/21/%E6%9B%B4%E8%87%AA%E7%94%B1%E7%9A%84%E5%9C%A8%E7%BA%BF%E5%90%AC%EF%BC%9A%E9%9A%8F%E4%BE%BF%E5%90%AC%E7%82%B9%E4%BB%80%E4%B9%88%E3%80%82/" target="_blank" rel="noopener">【更自由的在线听：随便听点什么。】</a> 文章中已经写了，就不多说了。</p>
+<p>这次来说说，如何在 Windows 下下载 Youtube 视频，并同时转换为 MP3。当然因为 Youtube 上的很多视频都是台下的观众自己录制的，所以会有很多时候，视频有比较严重的回声。所以这里也说一下如何通过 Audacity 来降低音频回音的方法。</p>
+<p>其实这个方法并不是一个完美的解决方法，只是我自己琢磨出来的方法。适用范围是有限的，只做一个记录。</p>
+<h1 id="下载-Youtube-视频"><a href="#下载-Youtube-视频" class="headerlink" title="下载 Youtube 视频"></a>下载 Youtube 视频</h1><h2 id="ClipGrab-软件"><a href="#ClipGrab-软件" class="headerlink" title="ClipGrab 软件"></a>ClipGrab 软件</h2><p>其实下载 Youtube 视频很简单，只不过在 Windows 平台上不太容易找到合适的免费的，非盗版的软件。</p>
+<p>所以我这里推荐一个免费的，我认为很好用的软件 —— <strong><em>ClipGrab</em></strong> 。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a4082026d7.jpg" alt=""></p>
+<h2 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h2><p>只需要把 Youtube 的视频链接粘贴到地址栏里，格式可以根据自己需要选择视频或者音频，如果视频格式，就可以在视频分辨率选项里选择你想要的分辨率。这里，我觉得 ClipGrab 的好处是，支持HD1080p。坦白讲，很多软件将支持 HD1080p作为一个收费功能。</p>
+<p>继续，选择好了格式和分辨率（如果选择音频格式，也就是上图中有 audio only 标注的格式，则视频分辨率选哪个都一样，这个应该没什么好说的，不过还是说一下），然后点击『获取这个视频！』按钮，就OK了。</p>
+<p>至于设置选项，如下图，没什么好说的，一看就懂。</p>
+<p>!<img src="https://i.loli.net/2018/06/08/5b1a4091ab9fa.jpg" alt=""></p>
+<h1 id="音频去回音"><a href="#音频去回音" class="headerlink" title="音频去回音"></a>音频去回音</h1><h2 id="Audacity-软件"><a href="#Audacity-软件" class="headerlink" title="Audacity 软件"></a>Audacity 软件</h2><p>大学时代，差不多 15 年前，我很喜欢自己录制歌曲，所以一直在用 CoolEdit，那时候很难找伴奏版的音乐文件，大多数时候都是要靠自己用 CoolEdit 来去人声，而 CoolEdit 以及其他的一些音频编辑混音软件其实都自带了去人声的功能。</p>
+<p>只不过现在来看CoolEdit相对专业了一些，而且最重要的是不是免费开源的软件。</p>
+<p>可能因为现在年纪大了，觉得时间是更重要的东西，所以基本很少会专门找破解版，当然我个人也并不排斥破解版，只不过不愿意花时间去找破解版。所以更多的选择免费开源的软件。所以就找到了 Audocity。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a409cc11e4.jpg" alt=""></p>
+<p>顺便说，AudoCity 本身支持 Windows、Mac、Linux。</p>
+<h2 id="使用方法-1"><a href="#使用方法-1" class="headerlink" title="使用方法"></a>使用方法</h2><h3 id="去回音"><a href="#去回音" class="headerlink" title="去回音"></a>去回音</h3><p>首先，用 AudoCity 载入之前 Youtube 下载下来的 Mp3，然后点击『效果』菜单，选择『低音和高音』选项。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a40a8ecda1.jpg" alt=""></p>
+<p>点击开始播放，然后就可以实时调整。一般情况下，低音调低的过程会发现回声开始减弱，因为回音一般都是偏低音吧。然后高音部分，可以调高，但是不要调高太多，因为调高高音的时候，本身的人声也会被严重的拉高高音。所以之前说要点开始播放，这样就可以一边调整，一边直接听到调整后的结果。我的建议是如果是人声是男声，或者比较低沉，则主要调低音。反之女声，则调低高音。</p>
+<h3 id="导出音频"><a href="#导出音频" class="headerlink" title="导出音频"></a>导出音频</h3><p>因为一个演讲，往往大于30分钟，会出现音频编辑完，导出的时候文件很大，几十上百甚至几百兆。所以我建议导出音频的时候调整一下音频的比特率。如下图，比特率模式选择可变，然后对音频质量进行修改，选择 45-85 kbps 即可。因为你会发现其实对于听演讲，听书之类的音频来说比特率高一些低一些，并没有什么差别。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a40b27d6d4.jpg" alt=""></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/24/Light a Candle or Curse the Darkness/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -2080,7 +2412,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2091,7 +2423,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-count">11</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
