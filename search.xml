@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[Mac 远程登录 Mysql 并导入本地 CSV 文件]]></title>
+    <url>%2F2018%2F11%2F30%2FMac%20%E8%BF%9C%E7%A8%8B%E7%99%BB%E5%BD%95%20Mysql%20%E5%B9%B6%E5%AF%BC%E5%85%A5%E6%9C%AC%E5%9C%B0%20CSV%20%E6%96%87%E4%BB%B6%2F</url>
+    <content type="text"><![CDATA[首先通过 Navicat Mysql 在目标数据库建立新的表。新表和要导入的数据应该有一样的数据结构。主要是字段以及字段的类型。 远程登录 Mysql打开终端，输入如下命令：1mysql --local-infile -h (IP 地址或者 Mysql 域名地址) -P (Mysql 端口) -u (用户名) -p 然后就会显示要求你输入密码，输入后回车即可登录。注意：--local-infile必须要加入登录命令，否则会提示无权限。 导入本地 CSV命令如下：12345mysql&gt; LOAD DATA LOCAL INFILE 'CSV 文件地址' -&gt; INTO TABLE out10 -&gt; FIELDS TERMINATED BY ',' -&gt; IGNORE 1 LINES -&gt; ; CSV 文件地址，可以通过把 CSV 文件拖入新的终端窗口获得。]]></content>
+      <categories>
+        <category>Mysql</category>
+      </categories>
+  </entry>
+  <entry>
     <title><![CDATA[PowerBI CALCULATE & FILTER & ALL & VALUES]]></title>
     <url>%2F2018%2F11%2F26%2FPowerBI%20CALCULATE%20%26%20%20FILTER%20%26%20ALL%20%26%20VALUES%2F</url>
     <content type="text"><![CDATA[CALCULATE的中FILTER，ALL，VALUES的组合应用可总结如下：12345= CALCULATE(COUNTROWS('Demo'),FILTER( ALL('Demo'[Color]), 'Demo'[Color] = "Green" ) ) – ignores/replaces existing Color filters and sets a filter on Green 这将忽略/替换已存在的颜色筛选器并重新设置一个Color为Green的筛选器。 12345= CALCULATE(COUNTROWS('Demo'),FILTER( VALUES('Demo'[Color]), 'Demo'[Color] = "Green" ) ) – keeps existing Color filters and adds a further filter on Green 这将保持已存在的对Demo[Color]列的筛选，并对此列增加一个Color为Green的筛选器。 12345678= CALCULATE(COUNTROWS('Demo'),FILTER( ALL('Demo'[Color]), 'Demo'[Color] = "Green" ),VALUES('Demo'[Color]) ) – same as the previous expression (keeps existing Color filters) – NOTE: the first filter would consider all the colors, but the second – expression (VALUES) only consider the current selection and – the two filters will be considered using an AND condition, thus 与上一个例子类似， FILTER( ALL(‘Demo’[Color]), ‘Demo’[Color] = “Green” )重置了一个Color为Green的筛选器，VALUES(‘Demo’[Color])保持了已有的筛选器，整个筛选结果是这两个筛选器的综合效果，即同时满足两处筛选的那些行。 12345= CALCULATE(COUNTROWS('Demo'),FILTER( ALL('Demo'), 'Demo'[Color] = "Green" ) ) – ignores/replaces filters on all Demo columns, – and sets a filter on all columns (Name, Transport etc., not just Color) – with rows that meet the condition 注意这里是：ALL(‘Demo’)而不是ALL(‘Demo’[Color])，即重置对于’Demo’的所有列筛选器，其中’Demo’[Color] =”Green”，其他列为无筛选器，在这种情况下选择符合筛选的所有行。]]></content>
@@ -11,7 +19,7 @@
   <entry>
     <title><![CDATA[被动语态]]></title>
     <url>%2F2018%2F11%2F24%2F%E8%A2%AB%E5%8A%A8%E8%AF%AD%E6%80%81%2F</url>
-    <content type="text"><![CDATA[被动语态 被~ 需要/可以/应该/需要/最好 + 被~ （By + 行为者）可省略 被动语态的疑问形式]]></content>
+    <content type="text"><![CDATA[被动语态被~ 需要/可以/应该/需要/最好 + 被~ （By + 行为者）可省略 被动语态的疑问形式]]></content>
       <categories>
         <category>English</category>
       </categories>
