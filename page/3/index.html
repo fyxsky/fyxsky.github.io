@@ -283,624 +283,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/07/12/SAP C4C 报表中关键值-销售目标-的系统计算方式/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/07/12/SAP C4C 报表中关键值-销售目标-的系统计算方式/" itemprop="url">SAP C4C 报表中关键值-销售目标-的系统计算方式</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T10:32:52+08:00">
-                2018-07-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C4C/" itemprop="url" rel="index">
-                    <span itemprop="name">C4C</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这个问题其实很有意思，首先，C4C 中客户的窗口中，左边的基本信息中是有销售目标的，这个销售目标，可以由客户的负责销售进行修改填入。如下图<br><img src="https://i.loli.net/2018/07/12/5b46bdb34cb57.jpg" alt=""></p>
-<p>所以，我的本意是想要通过报表自动计算出每个客户当月的销售目标完成率，计算方法很简单<code>（Sales Net Value / 销售目标） x 100%</code> 即可。</p>
-<p>但是，我在实际生成报表的时候发现，<code>Customer Sales Report</code>报表中由 SAP 内置的关键值<code>销售目标</code>并不是直接调用<code>客户主数据</code>数据源中的<code>销售目标</code>字段。如下图，下图中的基础关键值-&gt;销售目标，并不是数据源中的<code>销售目标</code>字段。原因很简单，因为 C4C 中的关键值，均为根据数据源中的字段计算出来的值。<br>这一段话，理解起来有点困难，是因为必须理解什么是 C4C 报表中的关键值。<br><code>在C4C报表中，计算的关键值被定义为包含一些计算规则或公式的关键值。 可以从所选数据源中的现有关键值创建计算的关键值。</code><br><img src="https://i.loli.net/2018/07/12/5b46c1aca93fa.jpg" alt=""></p>
-<p>上面说了关键值中的<code>销售目标</code>是一个计算值，为什么呢？<br>我认为原因是销售填入了客户的销售目标，但是实际上销售目标这个值写入到客户主数据中后，这个销售目标是没有时间规范的，例如销售填入，A 客户的销售目标是100W。那么问题来了，这个销售目标数值100W 在 C4C 系统中只是一个数字，而 C4C 不知道这个100W 代表了什么？</p>
-<ul>
-<li>填入数值当前月的销售目标？</li>
-<li>填入数值当前天的销售目标？</li>
-<li>填入数值当前年的销售目标？</li>
-<li>………………</li>
-</ul>
-<p>总之，因为 C4C 默认是不知道这个数值代表了什么，那么报表中的关键值<code>销售目标</code>是怎么计算出来的？<br>因为这个关键值是 SAP 内置的，所以无法查看也无法修改，导致我无法知道这个关键值是怎么根据字段数值计算出来的指数。（也许是因为我没有找到地方）</p>
-<p>最后，我只能根据真实数据报表，进行核对，最终推算出来<code>销售目标</code>具体的计算公式。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">销售目标 = 字段销售目标值 x （销售 <span class="built_in">SKU</span> 数量 - 未发货 <span class="built_in">SKU</span> 数量）</span><br><span class="line"></span><br><span class="line">字段销售目标： 销售填入客户信息页面的销售目标</span><br><span class="line">销售 <span class="built_in">SKU</span> 数量：  选定时间段内，此客户的所有订单中，总的 <span class="built_in">SKU</span> 数量（去重）。</span><br><span class="line">未发货 <span class="built_in">SKU</span> 数量： 因为有缺货、短保等问题导致部分 <span class="built_in">SKU</span> 未发货。</span><br></pre></td></tr></table></figure></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/06/22/Excel 中空值概念/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/22/Excel 中空值概念/" itemprop="url">Excel 中空值概念</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-22T14:48:07+08:00">
-                2018-06-22
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Work/" itemprop="url" rel="index">
-                    <span itemprop="name">Work</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这里要清晰几个Excel里面的概念：<br><strong>空白</strong>、<strong>空值</strong>、<strong>零值</strong>、<strong>空字符串<code>（&quot;&quot;&quot;&quot;）</code></strong><br>其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。</p>
-<p>如果是严格意义上的“空值”，就应该用：<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="built_in">isblank</span>(<span class="symbol">a1</span>),<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>如果是“空白”，即包含空字符串的话，用<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="symbol">A1</span>=<span class="string">""</span><span class="string">""</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的，<br><img src="https://i.loli.net/2018/06/22/5b2c9c753dee6.jpg" alt=""></p>
-<p>但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/06/17/Hexo导航加入html页面/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/17/Hexo导航加入html页面/" itemprop="url">Hexo导航加入html页面</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-17T15:22:37+08:00">
-                2018-06-17
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Hexo/" itemprop="url" rel="index">
-                    <span itemprop="name">Hexo</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>本想把一个 Markdown 在线编辑器页面加入到 Blog 中，废了老大得劲，所以这里总结一下。</p>
-<p>正常情况下，按照说明操作，应该流程如下：<br><strong>修改主题配置文件添加 MENU 分类字段</strong><br>修改文件为</p>
-<blockquote>
-<p>themes\next_config.yml</p>
-</blockquote>
-<p>修改代码大概如下，看 <code>markdown: /editor/editor.html || monero</code> 这一行，就是我加入的。<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">menu:</span></span><br><span class="line"><span class="symbol">  home:</span> / || home</span><br><span class="line">  <span class="meta">#about: /about/ || user</span></span><br><span class="line">  <span class="meta">#tags: /tags/ || tags</span></span><br><span class="line"><span class="symbol">  categories:</span> <span class="meta-keyword">/categories/</span> || th</span><br><span class="line"><span class="symbol">  archives:</span> <span class="meta-keyword">/archives/</span> || archive</span><br><span class="line"><span class="symbol">  markdown:</span> <span class="meta-keyword">/editor/</span>editor.html || monero           （这一条是我新加入的）</span><br><span class="line">  <span class="meta">#schedule: /schedule/ || calendar</span></span><br><span class="line">  <span class="meta">#sitemap: /sitemap.xml || sitemap</span></span><br><span class="line">  <span class="meta">#commonweal: /editor.html || heartbeat</span></span><br></pre></td></tr></table></figure></p>
-<p><strong>修改一下主目录下的语言配置文件。</strong><br>路径为<code>themes\next\languages</code> 文件为<code>zh-Hans.yml</code><br>修改代码如下：<br><figure class="highlight dts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="symbol">menu:</span></span><br><span class="line"><span class="symbol">  home:</span> 首页</span><br><span class="line"><span class="symbol">  archives:</span> 归档</span><br><span class="line"><span class="symbol">  categories:</span> 分类</span><br><span class="line"><span class="symbol">  tags:</span> 标签</span><br><span class="line"><span class="symbol">  about:</span> 关于</span><br><span class="line"><span class="symbol">  markdown:</span> 撰写              （这一条是我新加入的）</span><br><span class="line"><span class="symbol">  search:</span> 搜索</span><br><span class="line"><span class="symbol">  schedule:</span> 日程表</span><br><span class="line"><span class="symbol">  sitemap:</span> 站点地图</span><br><span class="line"><span class="symbol">  commonweal:</span> 公益<span class="number">404</span></span><br></pre></td></tr></table></figure></p>
-<p>本来到此为止应该就OK了，但是我发现 Hexo 编译之后，无论如何都找不到我新加入的 <code>editor.html</code>文件的链接。</p>
-<p>然后网上找了好久，发现问题出在少了三行代码，就是下面这三行代码，要把这三行代码加入到 html 文件的代码的最前面。<br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">layout:</span> <span class="literal">false</span></span><br><span class="line"><span class="attr">title:</span> <span class="string">"404"</span></span><br><span class="line"><span class="meta">---</span></span><br></pre></td></tr></table></figure></p>
-<p>也就是下面这张图，然后就OK了。<br><img src="https://i.loli.net/2018/06/17/5b2610c5b6bec.png" alt=""></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/29/如何临时修改 macOS 应用的界面语言/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/05/29/如何临时修改 macOS 应用的界面语言/" itemprop="url">如何临时修改 macOS 应用的界面语言</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-29T09:56:58+08:00">
-                2018-05-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://i.loli.net/2018/06/08/5b1a3f9039562.jpg" alt="如何临时修改 macOS 应用的界面语言"></p>
-<h1 id="终端命令解决界面语言"><a href="#终端命令解决界面语言" class="headerlink" title="终端命令解决界面语言"></a>终端命令解决界面语言</h1><p>一般情况下，应用程序的界面语言会和系统语言保持一致。但有些时候，我们也会希望临时换用一种不同的界面语言。例如，一些程序的中文翻译词不达意，有必要参考英文界面来确定功能的准确含义；又如，一些网页会强制按照浏览器语言显示不同版本，因此必须通过切换浏览器语言来控制网页语言。</p>
-<p>问题是，并不是所有的应用程序都提供了切换界面语言的选项。事实上，大多数 macOS 的内建应用都没有这样的设置。如果每次遇到这种需求都去临时改变系统语言，未免过于耗时和麻烦。</p>
-<p>这个问题可以通过终端命令来解决。macOS 允许在运行应用程序时向其传递特定参数，其中，<strong><code>-AppleLanguages</code></strong> 参数就是用来控制应用程序的语言的。例如：</p>
-<pre><code># 以简体中文界面启动 Safari 浏览器 $ open -a /Applications/Safari.app --args -AppleLanguages &apos;(zh-CN)&apos;   # 以英文界面启动 Pages $ open -a /Applications/Pages.app --args -AppleLanguages &apos;(en)&apos; 
-</code></pre><p>如果想以其他语言启动某个应用程序，只需要修改将上述命令最后的地区代码。其他一些常用的代码包括繁体中文（<code>zh-TW</code>）、日文（<code>ja</code>）、法文（<code>fr</code>）、德文（<code>de</code>）等。</p>
-<p><strong>要知道一个应用都支持哪些界面语言</strong>，可以在 Finder 中找到该应用，点击右键选择 <strong>显示包内容</strong>，然后查看 <code>/Contents/Resources</code> 目录下以 <code>.lproj</code> 结尾的语言文件目录；<code>.lproj</code> 之前的部分就是各语言对应的地区代码。</p>
-<p><img src="https://i.loli.net/2018/06/08/5b1a3fb16bcec.jpg" alt=""><br>Safari 的语言文件</p>
-<p>当然，更快捷的方法还是使用终端命令。例如：</p>
-<pre><code># 查看 Ulysses 支持的界面语言 $ ls /Applications/Ulysses.app/Contents/Resources | grep lproj &gt; Base.lproj &gt; de.lproj &gt; en.lproj &gt; … 
-</code></pre><h1 id="为应用程序的特定语言创建快捷方式"><a href="#为应用程序的特定语言创建快捷方式" class="headerlink" title="为应用程序的特定语言创建快捷方式"></a>为应用程序的特定语言创建快捷方式</h1><p><strong>如果需要比较频繁地用不同语言显示某个应用</strong>，那么可以为其创建一个快捷方式。</p>
-<p>方法是：打开系统内建的「脚本编辑器」应用，新建一个文档，在命令栏输入：</p>
-<pre><code>do shell script &quot;&quot;open -a [应用程序路径] --args -AppleLanguages &apos;([要显示的语言])&apos;&quot;&quot; 
-</code></pre><p>点击 <strong>文件</strong> &gt; <strong>导出</strong>，起一个易认的名字（例如「Safari CN」），并将「文件格式」选为「脚本」，然后将其导出到 Applications 文件夹。</p>
-<p><img src="https://i.loli.net/2018/06/08/5b1a3fc09020f.jpg" alt=""><br>用脚本编辑器为特定语言创建快捷方式</p>
-<p>这样，就可以直接从 Launchpad 以特定语言启动这一应用了。</p>
-<p><a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a> 或 <a href="https://www.obdev.at/products/launchbar/index.html" target="_blank" rel="noopener">LaunchBar</a> 用户可以用该原理制作动作来实现同样效果，在此不赘。</p>
-<h1 id="默认以特定语言启动应用程序"><a href="#默认以特定语言启动应用程序" class="headerlink" title="默认以特定语言启动应用程序"></a>默认以特定语言启动应用程序</h1><p>最后，<strong>如果希望始终以某种与系统设置不同的语言启动特定应用</strong>，可以用 <code>defaults write</code> 命令来修改其默认设置。具体语法是：</p>
-<pre><code>$ defaults write [应用的 Bundle ID] AppleLanguages &apos;([要默认显示的语言])&apos; 
-</code></pre><p>例如：</p>
-<pre><code># 默认以简体中文打开「文本编辑」应用 $ defaults write com.apple.TextEdit AppleLanguages &apos;(zh-CN)&apos; 
-</code></pre><p>其中，应用的 Bundle ID 可以通过运行 <code>mdls -name kMDItemCFBundleIdentifier [应用程序路径]</code>来查找。例如：</p>
-<pre><code># Chrome 浏览器的 Bundle ID $ mdls -name kMDItemCFBundleIdentifier /Applications/Google\ Chrome.app &gt; kMDItemCFBundleIdentifier = &quot;&quot;com.google.Chrome&quot;&quot; 
-</code></pre><p>如果不再需要固定应用程序的显示语言，在终端运行：</p>
-<pre><code>$ defaults delete [应用的 Bundle ID] AppleLanguages 
-</code></pre><p>即可解除上述默认语言设置。</p>
-<p>转载自<a href="https://sspai.com/post/44536" target="_blank" rel="noopener">少数派</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/27/Audacity降低音频回音的方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -955,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -1119,8 +501,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Work/" itemprop="url" rel="index">
-                    <span itemprop="name">Work</span>
+                  <a href="/categories/WORK/" itemprop="url" rel="index">
+                    <span itemprop="name">WORK</span>
                   </a>
                 </span>
 
@@ -1270,8 +652,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Study/" itemprop="url" rel="index">
-                    <span itemprop="name">Study</span>
+                  <a href="/categories/ENGLISH/" itemprop="url" rel="index">
+                    <span itemprop="name">ENGLISH</span>
                   </a>
                 </span>
 
@@ -1422,8 +804,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -1569,8 +951,8 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -2223,8 +1605,8 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Software/" itemprop="url" rel="index">
-                    <span itemprop="name">Software</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -2317,11 +1699,506 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
 
 
     
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/关于 AI 和 Marketing/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/关于 AI 和 Marketing/" itemprop="url">关于 AI 和 Marketing</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WORK/" itemprop="url" rel="index">
+                    <span itemprop="name">WORK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p><img src="https://i.loli.net/2018/06/08/5b1a40da95c56.jpg" alt=""></p>
+<p>集团亚太区Marketing 某人（不知道具体职位）分享了一篇文章。</p>
+<p><a href="https://hbr.org/2018/05/marketing-in-the-age-of-alexa" target="_blank" rel="noopener">Marketing in the age of alexa</a></p>
+<p>大概意思就是说正在到来的 AI 对各个品牌的 Marketing 的巨大影响。</p>
+<p>坦白讲，大致的看了一下文章，我就觉得很厌烦。也许因为我本身就是做IT 工程师出身的，之后又改行自己做生意，然后厌倦了，又回来做销售、做市场。</p>
+<p>而 IT 背景的我，会对很多新的技术包容性比较高。但是包容不代表盲目崇拜技术。技术固然会在不同的层面改变人们的生活方式，但是还是要理性的看待技术。不是任何牛逼的技术都可以无视现实的环境。</p>
+<hr>
+<p>文章的问题太多，简单的以其中一点来说说。</p>
+<p>文章中说了一句话，很重要『Building trust will be the most important thing we do.”』换句话说就是，有多少人会信任 AI 的推荐。<br>说到底，AI 就是帮人完成一些需要手工完成的工作，并提供一定程度的流程优化。</p>
+<p>不考虑有品牌方做 Marketing 的情况，举个例子来说，如果你问 AI “”怎么做蛋糕””，想象一下，AI 会怎么做，首先，AI 需要知道去哪里搜索相关的知识，百度？Google？否则，他去哪里搜索？又或者说它从哪里获得这个知识？就算是人，也无法在没有做蛋糕的经验的情况下，不通过一定方式去了解，就能回答这个问题，更何况 AI？</p>
+<p>如果要针对 AI 来做 Marketing，那么，问题来了，技术层面AI 的广告要怎么做？文中给了我们，他们的答案『Companies will essentially reallocate to the platforms what they spend today on advertising, listing and slotting fees, and retail commissions. Brands will shape their offers and innovation strategies around getting AI assistants to showcase their products.』</p>
+<p>这个答案，显然不是落地方案，只是一个必然的方向，从我的角度来看，毫无意义的答案，也就是一段废话。</p>
+<p>如果我来回答，我认为 AI 的广告怎么做，需要太多前提条件，而且是缺一不可的前提条件。</p>
+<ol>
+<li>我为什么会选择 AI 的推荐。市面上的品牌太多，虽然会造成选择困难，但是『品牌太多很难选』和『AI 告诉你这个品牌最适合你』，你觉得你会希望是怎样的？至少我会选择前者，因为人在选择产品的时候，绝大数时候不是因为最适合。比如，女生买衣服，难道只考虑自己喜不喜欢么？难道真的没有考虑别人觉得好不好看么？难道我们买东西没有过预算在100元，但是最终买了200元的东西的时候么？</li>
+<li>文化差异。我们来思考几个问题，Siri 可以直接回答时间、天气、订闹钟，有多少人会去用？语音信箱，每个人的手机都有，办公室的座机都有这个功能，有几个人用？也许这几个问题的答案可以回答，中外一些文化的差异。虽然一些新的科技杀死了一些老得科技，例如 VCD 干掉了录像带。科技绕不开文化这道坎。</li>
+</ol>
+<p>AI 是好东西，确实可以更好的帮助物联网的最终实现，这一点不可否认。但是科幻片看的再多，也请我们所有人理性的看待真实的世界。</p>
+<p>Marketing 的核心就是产品和人，找到对产品的卖点有兴趣的人群，然后告诉这些人，你可以选择我们。而找到这些对应的人群的关键点，就是找到这些人获取信息的窗口在哪里。</p>
+<p>所以，我希望各位更多的去关心产品的卖点是什么，哪些人会对这些卖点感兴趣。找到这些以后，再去根据人们获取信息的窗口的特点，对这些卖点进行包装，进行文案。</p>
+<p>而我们现在遇到的更多的问题，不是找不到窗口，而是找不到打动消费者的卖点，或者没有费用去测试我们找到得卖点是不是真的能打动消费者。</p>
+<p>我们手里有 KOL 的联系方式，有各种平台，有微信，有各种各样的窗口。请问，我们的产品的卖点是什么？谁能回答这个问题？</p>
+<p>我想，就是因为这个问题是最难的，也是一直找不到好的答案，或者找到我们认为的答案了，却没有费用去试错。所以，这些 KOL 的联系方式，这些平台，等等，也只是存在于我们的 Excel 表格里。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/更自由的在线听：随便听点什么。/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/更自由的在线听：随便听点什么。/" itemprop="url">更自由的在线听：随便听点什么。</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MACAPP/" itemprop="url" rel="index">
+                    <span itemprop="name">MACAPP</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <blockquote>
+<p>时常，会觉得写个介绍APP 的文章，很麻烦很麻烦。虽然确实有不少比较冷门的 APP 真的不错，真的很实用，真的让人想要介绍给大家。</p>
+<pre><code>——我自己
+</code></pre></blockquote>
+<p>30岁之前，我很喜欢看小说。整天捧着手机看小说，从当年的诺基亚 N73，到后面的 Iphone3，再到后面Kindle。</p>
+<p>只可惜，也不知道为什么，可能年纪大了，就慢慢不喜欢捧着书看了。现在喜欢听书，听新闻，听相声，什么都用听的。</p>
+<p>之前，我会把我喜欢听的相声，有声小说，音乐等等，都通过 iTunes 同步到手机里，但是慢慢发现，这样很麻烦。因为很多内容都是听一遍以后，基本过半年才会想要听第二遍。而我又不想总是用 iTunes 那么麻烦。</p>
+<p>所以，我就想到一个办法，把想要听的所有内容都放在网盘里。然后找一款 APP 同时具有以下功能：</p>
+<ol>
+<li><p>不用手动下载音频到本地，就能直接听。</p>
+</li>
+<li><p>不用一个一个音频的添加到播放列表，APP 可以自动把同一个文件夹的音频作为一个播放列表。也就是选择一个音频，会自动把这个音频同文件夹的文件添加入列表，并可以手动选择是否自动连续播放，以及乱序播放。</p>
+</li>
+<li><p>具有手动步进步退功能。如果只是听音乐，这个功能不重要，不过如果是经常会听有声小说，讲座等等音频，就需要了。</p>
+</li>
+<li><p>具有音频播放变速功能，因为听一些演讲音频，会需要加快速度。</p>
+</li>
+<li><p>具有定时关闭功能，例如睡觉前，听相声音频，会需要倒计时15分钟，到时间自动关闭音频。（当然，我知道 IOS 自带的计时器有这个功能，但是那不是还要再进入另一个 APP 进行设置么。）</p>
+</li>
+<li><p>最好有同步播放清单功能。这个功能要是没有，还真是挺麻烦的，各位想想也知道。</p>
+</li>
+</ol>
+<h2 id="推荐的-APP-唤作『CloudBeats』"><a href="#推荐的-APP-唤作『CloudBeats』" class="headerlink" title="推荐的 APP 唤作『CloudBeats』"></a>推荐的 APP 唤作『CloudBeats』</h2><p>我寻找了好一阵子，才找到 CloudBeats。（虽然推荐，但是 Sorry，因为付费内购了有两个月了。我忘记当时这个 APP 的收费功能是什么了。我记得好像是解锁一个文件夹中只能播放20个文件的限制，还有其他什么限制应该是不太重要的。<strong>一次性解锁费用 $3.99。</strong>）</p>
+<h3 id="不用手动下载音频到本地，直接听。"><a href="#不用手动下载音频到本地，直接听。" class="headerlink" title="不用手动下载音频到本地，直接听。"></a>不用手动下载音频到本地，直接听。</h3><p>从下面 GIF 上可以看到，右侧菜单有 Google Drive，实际上这只是我在用 Google Drive 而已，CloudBeats 本身支持：Dropbox,，Google Drive，Box，OneDrive，OneDrive for Business，Amazon Cloud Drive，Mediafire，My Cloud Home devices by Western Digital /ownCloud / NextCloud.</p>
+<p><img src="https://cdn.sspai.com/2018/04/27/5c5cb46ed15325a75eb26051f07ce5f9.gif" alt=""></p>
+<p>所以基本上只要不是百度云等国内的网盘，其他主流网盘都支持。你需要做的只是进入设置然后登录授权相关网盘即可。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a4108bba86.jpg" alt=""></p>
+<p>当然如果你有自己的 NAS 系统，也是 OK 的。具体，如下图，我就不多说了，无非就是需要在自己的 NAS 系统里打开 webDAV 权限。（Android 版本不支持 webDAV，官方说这个功能即将到来，不过不知道到底什么时候到来。）</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a411914d5e.jpg" alt=""></p>
+<h3 id="不用一个一个音频的添加到播放列表，APP-可以自动把同一个文件夹的音频作为一个播放列表。"><a href="#不用一个一个音频的添加到播放列表，APP-可以自动把同一个文件夹的音频作为一个播放列表。" class="headerlink" title="不用一个一个音频的添加到播放列表，APP 可以自动把同一个文件夹的音频作为一个播放列表。"></a>不用一个一个音频的添加到播放列表，APP 可以自动把同一个文件夹的音频作为一个播放列表。</h3><p>至于这一点，懒得截图演示了，（不得不说弄个 GIF 还真是挺麻烦的，录制下来，还要剪辑一下视频，再转 GIF）。反正这个功能，我确定，支持，就够了。</p>
+<h3 id="具有手动步进步退功能。"><a href="#具有手动步进步退功能。" class="headerlink" title="具有手动步进步退功能。"></a>具有手动步进步退功能。</h3><p>这个步进步退功能只有10s和30s两个选择。不过CloudBeats增加了一个Save按钮。其实就是一个书签按钮。可以记住一个你保存的时间点，方便你迅速回到保存的因为播放位置。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a412b61614.jpg" alt=""></p>
+<h3 id="具有音频播放变速功能"><a href="#具有音频播放变速功能" class="headerlink" title="具有音频播放变速功能"></a>具有音频播放变速功能</h3><p>可以看到变速部分，可以通过加减号进行手动步进步退调整速度，每一步为0.05倍速度，正常速度为1x，可以最大到3x，最小为0.5x。</p>
+<p>CloudBeats 还有一个 Optimize for Voice 功能，坦白讲我没感觉出来这个开关，开和不开有多大区别，反正我是默认开着的。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a41382d8e7.jpg" alt=""></p>
+<h3 id="具有定时关闭功能"><a href="#具有定时关闭功能" class="headerlink" title="具有定时关闭功能"></a>具有定时关闭功能</h3><p>定时关闭，在我看来是必须的功能。我认为也应该是现在各种播放器的标配，不过在我尝试其他同类 APP 的时候，基本上80%没有这个功能。庆幸 CloudBeats 有这个功能，虽然不能自定义定时时长，但是15、30、45、60、90也够了。当然这个时间的单位是分钟。</p>
+<p>选好时间，点按下面的 Start 按钮就好了。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a41489c3f6.jpg" alt=""></p>
+<h3 id="最好有同步播放清单功能。"><a href="#最好有同步播放清单功能。" class="headerlink" title="最好有同步播放清单功能。"></a>最好有同步播放清单功能。</h3><p>这个功能，可以看到下图的 Synchronize Playlists 开关，不过可惜这个同步播放清单的功能似乎只有 Google Drvie 支持。</p>
+<p>我打开Google Drive 后，发现根目录会多一个 cloudbeats_playlists.cb 的文件，想来就是同步的 Playlist，不过在 CloudBeats中打开 Google Drive 时，文件列表里没有这个文件。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a41557fc24.jpg" alt=""></p>
+<h2 id="结语"><a href="#结语" class="headerlink" title="结语"></a>结语</h2><p>上面基本陈列了我想要的功能。当然除了这些功能，各位从设置截图里也可以看到类似于 Import iTunes Library 的功能，也许有些朋友们也是可以用到的，只不过我用不到，所以没有测试。</p>
+<p>至于其他的功能，例如：可以直接听你的朋友在网盘里共享给你的音乐文件夹啦；自己搭建 Radio 啦；直接在你授权登录的所有网盘里同时搜索某个文件啦；直接提取专辑封面，如果没有封面，则自动从网上下载专辑封面啦；直接将音乐传输到 Google Chromecast 或者 AppleTV 啦。</p>
+<p>当然，如果想随时可以听，还真是需要一个冰淇淋套餐之类的东西。</p>
+<p>总之，这个 APP 对我来说是，功能刚好贴合我的需求。我想，也许和我一样需求的应该也并不多。只不过有时候针对某些人的特殊习惯，能真的找到合用的 APP 真的不容易，所以就分享给大家。至于这个 APP 的价格，我觉得还好。</p>
+<p>当然，各位想要试用的话，免费版应该就基本够用。如果我没记错，免费版也没有广告。</p>
+<p>最后，请各位原谅，这排版，实在是比较糟糕，</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/05/21/HEXO文章发布命令/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/05/21/HEXO文章发布命令/" itemprop="url">HEXO 文章发布命令</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-21T18:20:06+08:00">
+                2018-05-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HEXO/" itemprop="url" rel="index">
+                    <span itemprop="name">HEXO</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="built_in">clean</span> &amp;&amp; hexo g &amp;&amp; hexo deploy &amp;&amp; hexo <span class="built_in">clean</span></span><br></pre></td></tr></table></figure>
+<p><strong> hexo clean :</strong> 清理 database 和 /public 目录， /public 目录里是生成的静态文件数据。<br><strong> hexo generaet :</strong> 简写是 “hexo g” 命令是用来生成静态页面的 会创建 /public 目录静态页面数据都在这个文件夹里。<br><strong> hexo deploy ：</strong> 一键部署命令上面在 _config.yml 文件中配置了部署信息。这个命令会帮助你一键部署。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
   </nav>
 
 
@@ -2367,7 +2244,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -2378,7 +2255,7 @@ defaults write com.apple.finder AppleShowAllFiles No &amp;&amp; killall Finder /
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
