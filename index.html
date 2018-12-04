@@ -398,8 +398,8 @@
 <pre><code>可以理解为，SUMX 首先对每一行逐条计算。计算结果会放在一个虚拟列中。
 SUMX 的迭代：就是 SUMX 在对虚拟列中的结果一个一个的进行加和。
 而当前迭代行，就是 SUMX 现在加到哪一行，这一行就是当前迭代行。
-</code></pre><p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
-</blockquote>
+</code></pre></blockquote>
+<p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NumOfAllProducts := COUNTROWS ( VALUES ( Product[ProductName] ) )</span><br></pre></td></tr></table></figure>
 <blockquote>
 <pre><code> `VALUES（&lt;TableNameOrColumnName&gt;）`

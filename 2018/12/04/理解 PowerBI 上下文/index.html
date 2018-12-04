@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-d1fe4b49e790f460528ebcc5bcbf6cbf_hd.png">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-87fade9d7e208d317717cf89c14d88c5_hd.png">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-b29cc0c5f75d8fbd9087e576bf7ee1df_hd.png">
-<meta property="og:updated_time" content="2018-12-04T07:02:54.000Z">
+<meta property="og:updated_time" content="2018-12-04T07:05:02.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解 PowerBI 上下文">
 <meta name="twitter:description" content="本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。 关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种">
@@ -401,8 +401,8 @@
 <pre><code>可以理解为，SUMX 首先对每一行逐条计算。计算结果会放在一个虚拟列中。
 SUMX 的迭代：就是 SUMX 在对虚拟列中的结果一个一个的进行加和。
 而当前迭代行，就是 SUMX 现在加到哪一行，这一行就是当前迭代行。
-</code></pre><p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
-</blockquote>
+</code></pre></blockquote>
+<p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NumOfAllProducts := COUNTROWS ( VALUES ( Product[ProductName] ) )</span><br></pre></td></tr></table></figure>
 <blockquote>
 <pre><code> `VALUES（&lt;TableNameOrColumnName&gt;）`
