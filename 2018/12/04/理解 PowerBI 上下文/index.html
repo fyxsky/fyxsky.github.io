@@ -89,7 +89,7 @@
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-d1fe4b49e790f460528ebcc5bcbf6cbf_hd.png">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-87fade9d7e208d317717cf89c14d88c5_hd.png">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-b29cc0c5f75d8fbd9087e576bf7ee1df_hd.png">
-<meta property="og:updated_time" content="2018-12-04T07:00:16.000Z">
+<meta property="og:updated_time" content="2018-12-04T07:02:54.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解 PowerBI 上下文">
 <meta name="twitter:description" content="本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。 关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种">
@@ -396,11 +396,33 @@
 <p>筛选上下文，正是完成筛选的关键机制，而行上下文，正是完成迭代中行中计算的关键机制。</p>
 <h2 id="理解行上下文"><a href="#理解行上下文" class="headerlink" title="理解行上下文"></a>理解行上下文</h2><p>【第一种情况】DAX表达式对列进行操作，通常会写下如下的表达式：</p>
 <figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gross Profit := SUMX ( Sales, Sales<span class="string">[Amount]</span> – Sales<span class="string">[TotalCost]</span> )</span><br></pre></td></tr></table></figure>
-<p>在上述表达式中，Sales [Amount]和Sales [TotalCost]是列引用。即：用列的名称表示列值，在示例中，可以获取SUMX当前迭代行的Sales [Amount]值。<br>    <em><em>可以理解为，SUMX 首先对每一行逐条计算。计算结果会放在一个虚拟列中。<br>    SUMX 的迭代：就是 SUMX 在对虚拟列中的结果一个一个的进行加和。<br>    而当前迭代行，就是 SUMX 现在加到哪一行，这一行就是当前迭代行。</em></em><br>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
+<p>在上述表达式中，Sales [Amount]和Sales [TotalCost]是列引用。即：用列的名称表示列值，在示例中，可以获取SUMX当前迭代行的Sales [Amount]值。</p>
+<blockquote>
+<pre><code>可以理解为，SUMX 首先对每一行逐条计算。计算结果会放在一个虚拟列中。
+SUMX 的迭代：就是 SUMX 在对虚拟列中的结果一个一个的进行加和。
+而当前迭代行，就是 SUMX 现在加到哪一行，这一行就是当前迭代行。
+</code></pre><p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
+</blockquote>
 <figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NumOfAllProducts := COUNTROWS ( VALUES ( Product[ProductName] ) )</span><br></pre></td></tr></table></figure>
-<p>*_ <code>VALUES（&lt;TableNameOrColumnName&gt;）</code><br>返回一列表或包含列中不同（唯一）值的表。<br>（我的理解是，VALUES 返回一列，而这一列进行了去重。<br>如果返回一个表，则返回完整表，不会去重。）</p>
-<p>TableNameOrColumnName ：要从中返回唯一值的列或表。</p>
-<p>返回值<br>整个表或包含一列或多列的表。<br>如果参数是单列，则为一列唯一值。<br>如果参数是表表达式，则结果具有相同的列，并且不会删除重复的行。<br>备注：<br>VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其他表存在至少一个一对多的关系，其中存在违反参照完整性的情况。<br>_*<br>在这种情况下，Product [ProductName]不检索特定行的ProductName值。相反，使用列引用来告诉VALUES要使用的列本身<br>换句话说，你引用列，而不是它的每个行值。</p>
+<blockquote>
+<pre><code> `VALUES（&lt;TableNameOrColumnName&gt;）`
+返回一列表或包含列中不同（唯一）值的表。
+（我的理解是，VALUES 返回一列，而这一列进行了去重。
+如果返回一个表，则返回完整表，不会去重。）
+
+TableNameOrColumnName ：要从中返回唯一值的列或表。
+
+返回值
+整个表或包含一列或多列的表。
+如果参数是单列，则为一列唯一值。
+如果参数是表表达式，则结果具有相同的列，并且不会删除重复的行。
+备注：
+VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其他表存在至少一个一对多的关系，其中存在违反参照完整性的情况。
+</code></pre></blockquote>
+<p>在这种情况下，Product [ProductName]不检索特定行的ProductName值。相反，使用列引用来告诉VALUES要使用的列本身<br>换句话说，你引用列，而不是它的每个行值。</p>
+<blockquote>
+<p>（我的理解是：（引用列值）就是表达式中，需要知道列中每个值是什么，是“100”还是“1000”，关心的是这个值是多少，因为要对这些值进行计算。<br>（引用列本身）就是表达式中，不关心列中的值是什么，例如要进行 Count 计数，只关心值是不是相同，不关心值本身是多少。）</p>
+</blockquote>
 <p>综合上述两种情况，可以发现 列引用 是一个有点模糊的定义，因为不管是引用了特定行中的列值，还是引用了完整的列本身，都在用相同的语法，这就很难从意思上区分开到底是在用哪一种。然而也正是这种模糊为DAX表达式带来好处，就是易于阅读（流畅地阅读）；但我们必须时刻清楚：现在使用的是列值还是列本身（列引用）。</p>
 <p>因此，作为DAX编写者，你必须一边编写DAX，一边同时思考，当前正在使用DAX列引用，还是列引用下的每个值。如果将这种思维变成了自然的感觉也就进入了DAX新的阶段。</p>
 <p>这个区分就在于：DAX计算使用的列引用是不是位于一个行上下文中。</p>
