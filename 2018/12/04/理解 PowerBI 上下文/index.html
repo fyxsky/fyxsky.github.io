@@ -79,20 +79,20 @@
 
 
 
-<meta name="description" content="本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。 关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种">
+<meta name="description" content="关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种周围环境。 DAX的计算也一定在某种环境中，那就是计算所处的计算上下文（Evaluation Context），具体而言分为：行上下文（Row Context）和筛选">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解 PowerBI 上下文">
 <meta property="og:url" content="http://fyxsky.github.io/2018/12/04/理解 PowerBI 上下文/index.html">
 <meta property="og:site_name" content="夜色凉薄">
-<meta property="og:description" content="本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。 关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种">
+<meta property="og:description" content="关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种周围环境。 DAX的计算也一定在某种环境中，那就是计算所处的计算上下文（Evaluation Context），具体而言分为：行上下文（Row Context）和筛选">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-d1fe4b49e790f460528ebcc5bcbf6cbf_hd.png">
 <meta property="og:image" content="https://pic2.zhimg.com/80/v2-87fade9d7e208d317717cf89c14d88c5_hd.png">
 <meta property="og:image" content="https://pic4.zhimg.com/80/v2-b29cc0c5f75d8fbd9087e576bf7ee1df_hd.png">
-<meta property="og:updated_time" content="2018-12-04T07:05:02.000Z">
+<meta property="og:updated_time" content="2018-12-06T12:57:14.759Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="理解 PowerBI 上下文">
-<meta name="twitter:description" content="本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。 关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种">
+<meta name="twitter:description" content="关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。 关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种周围环境。 DAX的计算也一定在某种环境中，那就是计算所处的计算上下文（Evaluation Context），具体而言分为：行上下文（Row Context）和筛选">
 <meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-d1fe4b49e790f460528ebcc5bcbf6cbf_hd.png">
 
 
@@ -319,7 +319,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T12:41:55+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T12:41:57+08:00">
                 2018-12-04
               </time>
             
@@ -379,32 +379,31 @@
       
 
       
-        <p>本文需要对DAX略有了解，你可能正模糊地理解着行上下文以及筛选上下文，那本文正适合来帮你理清这两个非常重要的DAX特性。更关键的是，本文将直接揭示DAX计算的原理。</p>
-<p>关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。</p>
+        <p>关于DAX计算，会表现为你在编写 计算列 或 度量值 时直接应用，也是建立对CALCULATE正确思维模式的基础。</p>
 <p>关于上下文（context），其含义为：周围环境。也就是说，要确定某种含义，必须考虑到它所处于的环境中，上下文正是这种周围环境。</p>
 <p>DAX的计算也一定在某种环境中，那就是计算所处的计算上下文（Evaluation Context），具体而言分为：行上下文（Row Context）和筛选上下文（Filter Context）。</p>
 <h2 id="理解DAX的计算原理"><a href="#理解DAX的计算原理" class="headerlink" title="理解DAX的计算原理"></a>理解DAX的计算原理</h2><p>DAX计算就其本质，可以理解为在建立了关系的多个表构成的数据模型上，DAX通过筛选，找到需要进行计算的一个数据模型的子集，然后完成聚合型计算。下面详细解释。</p>
 <p>如果你刚从Excel过来，那必须要了解：DAX包含了一些和Excel函数类似的函数及用法，但DAX更多地提供了专有的函数和用法。</p>
 <p>最重要的是DAX在计算上的原理和Excel是完全不同的，这也是Excel用户刚刚接触DAX后最大的问题所在，那就是带着Excel函数的思维模式来套DAX。</p>
-<p>需要强调的是：如果说Excel函数的计算是基于单元格的，那么DAX的计算是基于 列 进行的。<br>DAX基于列运算，也就保证其能大规模地处理数据。想象一下，一个日期列有一万个日期，如果是基于单元格计算，那要计算一万次，而基于列计算，也许只要1次。DAX强大的根本也正在于此。</p>
+<p>需要强调的是：如果说Excel函数的计算是基于单元格的，那么DAX的计算是基于 列 进行的。\<br>DAX基于列运算，也就保证其能大规模地处理数据。想象一下，一个日期列有一万个日期，如果是基于单元格计算，那要计算一万次，而基于列计算，也许只要1次。DAX强大的根本也正在于此。</p>
 <p>那么问题来了：DAX如何完成对特定行单元格的计算，或者说DAX如何在特定的行进行计算。</p>
-<p>也就是说：<br>DAX 具备粗犷式地按列运算，这必须做到，确保DAX可以完成大规模计算。<br>DAX 具备细腻式地按行运算，也必须做到，确保DAX可以完成精确地计算。</p>
+<p>也就是说：\<br>DAX 具备粗犷式地按列运算，这必须做到，确保DAX可以完成大规模计算。\<br>DAX 具备细腻式地按行运算，也必须做到，确保DAX可以完成精确地计算。</p>
 <p>DAX在设计上，必须兼顾这两种目标。DAX提供了两种关键特性：一种是筛选，一种是迭代。</p>
-<p>DAX筛选，就是按照一定规则（筛选规则，如切片器，Filter等）选择出模型的一个子集。<br>DAX迭代，就是进一步针对这个子集的每一行进行轮询处理（如：2017年的订单表每行的单价乘以数量便得到销售额）。<br>DAX计算，则直接完成某种聚合运算（如：SUM刚刚的每一行得到总销售额）。</p>
-<p>重要的事情值得再次强调：<br>DAX计算（往往就是CALCULATE），在本质上就是筛选出数据模型的子集，然后对行进行迭代处理后进行聚合运算。（其中的各个步骤可能省略或跳过）</p>
+<p>DAX筛选，就是按照一定规则（筛选规则，如切片器，Filter等）选择出模型的一个子集。\<br>DAX迭代，就是进一步针对这个子集的每一行进行轮询处理（如：2017年的订单表每行的单价乘以数量便得到销售额）。\<br>DAX计算，则直接完成某种聚合运算（如：SUM刚刚的每一行得到总销售额）。</p>
+<p>重要的事情值得再次强调：\<br>DAX计算（往往就是CALCULATE），在本质上就是筛选出数据模型的子集，然后对行进行迭代处理后进行聚合运算。（其中的各个步骤可能省略或跳过）</p>
 <p>注意：如果被筛选得只有一行一列，也就是出现行列交叉处，即单元格。也就完成了对单元格的处理。</p>
 <p>筛选上下文，正是完成筛选的关键机制，而行上下文，正是完成迭代中行中计算的关键机制。</p>
 <h2 id="理解行上下文"><a href="#理解行上下文" class="headerlink" title="理解行上下文"></a>理解行上下文</h2><p>【第一种情况】DAX表达式对列进行操作，通常会写下如下的表达式：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Gross Profit := SUMX ( Sales, Sales<span class="string">[Amount]</span> – Sales<span class="string">[TotalCost]</span> )</span><br></pre></td></tr></table></figure>
-<p>在上述表达式中，Sales [Amount]和Sales [TotalCost]是列引用。即：用列的名称表示列值，在示例中，可以获取SUMX当前迭代行的Sales [Amount]值。</p>
+<pre><code>Gross Profit := SUMX ( Sales, Sales[Amount] – Sales[TotalCost] )
+</code></pre><p>在上述表达式中，Sales [Amount]和Sales [TotalCost]是列引用。即：用列的名称表示列值，在示例中，可以获取SUMX当前迭代行的Sales [Amount]值。</p>
 <blockquote>
 <pre><code>可以理解为，SUMX 首先对每一行逐条计算。计算结果会放在一个虚拟列中。
 SUMX 的迭代：就是 SUMX 在对虚拟列中的结果一个一个的进行加和。
 而当前迭代行，就是 SUMX 现在加到哪一行，这一行就是当前迭代行。
 </code></pre></blockquote>
 <p>【第二种情况】DAX使用列引用来制定某些功能对列执行操作，如以下计算产品名称数量的度量：</p>
-<figure class="highlight makefile"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">NumOfAllProducts := COUNTROWS ( VALUES ( Product[ProductName] ) )</span><br></pre></td></tr></table></figure>
-<blockquote>
+<pre><code>NumOfAllProducts := COUNTROWS ( VALUES ( Product[ProductName] ) )
+</code></pre><blockquote>
 <pre><code> `VALUES（&lt;TableNameOrColumnName&gt;）`
 返回一列表或包含列中不同（唯一）值的表。
 （我的理解是，VALUES 返回一列，而这一列进行了去重。
@@ -432,14 +431,19 @@ VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其
 <li>在计算列中编写表达式时，将为每一行计算表达式，为每行创建行上下文。</li>
 <li>当使用像FILTER，SUMX，AVERAGEX，ADDCOLUMNS等属于迭代器函数的任何一个DAX函数。</li>
 </ul>
-<p>如果行上下文不可用，试图直接对列引用进行计算就会产生错误。例如：在DAX度量值中仅写入列引用，就会导致这种错误，因为行上下文不存在。如下所示的方法无效：</p>
-<pre><code>SalesAmount := Sales[Amount] 
-</code></pre><p>为了使其工作，您可以对该列进行聚合运算。事实上，SalesAmount的正确定义也应该是：</p>
-<pre><code>SalesAmount := SUM ( Sales[Amount] ) 
-</code></pre><p>SUM的本质是SUMX的变体写法，SUMX就属于迭代器函数，将遍历Sales[Amount] 列的每行，并通过行上下文，提出当前的行值（由于位于行列交叉，也就是单元格值），然后进行聚合累加运算而得到最后结果。</p>
+<p>如果行上下文不可用，试图直接对列引用进行计算就会产生错误。例如：在DAX度量值中仅写入列引用，就会导致这种错误，因为行上下文不存在。如下所示的方法无效：<br>\<br>    SalesAmount := Sales[Amount] </p>
+<p>为了使其工作，您可以对该列进行聚合运算。事实上，SalesAmount的正确定义也应该是：<br>\<br>    SalesAmount := SUM ( Sales[Amount] ) </p>
+<p>SUM的本质是SUMX的变体写法，SUMX就属于迭代器函数，将遍历Sales[Amount] 列的每行，并通过行上下文，提出当前的行值（由于位于行列交叉，也就是单元格值），然后进行聚合累加运算而得到最后结果。</p>
 <p>迭代器函数可以完成更复杂的计算，就是嵌套起来使用。例如，可以写：</p>
-<figure class="highlight accesslog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">AverageDiscountedSalesPerCustomer := </span><br><span class="line">AVERAGEX (</span><br><span class="line">    Customer,</span><br><span class="line">    SUMX (</span><br><span class="line">        RELATEDTABLE ( Sales ),</span><br><span class="line">        Sales<span class="string">[SalesAmount]</span> * Customer<span class="string">[DiscountPct]</span></span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>在最内层的表达式中，引用Sales [SalesAmount]和Customer [DiscountPct]，即来自不同表的两列。可以顺利正确地执行操作。这里有两个迭代器，分别产生行上下文：AVERAGEX在Customer表进行迭代并引入第一套上下文，SUMX在Sales表上进行迭代并引入另一套行上下文。此外，值得注意的是，RELATEDTABLE相关行还使用行上下文来确定要返回的相关行集合。事实上，RELATEDTABLE（Sales）返回当前客户的销售记录，其中“当前”是指AVERAGEX当前迭代的客户。</p>
+<pre><code>AverageDiscountedSalesPerCustomer := 
+AVERAGEX (
+    Customer,
+    SUMX (
+        RELATEDTABLE ( Sales ),
+        Sales[SalesAmount] * Customer[DiscountPct]
+    )
+)
+</code></pre><p>在最内层的表达式中，引用Sales [SalesAmount]和Customer [DiscountPct]，即来自不同表的两列。可以顺利正确地执行操作。这里有两个迭代器，分别产生行上下文：AVERAGEX在Customer表进行迭代并引入第一套上下文，SUMX在Sales表上进行迭代并引入另一套行上下文。此外，值得注意的是，RELATEDTABLE相关行还使用行上下文来确定要返回的相关行集合。事实上，RELATEDTABLE（Sales）返回当前客户的销售记录，其中“当前”是指AVERAGEX当前迭代的客户。</p>
 <h2 id="筛选上下文"><a href="#筛选上下文" class="headerlink" title="筛选上下文"></a>筛选上下文</h2><p>筛选上下文是在DAX表达式在计算开始之前就应用于数据模型的一组筛选器。例如，在数据透视表中使用度量值时，它会为每个单元格产生不同的结果，这是因为相同的表达式在将基于数据模型的不同子集进行计算。微软将数据透视表的用户界面应用的筛选器以及可以在度量值中写入的DAX表达式应用的其他筛选器统称为查询上下文。实际上，这些筛选器的效果几乎是相同的（实际差异对于这里来说并不重要），因此我们简单地将筛选上下文定义为限制DAX表达式计算（通常是度量值）的一组筛选器，不管它们是如何生成的。</p>
 <p>例如，下图中突出显示的单元格具有2007年的筛选器上下文，颜色等于Black，产品品牌等于Contoso。这就是为什么它的度量值不同的原因。</p>
 <p><img src="https://pic4.zhimg.com/80/v2-d1fe4b49e790f460528ebcc5bcbf6cbf_hd.png" alt=""></p>
@@ -490,8 +494,8 @@ VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/02/PowerBI CALCULATE &  FILTER & ALL & VALUES/" rel="next" title="PowerBI CALCULATE &  FILTER & ALL & VALUES">
-                <i class="fa fa-chevron-left"></i> PowerBI CALCULATE &  FILTER & ALL & VALUES
+              <a href="/2018/12/02/英语语法/" rel="next" title="英语语法">
+                <i class="fa fa-chevron-left"></i> 英语语法
               </a>
             
           </div>
@@ -499,6 +503,10 @@ VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/06/PowerBI DAX 从日期角度分析业务指标解决方案/" rel="prev" title="PowerBI DAX 从日期角度分析业务指标解决方案">
+                PowerBI DAX 从日期角度分析业务指标解决方案 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -575,7 +583,7 @@ VALUES类似于DISTINCT，但它可以有一个额外的空行，以防表与其
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
