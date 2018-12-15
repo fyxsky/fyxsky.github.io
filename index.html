@@ -283,6 +283,182 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/15/RFM模型的数据标准化&归一化问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/12/15/RFM模型的数据标准化&归一化问题/" itemprop="url">RFM模型的数据标准化&归一化问题</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-15T00:11:06+08:00">
+                2018-12-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/POWERBI/" itemprop="url" rel="index">
+                    <span itemprop="name">POWERBI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>我们经常要建RFM模型对用户进行分层，其中就涉及到三个不同度量的数据：</p>
+<p>R：最近交易距离当前天数</p>
+<p>F：累计单数</p>
+<p>M：累计交易金额</p>
+<p>以我这次做的超市客户分类为例，这三个字段分别是：最近一次下单距今天数、客户累计单数、客户累计交易金额。建模过程中需要设置参考值进行对比，<strong>为了让三个不同维度之间的数据在数值上有一定比较性笔者需要将数据归一化。</strong></p>
+<p>标准化R值 =</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(LOG([最近一次下单距离现在的天数],10)-&#123;fixed :min(LOG([最近一次下单距离现在的天数],10))&#125;)</span><br><span class="line">/(&#123;fixed:max(LOG([最近一次下单距离现在的天数],10))&#125;-&#123;fixed :min(LOG([最近一次下单距离现在的天数],10))&#125;)</span><br></pre></td></tr></table></figure>
+<p>标准化F值 =</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(LOG([客户累计单数],10)-&#123;fixed :min(LOG([客户累计单数],10))&#125;)</span><br><span class="line">/(&#123;fixed:max(LOG([客户累计单数],10))&#125;-&#123;fixed :min(LOG([客户累计单数],10))&#125;)</span><br></pre></td></tr></table></figure>
+<p>标准化M值 =</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(LOG([ 客户累计交易金额],10)-&#123;fixed :min(LOG([ 客户累计交易金额],10))&#125;)</span><br><span class="line">/(&#123;fixed:max(LOG([ 客户累计交易金额],10))&#125;-&#123;fixed :min(LOG([ 客户累计交易金额],10))&#125;)</span><br></pre></td></tr></table></figure>
+<p><strong>数据的标准化和归一化</strong></p>
+<p>数据的标准化（normalization）是<strong>将数据按比例缩放</strong>，<strong>使之落入一个小的特定区间</strong>。在某些比较和评价的指标处理中经常会用到，<strong>去除数据的单位限制</strong>，将其转化为无量纲的纯数值，<strong>便于不同单位或量级的指标能够进行比较和加权</strong>。其中最典型的就是数据的归一化处理，即将数据统一映射到[0,1]区间上。</p>
+<p>目前数据标准化方法有多种，归结起来可以分为直线型方法(如极值法、标准差法)、折线型方法(如三折线法)、曲线型方法(如半正态性分布)。不同的标准化方法，对系统的评价结果会产生不同的影响，然而不幸的是，在数据标准化方法的选择上，还没有通用的法则可以遵循。</p>
+<h2 id="归一化的目标"><a href="#归一化的目标" class="headerlink" title="归一化的目标"></a><strong>归一化的目标</strong></h2><p>1. 把数变为（0，1）之间的小数<br>主要是为了数据处理方便提出来的，把数据映射到0～1范围之内处理，更加便捷快速，应该归到数字信号处理范畴之内。<br>2. 把有量纲表达式变为无量纲表达式<br>归一化是一种简化计算的方式，即将有量纲的表达式，经过变换，化为无量纲的表达式，成为纯量。</p>
+<h2 id="归一化的好处"><a href="#归一化的好处" class="headerlink" title="归一化的好处"></a><strong>归一化的好处</strong></h2><p><strong>提升模型的精度</strong></p>
+<p><strong>在多指标评价体系中，由于各评价指标的性质不同，通常具有不同的量纲和数量级。当各指标间的水平相差很大时，如果直接用原始指标值进行分析，就会突出数值较高的指标在综合分析中的作用，相对削弱数值水平较低指标的作用。因此，为了保证结果的可靠性，需要对原始指标数据进行标准化处理。</strong></p>
+<p>在数据分析之前，我们通常需要先将数据标准化（normalization），利用标准化后的数据进行数据分析。数据标准化也就是统计数据的指数化。数据标准化处理主要包括数据同趋化处理和无量纲化处理两个方面。数据同趋化处理主要解决不同性质数据问题，对不同性质指标直接加总不能正确反映不同作用力的综合结果，须先考虑改变逆指标数据性质，使所有指标对测评方案的作用力同趋化，再加总才能得出正确结果。数据无量纲化处理主要解决数据的可比性。经过上述标准化处理，原始数据均转换为无量纲化指标测评值，即各指标值都处于同一个数量级别上，可以进行综合测评分析。</p>
+<p><strong>从经验上说，归一化就是让不同维度之间的特征在数值上有一定比较性，可以大大提高分类器的准确性。</strong></p>
+<h2 id="两种常见的数据归一化方法"><a href="#两种常见的数据归一化方法" class="headerlink" title="两种常见的数据归一化方法"></a><strong>两种常见的数据归一化方法</strong></h2><h2 id="min-max标准化-0-1标准化"><a href="#min-max标准化-0-1标准化" class="headerlink" title="min-max标准化/0-1标准化"></a>min-max标准化/0-1标准化</h2><p>也叫离差标准化，是对原始数据的线性变换，<strong>使结果落到[0,1]区间</strong>，转换函数如下：</p>
+<p><img src="https://pic4.zhimg.com/80/v2-eed65a65b76a296a773234405d2862df_hd.jpg" alt=""></p>
+<p>其中max为样本数据的最大值，min为样本数据的最小值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def Normalization(x):</span><br><span class="line">    return [(float(i)-min(x))/float(max(x)-min(x)) for i in x]</span><br></pre></td></tr></table></figure>
+<h2 id="log函数转换"><a href="#log函数转换" class="headerlink" title="log函数转换"></a>log函数转换</h2><p>通过以10为底的log函数转换的方法同样可以实现归一下，具体方法如下：</p>
+<p><img src="https://pic1.zhimg.com/80/v2-5c512cf92d04d8b3b7c63e988ae12348_hd.jpg" alt=""></p>
+<p>看了下网上很多介绍都是x*=log10(x)，其实是有问题的，这个结果并非一定落到[0,1]区间上，应该还要除以log10(max)，max为样本数据最大值，并且所有的数据都要大于等于1。</p>
+<h2 id="z-score-标准化-也就是统计学中的标准分，或者叫Z分"><a href="#z-score-标准化-也就是统计学中的标准分，或者叫Z分" class="headerlink" title="z-score 标准化(也就是统计学中的标准分，或者叫Z分)"></a>z-score 标准化(也就是统计学中的标准分，或者叫Z分)</h2><p>最常见的标准化方法就是Z标准化，也是SPSS中最为常用的标准化方法，spss默认的标准化方法就是z-score标准化。</p>
+<p>也叫标准差标准化，这种方法给予原始数据的均值（mean）和标准差（standard deviation）进行数据的标准化。</p>
+<p>经过处理的数据符合标准正态分布，即均值为0，标准差为1，其转化函数为：</p>
+<p><img src="https://pic3.zhimg.com/80/v2-d39ae7d7c0f5d9e8a99b13af0edfe32a_hd.jpg" alt=""></p>
+<p><strong>其中μ为所有样本数据的均值，σ为所有样本数据的标准差。</strong></p>
+<p><strong>这个方法还可以理解为：距离均值有z个标准差 ( x - </strong>μ<strong> = z</strong>σ<strong>)</strong></p>
+<p>z-score标准化方法适用于属性A的最大值和最小值未知的情况，或有超出取值范围的离群数据的情况。</p>
+<p><strong>标准化的公式很简单，步骤如下</strong></p>
+<p>　　1.求出各变量（指标）的算术平均值（数学期望）μ 和标准差 σ ;<br>　　2.进行标准化处理：<br>　　z=（<strong>x - </strong>μ）/ σ<br>　　其中：<strong>z为标准化后的变量值；x为实际变量值。</strong><br>　　3.将逆指标前的正负号对调。<br><strong>标准化后的变量值围绕0上下波动，大于0说明高于平均水平，小于0说明低于平均水平。</strong></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/13/购物篮分析分解说明/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -314,7 +490,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-13T15:54:01+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-13T16:31:29+08:00">
                 2018-12-13
               </time>
             
@@ -483,7 +659,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-09T18:48:20+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-09T18:42:50+08:00">
                 2018-12-09
               </time>
             
@@ -721,7 +897,7 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T20:58:38+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T09:32:30+08:00">
                 2018-12-06
               </time>
             
@@ -894,7 +1070,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/06/理解 PowerBI 上下文/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/04/理解 PowerBI 上下文/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -913,7 +1089,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/06/理解 PowerBI 上下文/" itemprop="url">理解 PowerBI 上下文</a></h1>
+                <a class="post-title-link" href="/2018/12/04/理解 PowerBI 上下文/" itemprop="url">理解 PowerBI 上下文</a></h1>
         
 
         <div class="post-meta">
@@ -925,8 +1101,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T20:57:14+08:00">
-                2018-12-06
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-04T12:41:57+08:00">
+                2018-12-04
               </time>
             
 
@@ -1126,7 +1302,7 @@ AVERAGEX (
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/PowerBI CALCULATE &  FILTER & ALL & VALUES/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/英语语法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1145,7 +1321,7 @@ AVERAGEX (
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/02/PowerBI CALCULATE &  FILTER & ALL & VALUES/" itemprop="url">PowerBI CALCULATE &  FILTER & ALL & VALUES</a></h1>
+                <a class="post-title-link" href="/2018/12/02/英语语法/" itemprop="url">英语语法</a></h1>
         
 
         <div class="post-meta">
@@ -1157,8 +1333,1520 @@ AVERAGEX (
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:56:36+08:00">
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:35:55+08:00">
                 2018-12-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/ENGLISH/" itemprop="url" rel="index">
+                    <span itemprop="name">ENGLISH</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>Pocket英语语法(崔荣容)-视频笔记</p>
+<h1 id="第一讲-语序和五种基本句式"><a href="#第一讲-语序和五种基本句式" class="headerlink" title="第一讲 语序和五种基本句式"></a>第一讲 语序和五种基本句式</h1><p>He learns English every day.</p>
+<p>他每天学习英语。</p>
+<p>（中英语序不同）</p>
+<p>英语五种基本句式</p>
+<p>一、主+谓</p>
+<p>二、主+系+表   </p>
+<p>系动词：起到联系作用的动词，连接主语与表语。</p>
+<p>表语：描述主语的身份、性质、特征、状态</p>
+<p>三、主+谓+宾</p>
+<p>主语：动作发出者</p>
+<p>谓语：作出的动作</p>
+<p>宾语：动作的对象</p>
+<p>四、主+谓+间宾+直宾</p>
+<p>间宾：通常是人</p>
+<p>直宾：通常是物</p>
+<p>五、主+谓+宾+宾补</p>
+<p>  宾补：对宾语的补充说明</p>
+<p>一、主+谓</p>
+<p> The universe remains.</p>
+<p>  宇宙长存</p>
+<p>  中英文语序一致</p>
+<p>二、主+系+表</p>
+<p>The food is delicious.</p>
+<p>  这个食物很好吃</p>
+<p> 中英文语序一致</p>
+<p>三、主+谓+宾</p>
+<p>He took his bag and left.（left是第二个谓语）</p>
+<p>他拿着他的包离开了</p>
+<p>中英文语序一致</p>
+<p>四、主+谓+间宾+直宾</p>
+<p>Her father bought her a dictionary.  buy sb sth（双宾语）</p>
+<p>她爸爸给她买了一本词典  （her与 a dictionary，两个宾语，一个是人、一个是物）</p>
+<p>中英文语序一致</p>
+<p>五、主+谓+宾+宾补</p>
+<p>We made him our monitor.</p>
+<p>我们选他当班长</p>
+<p> （him与 our monitor，都是指同一个人，our monitor是对him的补充说明）</p>
+<p>中英文语序一致</p>
+<p>Nothing is impossible to a willing heart!</p>
+<p>有志者事竟成！</p>
+<h1 id="第二讲-be动词的形式和用法"><a href="#第二讲-be动词的形式和用法" class="headerlink" title="第二讲 be动词的形式和用法"></a>第二讲 be动词的形式和用法</h1><p>一、be动词的形式：be、am、is、are、was、were、being 、been</p>
+<p>1、 The man is back.</p>
+<p>2、 They are back.</p>
+<p>3、 He was back.</p>
+<p>4、 They were back.</p>
+<p>5、 They have been back.</p>
+<p>6、 I’ll be back.</p>
+<p>上述“back”是副词，构成主系表结构。</p>
+<p>二、be动词的用法：起到联系前后的作用(一般翻译为“是”，或无实意而不作翻译)，多用于主系表结构。后面接名词、形容词、地点副词或短语作补足语成分。</p>
+<p>1、 The man is a teacher. a teacher是名词</p>
+<p>2、 Mary’s new dresses are colorful. colorful是形容词</p>
+<p>3、 My mother was in the kitchen.  in the kitchen是地点副词。</p>
+<p>4、 I am 20. 数词也可做表语</p>
+<p>5、 It’s me. 代词也可做表语</p>
+<p>三、be动词的练习</p>
+<p>1、 他们是老师</p>
+<p>They are teachers.</p>
+<p>2、 他曾是一名老师</p>
+<p>He was a teacher before.</p>
+<p>3、 他已经当了3年的老师</p>
+<p>He has been a teacher for 3 years.</p>
+<h1 id="第三讲-be动词的否定-提问-回答"><a href="#第三讲-be动词的否定-提问-回答" class="headerlink" title="第三讲 be动词的否定/提问/回答"></a>第三讲 be动词的否定/提问/回答</h1><p>一、be动词的否定</p>
+<p>在am、is、are、was、were后面加not</p>
+<p>缩略式am not，isn’t,aren’t,wasn’t,weren’t</p>
+<p>1、 The man isn’t back.</p>
+<p>2、 I am not back.</p>
+<p>3、 They aren’t back.</p>
+<p>4、 He wasn’t back.</p>
+<p>5、 They weren’t back.</p>
+<p>二、使用be动词提问和回答</p>
+<p>Is he a teacher？</p>
+<p>Yes,he is./No,he isn’t.</p>
+<p>Are you a teacher?</p>
+<p>Yes,I am./No,I am not.</p>
+<p>Were they teachers?</p>
+<p>Yes,they were./No,they weren’t.</p>
+<p>三、be动词的练习：</p>
+<p>1、 他是医生吗？</p>
+<p>Is he a doctor?</p>
+<p>  不，他不是</p>
+<p> No,he isn’t.</p>
+<p>2、 他们昨天在教室吗？</p>
+<p> Were they in the classroom yesterday?</p>
+<p> Yes,they were./No,they weren’t.</p>
+<p>3、 他们昨天不在教室</p>
+<p>They weren’t in the classroom yesterday.</p>
+<h1 id="第四讲-代词的主格和宾格"><a href="#第四讲-代词的主格和宾格" class="headerlink" title="第四讲 代词的主格和宾格"></a>第四讲 代词的主格和宾格</h1><p>主格代词：I he she it you we they</p>
+<p>1、I am a teacher.</p>
+<p>2、He is a teacher.</p>
+<p>3、You are teachers.</p>
+<p>宾格代词：me him her it you us them</p>
+<p>1、 He likes me.</p>
+<p>2、 We like her.</p>
+<p>3、 I like them.</p>
+<p>练习</p>
+<p>1、 我喜欢它</p>
+<p> I like it.</p>
+<p>2、他们认识他</p>
+<p> They know him.</p>
+<h1 id="第五讲-名词性-形容词性物主代词"><a href="#第五讲-名词性-形容词性物主代词" class="headerlink" title="第五讲 名词性/形容词性物主代词"></a>第五讲 名词性/形容词性物主代词</h1><p>形容词性物主代词：（后接名词）</p>
+<p>单数形式：my your his/her/its one’s</p>
+<p>复数形式：our your their</p>
+<p>1、 This is my book.</p>
+<p>2、 We love our motherland.</p>
+<p>3、 Those are your socks.</p>
+<p>名词性物主代词：</p>
+<p>单数形式：mine yours his/hers/its one’s</p>
+<p>复数形式：ours yours theirs</p>
+<p>1、 The book is ours.</p>
+<p>2、 The apple is hers.</p>
+<p>练习</p>
+<p>1、 我的老师是中国人</p>
+<p>My teacher is Chinese.</p>
+<p>2、 这个电脑是他们的</p>
+<p>This computer is theirs.</p>
+<p>3、 我们的书在书架上</p>
+<p>Our book is on the shelf.</p>
+<table>
+<thead>
+<tr>
+<th>主格</th>
+<th>宾格</th>
+<th>形容词性物主代词</th>
+<th>名词性物主代词</th>
+<th>反身代词</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I</td>
+<td>me</td>
+<td>my</td>
+<td>mine</td>
+<td>myself</td>
+</tr>
+<tr>
+<td>you</td>
+<td>you</td>
+<td>your</td>
+<td>yours</td>
+<td>yourself</td>
+</tr>
+<tr>
+<td>he</td>
+<td>him</td>
+<td>his</td>
+<td>his</td>
+<td>himself</td>
+</tr>
+<tr>
+<td>she</td>
+<td>her</td>
+<td>her</td>
+<td>hers</td>
+<td>herself</td>
+</tr>
+<tr>
+<td>it</td>
+<td>it</td>
+<td>its</td>
+<td>its</td>
+<td>itself</td>
+</tr>
+<tr>
+<td>we</td>
+<td>us</td>
+<td>our</td>
+<td>ours</td>
+<td>ourselves</td>
+</tr>
+<tr>
+<td>you</td>
+<td>you</td>
+<td>your</td>
+<td>yours</td>
+<td>yourselves</td>
+</tr>
+<tr>
+<td>they</td>
+<td>them</td>
+<td>their</td>
+<td>theirs</td>
+<td>themselves</td>
+</tr>
+</tbody>
+</table>
+<h1 id="第六讲-反身代词"><a href="#第六讲-反身代词" class="headerlink" title="第六讲 反身代词"></a>第六讲 反身代词</h1><p>单数myself yourself himself herself itself</p>
+<p>复数ourselves yourselves themselves</p>
+<p>反身代词的用法：（指某人自己，通常是主语的“自己”）</p>
+<p>1、 Please help yourself to some fish.请随便吃些鱼吧</p>
+<p>yourself在动词help后作宾语。</p>
+<p>2、 We enjoyed ourselves last night.我们昨晚玩得很开心</p>
+<p>ourselves在动词enjoyed后作宾语。</p>
+<p>3、 The thing itself is not important.这件事本身不重要</p>
+<p>反身代词itself在名词The thing后作同位语，起到解释、说明名词的作用。</p>
+<p>练习</p>
+<p>1、 Take good care of（yourself ）  照顾好……</p>
+<p>2、 She gained control of (herself ) 控制住了……</p>
+<h1 id="第七讲-实意动词的特征"><a href="#第七讲-实意动词的特征" class="headerlink" title="第七讲 实意动词的特征"></a>第七讲 实意动词的特征</h1><p>实意动词come go read watch play fly</p>
+<p>1、He comes from Shenyang.</p>
+<p>  实意动词comes作谓语，后接介词短语from Shenyang作宾语</p>
+<p>  动词come 有一般现在时“单三”的变化</p>
+<p>2、She is reading story books.</p>
+<p>  实意动词reading作谓语，后接动词story books作宾语</p>
+<p>  动词read有现在进行时的变化</p>
+<p>3、They went to America yesterday.</p>
+<p>  动词go 有一般过去时“went”的变化</p>
+<p>4、We have watched the game for three times.</p>
+<p>  动词watch 有现在完成时“watched”的变化</p>
+<p>  现在完成时：动作已经发生或对现在造成影响</p>
+<p>5、My mother will fly back to China next month.</p>
+<p>  一般将来时：will+动词原形</p>
+<p>总结：实意动词有时态与数量（三单）上的变化</p>
+<p>练习：</p>
+<p>1、他昨天来上海了</p>
+<p> He came to ShangHai yesterday.</p>
+<p>2、我们正在写作业</p>
+<p> We are writing homework.</p>
+<p>3、他们读这本书已经读3遍了</p>
+<p> They have read this book three times.</p>
+<h1 id="第八讲-实意动词的否定-提问-回答"><a href="#第八讲-实意动词的否定-提问-回答" class="headerlink" title="第八讲 实意动词的否定/提问/回答"></a>第八讲 实意动词的否定/提问/回答</h1><p>(一般现在时与一般过去时)</p>
+<p>使用助动词进行否定</p>
+<p>在助动词do does did后面加not</p>
+<p>do not/don’t</p>
+<p>does not/doesn’t</p>
+<p>did not/didn’t</p>
+<p>例句：</p>
+<p>1.I don’t go to school by bus.</p>
+<p>2.She doesn’t watch TV everyday.</p>
+<p>3.They didn’t swim last night.</p>
+<p>使用助动词进行提问</p>
+<ol>
+<li>He often plays golf.</li>
+</ol>
+<p>Does he often play golf?</p>
+<p> Yes,he does./No,he doesn’t.</p>
+<ol start="2">
+<li>They go to school by bus.</li>
+</ol>
+<p>Do they go to school by bus?</p>
+<p>Yes they do./No,they don’t.</p>
+<ol start="3">
+<li>Sam had breakfast yesterday.</li>
+</ol>
+<p>Did Sam have breakfast yesterday?</p>
+<p>Yes,he did./No,he didn’t.</p>
+<p>练习：</p>
+<ol>
+<li>他每天都学英语吗？</li>
+</ol>
+<p>Does he learn English everyday?</p>
+<p>是的，他每天都学英语</p>
+<p>Yes,he does.</p>
+<ol start="2">
+<li>Tom昨天没吃早饭</li>
+</ol>
+<p>Tom didn’t have breakfast yesterday.</p>
+<h1 id="第九讲-使用疑问词进行提问和回答（1）"><a href="#第九讲-使用疑问词进行提问和回答（1）" class="headerlink" title="第九讲 使用疑问词进行提问和回答（1）"></a>第九讲 使用疑问词进行提问和回答（1）</h1><p>(一般现在时与一般过去时)</p>
+<p>使用疑问词进行提问</p>
+<p>when,where,who,what,how</p>
+<p>时间、地点、人物、干什么、怎样</p>
+<p>例句</p>
+<p>He bought three books yesterday.</p>
+<p> 1            2 3</p>
+<ol>
+<li>Who bought three books yesterday?</li>
+</ol>
+<p>对主语提问，原语序不变</p>
+<ol start="2">
+<li>What did he buy yesterday? </li>
+</ol>
+<p>对宾语提问时，将助动词提前，并还原动词。</p>
+<ol start="3">
+<li>When did he buy three books?</li>
+</ol>
+<p>对状语提问时，将助动词提前，并还原动词。</p>
+<p>They wanted to go to ShangHai by air.</p>
+<p> 1 2 3</p>
+<ol>
+<li><p>Who wanted to go to ShangHai by air?</p>
+</li>
+<li><p>Where did they want to go by air?</p>
+</li>
+<li><p>How did they want to go to ShangHai?</p>
+</li>
+</ol>
+<h1 id="第十讲-使用疑问词进行提问和回答（2）"><a href="#第十讲-使用疑问词进行提问和回答（2）" class="headerlink" title="第十讲 使用疑问词进行提问和回答（2）"></a>第十讲 使用疑问词进行提问和回答（2）</h1><p>使用疑问词进行提问</p>
+<p>how long, how far, how often, why</p>
+<p>多长时间，多远， 多长时间一次，为什么</p>
+<ol>
+<li>They have been in China for three years.</li>
+</ol>
+<p>How long have they been in China? 对时间状语提问</p>
+<p>2.It is about 4000 kilometers from Beijing to Xi’an.</p>
+<p>How far is it from Beijing to Xi’an?</p>
+<p>3.They come to visit me once a week.</p>
+<p>How often do they come to visit me?</p>
+<ol start="4">
+<li>She came late, because she missed the bus.</li>
+</ol>
+<p>Why did she come late?</p>
+<p>练习：</p>
+<ol>
+<li>他们学汉语多长时间了？</li>
+</ol>
+<p>How long have they learned Chinese?</p>
+<ol start="2">
+<li>你多长时间看一次电影？</li>
+</ol>
+<p>How often do you watch movies?</p>
+<ol start="3">
+<li>你的家离学校多远？</li>
+</ol>
+<p>How far is it from your house to your school?</p>
+<h1 id="第十一讲-名词"><a href="#第十一讲-名词" class="headerlink" title="第十一讲 名词"></a>第十一讲 名词</h1><p>代表事物的词，包括具体和抽象的事物</p>
+<p>名词分两类：</p>
+<p>1． 可数名词：是指数得过来的概念。如apple\pencil\student</p>
+<p>可数名词有单数和复数之分</p>
+<p>apple-apples</p>
+<p>pencil-pencils</p>
+<p>tomato-tomatoes</p>
+<p>2． 不可数名词：无法计算的数量或抽象概念。如salt\coffee\water(history\love抽象)</p>
+<p>不可数名词无复数，只用单数表示</p>
+<p>salt-salt</p>
+<p>coffee-coffee</p>
+<p>water-water</p>
+<p>3． 可数名词变复数规则：</p>
+<p>（1） 一般末尾加后缀-s，friend-friends</p>
+<p>（2） 以s\z\x\ch\sh结尾的词，在该词末尾加后缀-es，bus-buses</p>
+<p>（3） 辅音字母+y结尾的名词，将y改变为i,再加es，candy-candies (除a e i o u以外的字母为辅音字母)</p>
+<p>（4） 以-o结尾的名词，如果不是外来词或缩写，就加-es. tomato-tomatoes,hippo-hippos缩写</p>
+<p>(从非英语国家引进的词汇为外来词，如madam是从法国引进的外来词)</p>
+<p>3、 可数名词前可加a(an)或量词，有复数变化</p>
+<p>以元音开头的名词前加an，以辅音开头的名词前加a，表示一个。</p>
+<p>apple——an apple——apples</p>
+<p>  ——a box of apples 量词</p>
+<p>Tomato——a tomato——tomatoes</p>
+<p>  ——a bag of tomatoes 量词</p>
+<p>4、 不可数名词前不可加a(an)，没有复数，但前面可以加量词。</p>
+<p>Coffee——a cup of coffee</p>
+<p>练习：</p>
+<p>He bought me (a box of chocolate )一盒巧克力</p>
+<p> (a bike) 一辆自行车</p>
+<h1 id="第十二讲-代词：指示代词和不定代词"><a href="#第十二讲-代词：指示代词和不定代词" class="headerlink" title="第十二讲 代词：指示代词和不定代词"></a>第十二讲 代词：指示代词和不定代词</h1><p>指示代词（特指）：标识人或事物的代词，用来代替前面已提到的名词。</p>
+<p>常用的：this\these\that\those</p>
+<p>This is his book.</p>
+<p>Those apples were his.</p>
+<p>不定代词（泛指）：指代不确定的人或事物。</p>
+<p>常用的：one\the other\some\any\something\nothing</p>
+<p>例：</p>
+<p>No one knows where he is. 没人知道他在哪儿</p>
+<p>Some of the boys want to go to Shanghai,but the others want to go to Xi’an.一些男孩想去上海，其他人想去西安</p>
+<p>Each of the students has got a book. 每个学生都有一本书。</p>
+<p>练习</p>
+<p>1.（These）teachers are from China.</p>
+<p>  这些教师都是中国来的。</p>
+<p>2.I know(nothing )about this person.</p>
+<p>  我对这个人一无所知</p>
+<p>3.I have (something)to tell you.</p>
+<p>  我有事要告诉你</p>
+<h1 id="第十三讲-形容词"><a href="#第十三讲-形容词" class="headerlink" title="第十三讲 形容词"></a>第十三讲 形容词</h1><p>1、形容词通常形容人或事物的状态、性质、大小等，通常用在名词前，be动词后</p>
+<p>beautiful-beautiful girl</p>
+<p>The girl is beautiful.</p>
+<p>2、The+形容词=复数名词（表示一类），作主语时，后面的动词使用复数的相应格式。</p>
+<p> old-the old 老的—老年人（一类人、复数名词）</p>
+<p> young-the young 年轻的—年轻人（一类人、复数名词）</p>
+<p> The old need more care than the young.</p>
+<p> The old是复数名词，后面的动词need不能用三单的格式。</p>
+<p>3、练习：</p>
+<p>  （1）She is a ( good )student.</p>
+<p>  她是一个好学生。</p>
+<p> (2)This bike is ( expensive )</p>
+<p> 这辆自行车很贵</p>
+<p>  （3）（ The rich ）sometimes complain their empty life.</p>
+<p>  富人有时抱怨他们空虚的生活</p>
+<h1 id="第十四讲-副词"><a href="#第十四讲-副词" class="headerlink" title="第十四讲 副词"></a>第十四讲 副词</h1><p>1、副词可以修饰动词、形容词、其它副词以及其他结构。一般表程度。</p>
+<p> He runs fast.</p>
+<p> She is very beautiful. very修饰形容词beautiful</p>
+<p> They work very hard.</p>
+<p>副词的位置</p>
+<p>（1） 根据情况，放在助动词之后，实意动词之前或之后</p>
+<p>（2） 形容词之前，其它副词之前或之后</p>
+<p>（3） 多个助动词时，副词一般放在第一个助动词后</p>
+<p>He speaks very fast.  </p>
+<p>fast在实意动词speak之后,在其它副词very之后。</p>
+<p>They have already left.</p>
+<p>already在助动词have后</p>
+<p>They have already been repaired.</p>
+<p>already在第一个助动词have后</p>
+<p>2、 常用的频度副词</p>
+<p>（always\usually\often\sometimes\never……）的位置通常放在实意动词前面，be动词后面，助动词和实意动词之间。</p>
+<p>They always come early.</p>
+<p>Sam often writes homework at 7:00.</p>
+<p>练习：</p>
+<p>1、Please write the word( slowly)(慢慢地)</p>
+<p>2、They (sometimes)come here. (有时)</p>
+<p>3、The tree is ( very )tall.(非常)</p>
+<h1 id="第十五讲-不定量表达法（1）"><a href="#第十五讲-不定量表达法（1）" class="headerlink" title="第十五讲 不定量表达法（1）"></a>第十五讲 不定量表达法（1）</h1><p>不确定数量的表达法，用不确定的数量词来限定名词</p>
+<p>Some   any  most  every  all</p>
+<p>1． some,any都表示“一些”，后面接可数名词复数、不可数名词单数。some主要用于肯定句，希望得到肯定回答时，也可用在疑问句中。any主要用在否定和疑问句中。</p>
+<p> I’d been expecting some letters the whole morning,but there weren’t any for me.</p>
+<ol start="2">
+<li>most作形容词时表示“大部分的”，后面接复数名词</li>
+</ol>
+<p>Most people here are from China.</p>
+<ol start="3">
+<li>every表示“每一个、所有”，后面接单数名词。</li>
+</ol>
+<p>Every one likes the film.</p>
+<ol start="4">
+<li>all表示“所有”，后面接可数名词复数、不可数名词单数。</li>
+</ol>
+<p>All the cars are parked in the parking lot.</p>
+<p>All the coffee is served on time.</p>
+<p>练习：</p>
+<ol>
+<li><p>Some boys went camping yesterday.(一些)</p>
+</li>
+<li><p>All the children like to play football.(所有的)</p>
+</li>
+<li><p>Most teachers want to work here.（大多数）</p>
+</li>
+</ol>
+<h1 id="第十六讲-不定量表达法（2）"><a href="#第十六讲-不定量表达法（2）" class="headerlink" title="第十六讲 不定量表达法（2）"></a>第十六讲 不定量表达法（2）</h1><ol>
+<li>both表示“两者都”，可作形容词、代词和副词，either是“两者之一”，neither是“两者都不”。</li>
+</ol>
+<p>Both his eyes were severely burned.</p>
+<p>There are trees on either side of the street.</p>
+<p>Neither answer is correct.</p>
+<ol start="2">
+<li>many修饰可数名词，表示“许多”；much修饰不可数名词，表示“许多”。a lot of(lots of)、plenty of均可修饰可数与不可数名词。</li>
+</ol>
+<p>many books       much water</p>
+<p>a lot of/lots of books/water</p>
+<p>练习：</p>
+<ol>
+<li><p>Both the hands are washed.(两个都)</p>
+</li>
+<li><p>Xiaowang drank much (a lot of )coffee last night.(很多)</p>
+</li>
+</ol>
+<h1 id="第十七讲-不定量表达法（3）"><a href="#第十七讲-不定量表达法（3）" class="headerlink" title="第十七讲 不定量表达法（3）"></a>第十七讲 不定量表达法（3）</h1><p>1.a few,为肯定含义“几个”；few，为否定含义“没几个”，以上两个词均和可数名词复数连用。</p>
+<p>A few books are put into the box.</p>
+<p>Few books are put onto the box.</p>
+<p>2.a little为肯定含义“一点儿”，little为否定含义“没多点”，以上两个词均可和不可数名词连用。</p>
+<p>There is a little water in the bottle.</p>
+<p>There is little water in the bottle.</p>
+<ol start="3">
+<li>none和no one的意思相同，主要作代词，翻译为“一个也不，一点也不”，用法稍有区别。</li>
+</ol>
+<p>none可以接of短语，动词可用单数也可用复数。</p>
+<p>no one不能接of短语，动词只能用单数。</p>
+<p>No one knows the answer.</p>
+<p>None of us have(has)arrived.</p>
+<p>练习：</p>
+<p>A few books are put into the box. (几本)</p>
+<p>There is a little water in the bottle. (一点儿)</p>
+<p>None of us have(has) arrived. (没有一个)</p>
+<h1 id="第十八讲-There-Here-be句型"><a href="#第十八讲-There-Here-be句型" class="headerlink" title="第十八讲 There/Here be句型"></a>第十八讲 There/Here be句型</h1><p>1.There/Here+be，根据上下文，有多种翻译方法，可以翻译成“有”、“是”，be动词根据后面的名词有单复数变化。</p>
+<p>There is a book on the bookshelf. 有……</p>
+<p>There are some books on the bookshelf. 有……</p>
+<p>Here is the bus stop. 这儿是……</p>
+<p>Here are your books. 这儿是……</p>
+<p>如Here are your books的正常语序为Your books are here，主语是Your books，are是be动词，here就表语，所以，There/Here+be为倒装句，实质为主系表结构。</p>
+<p>练习：</p>
+<ol>
+<li><p>There is a lot of water in the bottle.(有)</p>
+</li>
+<li><p>Here is your car.(这是)</p>
+</li>
+<li><p>There are many students in the room.(有)</p>
+</li>
+</ol>
+<h1 id="第十九讲-一般现在时和现在进行时"><a href="#第十九讲-一般现在时和现在进行时" class="headerlink" title="第十九讲 一般现在时和现在进行时"></a>第十九讲 一般现在时和现在进行时</h1><p>1.一般现在时：表示通常性、规律性、习惯性的状态或动作。主语是单数第三人称，动词有单三的变化，主语是非第三人称单数时，动词为原形。</p>
+<p> They often get up at 7:00.</p>
+<p> He often gets up at 7:00.</p>
+<p> 一般现在时，动词的单三变化:</p>
+<p> (1)在动词尾直接加-s，如：play—plays</p>
+<p> (2)以字母s、x、ch或o结尾的动词加-es，如:guess—guesses</p>
+<p> (3)以辅音字母+y结尾的动词，先变y为i,再加-es，如：    </p>
+<p> Study—studies</p>
+<p>  一般现在时否定和疑问句用do、does帮助构成</p>
+<p> He doesn’t like the car.</p>
+<p> Does he like the car?</p>
+<p> Yes,he does./No,he doesn’t.</p>
+<p>They don’t like the car.</p>
+<p> Do they like the car?</p>
+<p> Yes,they do./No,they don’t.</p>
+<p>2.现在进行时表示现在正在进行或发生的动作。句中通常有now等时间副词呼应，基本构成形式为be+doing。</p>
+<p>They are watching TV.</p>
+<p>He is watching TV.</p>
+<p>I am watching TV.</p>
+<p>动词现在分词的变化规则：</p>
+<p>（1）一般情况下，直接在动词后加-ing，如work-working</p>
+<p> (2)动词以不发音的-e结尾，要去e加ing，如take-taking</p>
+<p>(3)重读闭音节的动词，要双写词尾字母，再加-ing，如:cut-cutting</p>
+<p>(4)以-ie结尾的动词，变y再加-ing，如:lie-lying</p>
+<p>现在进行时变否定句和疑问句时，将be动词否定或提前。</p>
+<p>（1）They aren’t watching TV.</p>
+<p> Are they watching TV?</p>
+<p> (2)He isn’t watching TV.</p>
+<p> Is he watching TV?</p>
+<p> (3)Am I watching TV?</p>
+<p>Yes,you are./No,you aren’t.</p>
+<p>练习：</p>
+<ol>
+<li><p>He works (work) very late every day.</p>
+</li>
+<li><p>Do you study English yourself?</p>
+</li>
+</ol>
+<p>Yes, I do.</p>
+<ol start="3">
+<li>They are playing (play)soccer now.</li>
+</ol>
+<h1 id="第二十讲-一般过去时和过去进行时"><a href="#第二十讲-一般过去时和过去进行时" class="headerlink" title="第二十讲 一般过去时和过去进行时"></a>第二十讲 一般过去时和过去进行时</h1><p> 1.一般过去时表示过去某个时间里发生的动作或状态；过去习惯性、经常性的行为。</p>
+<p>基本结构：主语+动词过去式+其他，一般动词在动词后面加ed，还有一些不规则动词有不规则变化。</p>
+<p>Play—played come—came</p>
+<ol>
+<li><p>He worked very hard last night.</p>
+</li>
+<li><p>They came here by car.</p>
+<p>动词一般过去时变化规则：</p>
+</li>
+</ol>
+<p>（1） 一般在动词后加-ed。如：play—played</p>
+<p>（2） 在以字母e结尾的动词后，只加-d。如：like—liked</p>
+<p>（3） 在以“辅音字母+y”结尾的动词后，改y为i,再加-ed。</p>
+<p>如：supply—supplied</p>
+<p>（4） 在以重读闭音节结尾且末尾只有一个辅音字母的动词后，双写最后一个辅音字母，再加-ed。如：plan—planned</p>
+<p>2.过去进行时表示在过去某一时刻或某一段时间正在进行或发生的动作。其形式为was/were+doing</p>
+<p> They were waiting for you.</p>
+<p> He was talking with his friends just now.</p>
+<p>练习：</p>
+<ol>
+<li><p>They went (go)swimming yesterday.</p>
+</li>
+<li><p>Sam was watching (watch)TV at 7:00 last night.</p>
+</li>
+</ol>
+<h1 id="第二十一讲-将来时"><a href="#第二十一讲-将来时" class="headerlink" title="第二十一讲 将来时"></a>第二十一讲 将来时</h1><p>一般将来时表示将来某一时刻的动作或状态，或将来某一段时间内经常发生的动作或状态。常常和表示将来的时间状语连用。</p>
+<p>  如：tomorrow （明天）</p>
+<p> next week （下周）</p>
+<p> in the future (将来)</p>
+<p>1.“助动词will或shall+动词原形”，表示将要发生的事情。</p>
+<p>（1） They will go to Shanghai by ship tomorrow.</p>
+<p>（2） We shall leave for Shanghai next month.离开去上海</p>
+<p>  2.“be going to+动词原形”用来表示近期或事先考虑过的将要发生的动作以及已有迹象表明必将发生某事，意为“打算、就要”。</p>
+<p>They are going to play football this afternoon.</p>
+<p>She is going to learn French next year.</p>
+<p>   3.“be doing”表示位置转移的动词。如：go,come,leave, start,arrive,可用现在进行时表示将来时。</p>
+<p>  （1）They are leaving for Japan. 离开去日本</p>
+<p>(2)She is arriving tomorrow.</p>
+<p>  练习：</p>
+<ol>
+<li><p>They are coming (come)here soon.</p>
+</li>
+<li><p>Sam is going to learn (learn)Chinese next month.</p>
+<p>will learn也可以</p>
+</li>
+<li><p>Peter and Mike will finish(finish) the job tomorrow moring.</p>
+</li>
+</ol>
+<h1 id="第二十二讲-完成时"><a href="#第二十二讲-完成时" class="headerlink" title="第二十二讲 完成时"></a>第二十二讲 完成时</h1><ol>
+<li>现在完成时（have+p.p.），动作过去发生，已经完成，对现在造成影响或后果，动作可能还会持续，可使用的时间状语为：already(已经)和yet（还）。</li>
+</ol>
+<p>（1） They have already arrived in Shanghai.</p>
+<p>（2） She has played soccer for 3 hours.</p>
+<p>（3） She hasn’t finished the homework yet.</p>
+<ol start="2">
+<li>过去完成时（had+p.p.），表示句中的动词发生在过去之前，即过去的过去，已经完成，对过去造成了一定的影响或后果。</li>
+</ol>
+<p>（1） They had arrived in Shanghai.</p>
+<p>（2） She had played soccer for 3 hours.</p>
+<p>（3） She hadn’t finished the work yet.</p>
+<p>  练习：</p>
+<ol>
+<li><p>He has stopped (stop)the car outside.</p>
+</li>
+<li><p>She hasn’t been (not be)to Sichuan yet.</p>
+</li>
+<li><p>Have they planned (plan) to stay here?</p>
+</li>
+</ol>
+<h1 id="第二十三讲-动词的用法"><a href="#第二十三讲-动词的用法" class="headerlink" title="第二十三讲 动词的用法"></a>第二十三讲 动词的用法</h1><p>1.动词根据功能分为四类：</p>
+<p>实意动词（Notional Verb）：有实际意义的动词</p>
+<p>系动词（Link Verb）：起联系作用的动词</p>
+<p>助动词（Auxiliary Verb）：帮助构成句子成分的动词</p>
+<p>情态动词（Model Verb）：有情态含义的动词，后接实意动词原形。</p>
+<p>（1）动词有数量和时态的变化，时态通常有三大时态：现在、过去和将来时。</p>
+<p>（2）根据动作进行的状态可分为：一般时、进行时和完成时</p>
+<p>（3）使用动词时通常将（1）和（2）结合，如:一般现在时、一般过去时、一般将来时；现在进行时、过去进行时；现在完成时、过去完成时………</p>
+<p> He goes to school every day.</p>
+<p> He went to hospital last night.</p>
+<p>动词形态变化总结：</p>
+<p>动词原形  单三  现在分词  过去式  过去分词</p>
+<p>play plays playing played played</p>
+<p>have has having had had</p>
+<p>go goes going went gone</p>
+<h1 id="第二十四讲-情态动词（1）can-could-may-might"><a href="#第二十四讲-情态动词（1）can-could-may-might" class="headerlink" title="第二十四讲 情态动词（1）can/could/may/might"></a>第二十四讲 情态动词（1）can/could/may/might</h1><ol>
+<li>can/could：①“能怎样”，表示“现在/过去”的能力，可用be able to代替；②“可能怎样”，表示客观可能性（can的可能性大）；③“可以怎样”，通常用“can/could I”表示请求和允许的语气，could更委婉。</li>
+</ol>
+<p>He can/could/is able to swim. 能</p>
+<p>He can/could come tomorrow. 可能来</p>
+<p> Can/could I stay here? 可以留下吗？</p>
+<p>Can he sing an English song?</p>
+<p>Yes,he can./No,he can’t.</p>
+<ol start="2">
+<li>may/might：①表示可能性（may的可能性大）；②通常用“may/might I”表示请求、允许的语气，might更委婉。</li>
+</ol>
+<p>口语中常用的回答：</p>
+<p>(1)May I smoke here?</p>
+<p>Yes, please.</p>
+<p>No, you can’t/mustn’t.（禁止、不准）</p>
+<p>(2)He may/might come here by bus.</p>
+<p>(3)May/might I join you?</p>
+<p>Yes, please./No, you can’t./No, you mustn’t.</p>
+<p>对may/might I开头的提问，肯定回答时，通常用“Yes, please.”。否定回答时，通常用 “can’t(不能)”,慎用禁止性的“mustn’t(不准)”，一般不用“may not（可能不）表猜测，语气很弱”。</p>
+<ol start="3">
+<li>练习：</li>
+</ol>
+<p>（1） She could speak French before, but now she can’t.</p>
+<p>（2） Might/May/Could/Can（按语气程度排序）I come in?</p>
+<p>Yes, please.</p>
+<h1 id="第二十五讲-情态动词（2）must-have-to-should-ought-to"><a href="#第二十五讲-情态动词（2）must-have-to-should-ought-to" class="headerlink" title="第二十五讲 情态动词（2）must/have to/should/ought to"></a>第二十五讲 情态动词（2）must/have to/should/ought to</h1><ol>
+<li>must/have to：“必须怎样”，表示必须、必要（must主观多一些、have to客观多一些，表“不得不”）</li>
+</ol>
+<p>have to有时态和数量的变化，而must无此变化。</p>
+<p>Must和have to二者的否定意义不大相同。</p>
+<p>如：You mustn’t go.你不准去。</p>
+<p>You don’t have to go.你不必去。</p>
+<p>You needn’t go. 你不必去。</p>
+<p>（1） You must get up early. 主观必须</p>
+<p>（2） It’s going to rain, I have to go home now.</p>
+<p>不得不</p>
+<p>对must和have to提问的否定回答，须用“needn’t和 don’t have to”,表示“不必”：</p>
+<p>Must I come here early tomorrow?</p>
+<p>No, you needn’t./No,you don’t have to.</p>
+<ol start="2">
+<li>Should/ought to：“应该怎样”，表示劝告、建议、命令，其同义词是ought to；should强调主观看法，而ought to强调客观要求。在疑问句中，通常用should代替ought to.</li>
+</ol>
+<p>You should/ought to do the job right now.</p>
+<p>Should they stay here now?</p>
+<p>练习：</p>
+<p>1.I must （必须）go and see my mother in hospital tomorrow.</p>
+<p>2.You should （应该）work harder than that.</p>
+<h1 id="第二十六讲-情态动词（3）need"><a href="#第二十六讲-情态动词（3）need" class="headerlink" title="第二十六讲 情态动词（3）need"></a>第二十六讲 情态动词（3）need</h1><ol>
+<li>need：“需要”</li>
+</ol>
+<p>a. 作情态动词</p>
+<p>He need come here early.</p>
+<p>He needn’t come here early.</p>
+<p>Need he come here early?</p>
+<p>Yes, he need./No, he needn’t.</p>
+<p>b. 作实义动词，有第三人称单数和时态的变化，可用作不定式need to do sth。</p>
+<p>He needs to come here early.</p>
+<p>He doesn’t need to come here early.</p>
+<p>Does he need to come here early?</p>
+<p>Yes,he does./No,he doesn’t.</p>
+<p>  练习：</p>
+<p>1、 You needn’t/don’t need to do it again.</p>
+<p>  你不需要重复做了</p>
+<p>2、 He needn’t/doesn’t need to  worry about it.</p>
+<p>  这件事他无需担心</p>
+<p>3、 Does he need to do homework first?</p>
+<p>  他需要先做作业吗？</p>
+<h1 id="第二十七讲-情态动词（4）had-better-would-rather"><a href="#第二十七讲-情态动词（4）had-better-would-rather" class="headerlink" title="第二十七讲 情态动词（4）had better/would rather"></a>第二十七讲 情态动词（4）had better/would rather</h1><ol>
+<li>had better表示“最好做某事”，had虽然是过去式，但不表征过去，better后接动词原形。</li>
+</ol>
+<p>He had better eat more.</p>
+<p>You’d better finish it right now.</p>
+<ol start="2">
+<li>would rather表示“宁愿、宁可、最好、还是……为好”，语感比“had better”要轻。</li>
+</ol>
+<p>You would rather deal with it now. 处理</p>
+<ol start="3">
+<li><p>否定形式分别为：</p>
+<p>had better not+动词原形</p>
+<p>would rather not+动词原形</p>
+<p>He had better not eat more.</p>
+<p>You would rather not deal with it now.</p>
+</li>
+<li><p>练习：</p>
+</li>
+</ol>
+<p>You had batter stay here.你最好待在这儿</p>
+<p>I would rather not say it.我还是不说的好</p>
+<h1 id="第二十八讲-情态动词（5）used-to-v-would-v"><a href="#第二十八讲-情态动词（5）used-to-v-would-v" class="headerlink" title="第二十八讲 情态动词（5）used to +v/would +v"></a>第二十八讲 情态动词（5）used to +v/would +v</h1><ol>
+<li>used to，would表示过去习惯性动作，可译为“过去常常……”</li>
+</ol>
+<p>a.  used to可指过去的状态或情况，would指过去反复发生的动作。</p>
+<p>The novel used to be popular. 这小说过去很流行。</p>
+<p>b. would表示过去反复发生的动作。如果某一动作无反复性，就不能用would，只能用used to.</p>
+<p>He would practice English every week.</p>
+<p>I used to live in Beijing.</p>
+<p>c. used to表示过去经常性或习惯性的动作或状态现在已经结束，would则表示有可能再发生。</p>
+<p>People used to believe that the earth was flat.平的</p>
+<p>He would go to the park as soon as he was free.</p>
+<p>练习：</p>
+<ol>
+<li><p>The windows used to be open. 过去一直开着</p>
+</li>
+<li><p>They would gather together every week. 聚在一起</p>
+</li>
+<li><p>Sam used to play golf, but he doesn’t now.</p>
+</li>
+</ol>
+<h1 id="第二十九讲-情态动词（6）否定和疑问"><a href="#第二十九讲-情态动词（6）否定和疑问" class="headerlink" title="第二十九讲 情态动词（6）否定和疑问"></a>第二十九讲 情态动词（6）否定和疑问</h1><ol>
+<li>情态动词的否定：情态动词+ not+ v原形</li>
+</ol>
+<p>He can’t sing an English song.</p>
+<p>He may not know her. 可能不……</p>
+<p>He mustn’t go there. 不准</p>
+<p>He doesn’t have to go there.</p>
+<ol start="2">
+<li>使用情态动词进行提问：情态动词+主语+v原形</li>
+</ol>
+<p>Can he sing an English song?</p>
+<p>Yes,he can./No,he can’t.</p>
+<p>Must he go there?</p>
+<p>Yes,he must./No,he needn’t. （不必）</p>
+<p>Does he have to go there?</p>
+<p>Yes,he does./No,he doesn’t.</p>
+<p>May I smoke here?</p>
+<p>Yes, please.</p>
+<p>No, you can’t（不能）/mustn’t.（不准）</p>
+<p>练习：</p>
+<ol>
+<li><p>May I stay here? Yes,please.</p>
+</li>
+<li><p>Must she go back now? No,she needn’t.</p>
+</li>
+<li><p>Does he have to get up at 9:00? Yes,he does.</p>
+</li>
+</ol>
+<h1 id="第三十讲-情态动词（7）"><a href="#第三十讲-情态动词（7）" class="headerlink" title="第三十讲  情态动词（7）"></a>第三十讲  情态动词（7）</h1><p>情态动词+have+p.p.（+现在完成时）</p>
+<p>1.“情态动词+have+p.p.”：表达过去的事实；或推测的含义，表“可能已经……”。（但助动词should例外）</p>
+<p>He may/might have arrived. 他可能已经到了 （可能性最小）</p>
+<p>He can/could have arrived. 他可能已经到了 （可能性小）</p>
+<p>He must have arrived. 他准是已经到了  （可能性大）</p>
+<p>可能性大小排序：must、can、could、may、might</p>
+<p> 2. “should+have+p.p.”本应该……</p>
+<p>  “needn’t+have+p.p.” 本不需要……</p>
+<p> He should have arrived. 他本应该到了（但没到）</p>
+<p> They should have finished the work. 他本应该已经完成工作（但没完成）</p>
+<p> You needn’t have done so. 你本不需要那么做</p>
+<p> 3. must + have+p.p. 准是已经……</p>
+<p> Can’t +have+p.p. 不可能已经……</p>
+<p>He must have arrived. 他准是已经到了。</p>
+<p>He can’t have arrived. 他不可能已经到了。</p>
+<p>  练习：</p>
+<ol>
+<li><p>He can/could/may/might（可能） have arrived.</p>
+</li>
+<li><p>He must（准是） have arrived.</p>
+</li>
+<li><p>You needn’t（本不需要） have done so.</p>
+</li>
+<li><p>They should （本应该）have finished the work.</p>
+</li>
+<li><p>He can’t （不可能）have arrived.</p>
+</li>
+</ol>
+<h1 id="第三十一讲-被动语态（1）被动态的构成和含义"><a href="#第三十一讲-被动语态（1）被动态的构成和含义" class="headerlink" title="第三十一讲  被动语态（1）被动态的构成和含义"></a>第三十一讲  被动语态（1）被动态的构成和含义</h1><p>1.如果主语是动作的承受者，则用动词的被动语态作谓语。</p>
+<p>2.被动语态的构成：be+过去分词（p.p.）…by sb.</p>
+<p>他被妈妈带到了美国。</p>
+<p>He is taken to America by his mother.</p>
+<p>3.被动语态有各种时态：</p>
+<p> The information is needed by us.</p>
+<p>一般时 be done</p>
+<p> The book was being read by him. </p>
+<p>进行时 be being done</p>
+<p> The computer has been used by her.</p>
+<p>完成时 have/has/had been done</p>
+<p> The room will be cleaned.    </p>
+<p>将来时 will be done</p>
+<p> The computer could have been used by them.</p>
+<p>  可能已经被用了</p>
+<p>  情态动词+完成时  情态动词+ have/has been done</p>
+<p>练习：（一个空一个时态）</p>
+<p>The information is needed.(need)</p>
+<p>The book was read.(read)</p>
+<p>The door has been opened.(open)</p>
+<p>The book was being read.(read)</p>
+<p>The computer had been used.(use)</p>
+<p>The computer could have been used.(use)</p>
+<p>The room will be cleaned.(clean)</p>
+<h1 id="第三十二讲-被动语态（2）被动态和情态动词结合"><a href="#第三十二讲-被动语态（2）被动态和情态动词结合" class="headerlink" title="第三十二讲  被动语态（2）被动态和情态动词结合"></a>第三十二讲  被动语态（2）被动态和情态动词结合</h1><p>1.被动语态也可以和情态动词结合：</p>
+<p>  情态动词+be done 应该被……、必须被……等</p>
+<p> can/could       +be done</p>
+<p> may/might +be done</p>
+<p> must/have to +be done</p>
+<p> should/ought to +be done</p>
+<p> had better/would rather +be done</p>
+<p> used to/would +be done</p>
+<p> need doing 需要被……</p>
+<p> need to be done需要被……</p>
+<p>2.和情态动词结合的形式：</p>
+<p> The food could be taken away. 食品可以被带走</p>
+<p> The food might be taken away. 食品可能被带走</p>
+<p> The food must be taken away. 食品必须被带走</p>
+<p> The food should be taken away. 食品应该被带走</p>
+<p> The food needs taking away. 食品需要被带走</p>
+<p> The food had better be taken away. 食品最好被带走</p>
+<p> Books used to be returned in two days.</p>
+<p>  书过去常常在2天之内被归还。</p>
+<p>练习：</p>
+<p> The room may/might/can/could（可能）be cleaned.</p>
+<p>The door must （必须）be locked.</p>
+<p>The house should （应该）be furnished.</p>
+<p>The tree had better （最好）be watered now.</p>
+<h1 id="第三十三讲-被动语态（3）（by-行为者）可省略"><a href="#第三十三讲-被动语态（3）（by-行为者）可省略" class="headerlink" title="第三十三讲  被动语态（3）（by+行为者）可省略"></a>第三十三讲  被动语态（3）（by+行为者）可省略</h1><p> 动作的行为者不明或不重要，或上下文中提到了行为者时，“by sb”可以省略。</p>
+<p>The information is needed.</p>
+<p>The books is being read.</p>
+<p>The door was opened.</p>
+<p>练习：</p>
+<p>The door is opened.(open)被打开了</p>
+<p>The book is being read.(read)正读着</p>
+<p>The computer has been used.(use)已经被用了</p>
+<p>The pencil had been sharpened.(sharpen)已经被削尖了</p>
+<h1 id="第三十四讲-被动语态（4）被动语态疑问句"><a href="#第三十四讲-被动语态（4）被动语态疑问句" class="headerlink" title="第三十四讲  被动语态（4）被动语态疑问句"></a>第三十四讲  被动语态（4）被动语态疑问句</h1><p>1.被动语态的一般疑问句：助动词+主语+（其他助动词）+过去分词</p>
+<p>Is the information needed by him?</p>
+<p>Yes,it is./No,it isn’t.</p>
+<p>Has the computer been used by her?</p>
+<p>Yes,it has./No,it hasn’t.</p>
+<p>Will the room be cleaned?</p>
+<p>Yes,it will./No,it won’t.</p>
+<p>2.被动语态的特殊疑问句：疑问词+助动词+主语+（其他助动词）+过去分词</p>
+<p>The information is needed by them.</p>
+<p>What is needed by them?</p>
+<p>The girl is taken to Shanghai.</p>
+<p>Where is the girl taken?</p>
+<p>The book has been read three times.</p>
+<p>How many times has the book been read?</p>
+<p>练习：</p>
+<p>1.Is the book being read(read) by her?</p>
+<p>她正在读那本书吗？</p>
+<p>2.Has the computer been used(use) by them?</p>
+<p>他们用过那台电脑吗？</p>
+<p>3.How often is the English class taken（take）?</p>
+<p>  英语课多长时间上一次？</p>
+<h1 id="第三十五讲-非谓语动词（1）"><a href="#第三十五讲-非谓语动词（1）" class="headerlink" title="第三十五讲  非谓语动词（1）"></a>第三十五讲  非谓语动词（1）</h1><p>  “不作谓语成分的动词”</p>
+<p> to+动词原形VS动词原形+ing</p>
+<p>1.动词不定式：由to do构成，可以做主语、宾语、宾补、表语、定语和状语6种。</p>
+<p>To get there by bike will take us an hour.</p>
+<p>作主语，骑自行车到那，将花掉我们一小时</p>
+<p>The driver failed to see the car in time.</p>
+<p>作宾语，司机没及时看见那辆小轿车</p>
+<p>We believe him to be guilty.</p>
+<p>作宾补（对him的补充说明），我们相信他是有罪的</p>
+<p>My suggestiong is to put off the meeting.</p>
+<p>作表语（be动词后），我的建议是推迟会议。</p>
+<p>The next train to arrive is from Seoul.</p>
+<p>作定语，将到达的下一列火车是来自首尔的。</p>
+<p>I come here only to say goodbye to you.</p>
+<p>作状语，我来这目的是和你说再见</p>
+<p>2.动名词：doing，具有动词的特征和变化形式，但在句子中作名词用。可以做主语、宾语、表语、定语，也可以被副词修饰或者支配宾语（与动词同）。</p>
+<p>Reading is an art.</p>
+<p>作主语，阅读是一门艺术</p>
+<p>They went on walking and never stopped talking.</p>
+<p>作宾语（动词后），他们一直往前走，未停止交谈</p>
+<p>Your task is quickly cleaning the windows.</p>
+<p>作表语（be动词后），你的任务是赶快把窗户擦干净</p>
+<p>This is a reading room.</p>
+<p>作定语，这是个阅读室</p>
+<p>练习：</p>
+<p>1.To finish the work will take us an hour.</p>
+<p>  完成这项工作</p>
+<p>2.I come here to say goodbye to you.</p>
+<p>  和你告别</p>
+<p>3.Talking is an art.</p>
+<p>  说话</p>
+<h1 id="第三十六讲-非谓语动词（2）"><a href="#第三十六讲-非谓语动词（2）" class="headerlink" title="第三十六讲  非谓语动词（2）"></a>第三十六讲  非谓语动词（2）</h1><p>假主语it/真主语</p>
+<p>假宾语it/真宾语</p>
+<p>不定式/动名词的否定式</p>
+<p>1.to不定式或动名词可以在主语的位置上，但一般用it代替它作形式主语。</p>
+<p>It’s a great honor to be invited.</p>
+<p>被邀请很荣幸。</p>
+<p>It为假主语，代替真主语“to be invited”</p>
+<p>重排语序为：To be invited is a great honor.</p>
+<p>It’s no use crying over spilt milk.</p>
+<p>覆水难收（对着溢出的牛奶哭是没用的）</p>
+<p>It为假主语，代替真主语“crying over spilt milk”</p>
+<p>在真主语较长的情况下，英语常先用it放在句首代替真主语，之后再引出真主语。</p>
+<p>2.在宾语的位置上，用it 代替它作形式宾语</p>
+<p> We think it important to learn English.</p>
+<p>  我们认为学英语很重要。</p>
+<p> it为假宾语，代替真宾语“to learn English”</p>
+<p> I found it pleasant walking in the park.</p>
+<p>  我发现在公园里散步是件乐事。</p>
+<p> it为假宾语，代替真宾语“walking in the park”</p>
+<p>3.对动名词或不定式进行否定时，在不定式或动名词前加not就可以了。not to do、not doing</p>
+<p>He pretended not to see her.</p>
+<p>他假装没有看见她。</p>
+<p>He regrets not joining them.</p>
+<p>他后悔没有加入他们。</p>
+<p>练习：</p>
+<ol>
+<li><p>It is no use crying (cry) over spilt milk.</p>
+</li>
+<li><p>We think it important to learn (learn) English.</p>
+</li>
+<li><p>He pretended not to see (not see) her.</p>
+</li>
+</ol>
+<h1 id="第三十七讲-非谓语动词（3）"><a href="#第三十七讲-非谓语动词（3）" class="headerlink" title="第三十七讲  非谓语动词（3）"></a>第三十七讲  非谓语动词（3）</h1><p>to不定式表示目的的用法</p>
+<ol>
+<li><p>in order to +动词原形：表示目的</p>
+</li>
+<li><p>so as to +动词原形：表示目的</p>
+</li>
+<li><p>由in order to 引导的目的状语，置于句首、句尾均可。</p>
+</li>
+<li><p>由so as to 引导的目的状语，只能置于句尾。</p>
+</li>
+</ol>
+<p>I’ve written it down in order to remember it.</p>
+<p>我写下来了，目的是为了记住它。</p>
+<p>也可以写成：</p>
+<p>In order to remember it，I’ve written it down.</p>
+<p>He shouted and waved so as to be noticed.</p>
+<p>他又叫又挥手，目的是为了被注意到。</p>
+<ol start="5">
+<li>它们的否定形式分别在to前加not</li>
+</ol>
+<p>I’ve written it down in order not to forget it.</p>
+<p>He said nothing so as not to be noticed.</p>
+<p>练习：</p>
+<p>He gets up early in order to/so as to（目的是）arrive at school on time.</p>
+<p>He wrote it down in order not to/so as not to （目的是不）forget it.</p>
+<h1 id="第三十八讲-非谓语动词（4）"><a href="#第三十八讲-非谓语动词（4）" class="headerlink" title="第三十八讲  非谓语动词（4）"></a>第三十八讲  非谓语动词（4）</h1><p>常见的不定式和动名词</p>
+<p>包含不定式和动名词的一些固定结构</p>
+<ol>
+<li><p>too…to…：太…而不能…</p>
+<p>The room is too small to live. </p>
+</li>
+</ol>
+<p>“too…to”中间加形容词或副词。</p>
+<ol start="2">
+<li>enough +n+ to do/ adj +enough to do</li>
+</ol>
+<p>足够……可以……</p>
+<p>There is enough food to eat.</p>
+<p>有足够的食物可以吃</p>
+<p>The box is big enough to contain six apples.</p>
+<p>足够大可以装6个苹果</p>
+<ol start="3">
+<li>on doing：一……就……</li>
+</ol>
+<p>On seeing the snake, the girl was very frightened.</p>
+<p>一看到那条蛇，女孩就非常害怕 （作状语）</p>
+<ol start="4">
+<li>There is no hope of doing：没希望……</li>
+</ol>
+<p>There is no hope of seeing him.</p>
+<p>  没希望看见他</p>
+<ol start="5">
+<li>feel like doing：想要……</li>
+</ol>
+<p>I feel like eating ice cream now.</p>
+<ol start="6">
+<li>have a hard time doing：做……很艰难</li>
+</ol>
+<p>They have a hard time solving the problem themselves.</p>
+<p>他们自己解决那个问题很困难</p>
+<p>练习：</p>
+<p>There are enough books to read(read).</p>
+<p>I feel like drinking(drink) coffee now.</p>
+<p>The room is too small to live(live).          </p>
+<h1 id="第三十九讲-非谓语动词（5）"><a href="#第三十九讲-非谓语动词（5）" class="headerlink" title="第三十九讲  非谓语动词（5）"></a>第三十九讲  非谓语动词（5）</h1><p>现在分词/过去分词，分词句</p>
+<p>1.doing可称之为动名词；用在进行时中，称之为现在分词</p>
+<p>Writing books is his job. 动名词</p>
+<p>He is writing a book. 进行时“现在分词”</p>
+<p> 2.done用在完成时和被动语态中，称之为过去分词。</p>
+<p> He has written the homework. 完成时 已经完成作业</p>
+<p> The homework is written. 被动语态 作业被写好</p>
+<p> 3.分词句：是包含现在分词和过去分词的分句。</p>
+<p> The students went out of the classroom,</p>
+<p>laughing and talking. 作伴随状语，边说边笑</p>
+<p> Accompanied by his friend,he went to</p>
+<p>the railway station. 作伴随状语，他被朋友陪伴着去了火车站。</p>
+<p>练习：</p>
+<p>He likes drinking (drink) coffee.</p>
+<p>The door was locked (lock).</p>
+<p>Given (give) better attention, the plants</p>
+<p>could grow better.</p>
+<h1 id="第四十讲-原形不定式（1）使役动词"><a href="#第四十讲-原形不定式（1）使役动词" class="headerlink" title="第四十讲  原形不定式（1）使役动词"></a>第四十讲  原形不定式（1）使役动词</h1><p>使役动词，表示“使/让……”</p>
+<p> 1.make, let，have做使役动词，构成形式为：</p>
+<p>  “have/make/let+宾语+动词原形”  （动词前不加to）</p>
+<p> He made me laugh.</p>
+<p> I let him go.</p>
+<p> Please have him come here.</p>
+<p>2.get和help做使役动词，get的使役动词句为“get+宾语+to+动词原形”，help的使役动词句为“help+宾语+(to)+动词原形”</p>
+<p> I can’t get anyone to do the work properly.</p>
+<p>准确地完成工作</p>
+<p> I helped him (to) repair the car.</p>
+<p> 3. make/let/have/get/help+宾语+过去分词，表示“让某物/人被别人……”（表被动）</p>
+<p> I must get my hair cut.</p>
+<p> He couldn’t make himself heard.</p>
+<p> Can you get the work finished in time?</p>
+<p>练习：</p>
+<p> He made me laugh (laugh).</p>
+<p> I let him go (go).</p>
+<p> I must get my hair cut (cut).</p>
+<h1 id="第四十一讲-原形不定式（2）感官动词"><a href="#第四十一讲-原形不定式（2）感官动词" class="headerlink" title="第四十一讲  原形不定式（2）感官动词"></a>第四十一讲  原形不定式（2）感官动词</h1><p>1.“感官动词see/watch观看/observe/notice</p>
+<p>/hear/smell/taste/feel+宾语+动词原形或现在分词”</p>
+<p>  （动词前不加to）</p>
+<p>  表示：感知到某物或人怎样了</p>
+<p> +动词原形，表示动作的真实性</p>
+<p> +现在分词，表示动作的连续性，进行性。</p>
+<p>I saw him work in the garden yesterday.</p>
+<p> 看到他昨天在花园里工作</p>
+<p>I saw him working in the garden yesterday.</p>
+<p> 看到他昨天一直在花园里工作</p>
+<ol start="2">
+<li>“感官动词+宾语+过去分词”，</li>
+</ol>
+<p>表示：感知到某物或人被怎样了</p>
+<p> John saw the man knocked down by the car.</p>
+<p>  看到一人被轿车撞倒了</p>
+<p>练习：</p>
+<p>I watched a dog running (run) in the garden yesterday.</p>
+<p>I heard Sam sent (send) to the hospital.</p>
+<h1 id="第四十二讲-假设（1）单纯表示假设"><a href="#第四十二讲-假设（1）单纯表示假设" class="headerlink" title="第四十二讲  假设（1）单纯表示假设"></a>第四十二讲  假设（1）单纯表示假设</h1><p>1.条件状语从句：用“if”引导条件状语从句，从句为现在时，则主句为将来时，通常译作“如果……”,</p>
+<p> If you get up early, you will catch up with the train.</p>
+<p> 2.if引导的条件状语从句，可以放在句首，也可以放在句尾。</p>
+<p> If you ask him, he will help you.</p>
+<p> She will be upset if you fail the exam.</p>
+<p>如果你没考好，她会失望。</p>
+<p> 练习：</p>
+<p> If he runs, he will get （get）there in time.</p>
+<p>如果他跑得快，他就会及时赶到那儿。</p>
+<p> The cat will scratch (scratch) you if you pull its tail.</p>
+<p>如果你拉猫的尾巴，它就会抓你。</p>
+<h1 id="第四十三讲-假设（2）与现在事实相反的虚拟语气"><a href="#第四十三讲-假设（2）与现在事实相反的虚拟语气" class="headerlink" title="第四十三讲  假设（2）与现在事实相反的虚拟语气"></a>第四十三讲  假设（2）与现在事实相反的虚拟语气</h1><p>1、if从句是一种虚拟的条件或假设，与现在事实相反。主从句时态具体如下：</p>
+<p>  从句：动词用过去式（be用were）</p>
+<p>  主句：would/could/should/might+动词原形</p>
+<p>If I were you,I would join them.</p>
+<p>与现在事实相反：“我不可能是你”</p>
+<p>She would come with you if you invited her.</p>
+<p>与现在事实相反：说明 “没有邀请”已经发生。</p>
+<p>虚拟语气：是在事实发生后，做出的与事实相反的假设。</p>
+<p>She will come with you if you invite her.</p>
+<p>单纯假设：说明“邀请”还未发生</p>
+<p>2、练习：</p>
+<p>If I knew (know) his telephone number,</p>
+<p>I would tell (tell) you.</p>
+<p> If I had (have) any money with me,</p>
+<p>I would lend (lend) you some.</p>
+<p> If I were (be) you, I would take(take) an umbrella.</p>
+<h1 id="第四十四讲-假设（3）与过去事实相反的虚拟语气"><a href="#第四十四讲-假设（3）与过去事实相反的虚拟语气" class="headerlink" title="第四十四讲  假设（3）与过去事实相反的虚拟语气"></a>第四十四讲  假设（3）与过去事实相反的虚拟语气</h1><p>1、if从句是一种虚拟的条件或假设，和过去事实相反。</p>
+<p>  主从句的时态具体如下：</p>
+<p>  从句：had done</p>
+<p>  主句：would/could/should/might+ have done</p>
+<p> If I had got there earlier, I should have met her.</p>
+<p>If he had taken my advice, he would not have made such a mistake.</p>
+<p>2、练习：</p>
+<p>If he had studied (study) harder, he might have passed the exam.</p>
+<p>If there had been (be) a heavy snow, we should not have gone (not go)skating.</p>
+<p>If I had got (get) there earlier, I would have met (meet) her.</p>
+<h1 id="第四十五讲-假设（4）"><a href="#第四十五讲-假设（4）" class="headerlink" title="第四十五讲  假设（4）"></a>第四十五讲  假设（4）</h1><p>wish（愿望、希望）/as if（看上去） +过去时/过去完成时/  would/should/could+动词原形</p>
+<p>1、wish后面的从句，译为：“希望……就好了”，是不可能实现的假设。</p>
+<p> a.与现在事实相反的愿望</p>
+<p> I wish I were as tall as you.</p>
+<p>I wish+一般过去时</p>
+<p>现在许的愿，且与现在的事实相反（事实已发生）</p>
+<p> b.与过去事实相反的愿望</p>
+<p> He wished he hadn’t said that.</p>
+<p>I wished+过去完成时</p>
+<p>过去许的愿，且与过去的事实相反（事实已发生）</p>
+<p> c.将来不大可能实现的愿望</p>
+<p> I wish it would rain tomorrow.</p>
+<pre><code>I wish+ would/should/could+动词原形
+</code></pre><p>  现在许的愿，且将来不大可能实现（事实尚未发生）</p>
+<p>小结：wish后面的从句：与现在事实相反则用一般过去时，与过去事实相反则用过去完成时，将来不大可能实现的愿望则用“would/should/could+动词原形”。wish主句则根据许愿的时间分别用一般现在时或一般过去时。</p>
+<p> 2、as if，翻译为“看起来好像……”</p>
+<p> a.<strong>从句</strong>表示与现在事实相反，用一般过去时</p>
+<p>You look as if you didn’t care.</p>
+<p>你看起来一点也不在乎。（实际在乎的）</p>
+<p> b.<strong>从句</strong>表示与过去事实相反，用过去完成时</p>
+<p>He talks about Rome as if he had been there before.</p>
+<p>他谈论罗马好像他以前去过。（实际没去过）</p>
+<p> c.<strong>从句</strong>表示将来不大可能发生，用“would/should/could+动词原形”</p>
+<p>He opened his mouth as if he would say something.</p>
+<p>他张开嘴好像要说点什么（说的可能性很小）</p>
+<p> 3、练习：</p>
+<p> I wish I were (be) as tall as you.</p>
+<p> He talks as if he knew (know) where she was.</p>
+<p> I wish it would rain (rain) tomorrow.</p>
+<h1 id="第四十六讲-定语从句（关系代词）which-that-who-whom-whose"><a href="#第四十六讲-定语从句（关系代词）which-that-who-whom-whose" class="headerlink" title="第四十六讲  定语从句（关系代词）which,that,who,whom,whose"></a>第四十六讲  定语从句（关系代词）which,that,who,whom,whose</h1><p>定语从句：修饰或限定一个名词或代词的从句，被修饰的名词叫先行词。定语从句由关系词（关系代词或关系副词）引出。</p>
+<p>1、关系代词：在从句中做一定的成分，代替先行词，起到连接先行词和从句的作用。</p>
+<p>  常用关系代词：which,that,who,whom,whose，只起连接作用，无实义，不用翻译。</p>
+<p>  如：The girl whom/that I spoke to is my cousin.</p>
+<p>a.先行词是人的话用that,who,whom,whose来引导定语从句。</p>
+<p>  “whom”在从句中作宾语</p>
+<p>  “who”和“that”在从句中可作主语和宾语</p>
+<p> They are <strong>the people</strong> that/who were seen yesterday.</p>
+<p>昨天那些人被看见了 （在从句中作主语）</p>
+<p>They are <strong>the people</strong> whom/that/who I saw yesterday.</p>
+<p>他们是昨天我看见的那些人 （在从句中作宾语）</p>
+<p>They are <strong>the people</strong> whose wallets were lost yesterday.</p>
+<p> 他们是昨天丢失钱包的那些人 （属格）</p>
+<p>b.先行词是动物/事物的话，用which,that,whose来引导定语从句。which,that在从句中可作主语和宾语，作宾语时可以省略</p>
+<p>He came back for <strong>the book</strong> which/that he had forgotten.</p>
+<p>作宾语，他回来找那本他遗忘的书。</p>
+<p>He came back for <strong>the book</strong> which/that was on the desk.</p>
+<p>作主语，他回来找的那本书在桌上</p>
+<p>This is <strong>the chair</strong> whose legs were broken.</p>
+<p>这是那张断腿的椅子。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>指人</th>
+<th>指物</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主格</td>
+<td>Who/that</td>
+<td>Which/that</td>
+</tr>
+<tr>
+<td>宾格</td>
+<td>Whom/who/that</td>
+<td>Which/that</td>
+</tr>
+<tr>
+<td>属格</td>
+<td>Whose</td>
+<td>whose</td>
+</tr>
+</tbody>
+</table>
+<p>2、练习：</p>
+<p>He was <strong>the person</strong> who/that joined the army that year.</p>
+<p>He came back for <strong>the book</strong> which/that或省略 he had forgotten.</p>
+<p>He is the man whose wife is a teacher.</p>
+<h1 id="第四十七讲-定语从句（关系副词）why-when-where"><a href="#第四十七讲-定语从句（关系副词）why-when-where" class="headerlink" title="第四十七讲  定语从句（关系副词）why,when,where"></a>第四十七讲  定语从句（关系副词）why,when,where</h1><p>why：用于修饰表示原因的名词</p>
+<p>  如： the reason</p>
+<p>We don’t know the reason why he didn’t show up.</p>
+<p>我们不知道他没出现的原因</p>
+<p>when：修饰表示时间的名词</p>
+<p>  如：next week</p>
+<p>We’ll put off the picnic until next week, when the weather may be better.</p>
+<p>我们将推迟野餐到天气更好的下周</p>
+<p>where：修饰表示地点的名词</p>
+<p>  如：the place</p>
+<p>We don’t know the place where he lives.</p>
+<p>我们不知道他居住的地方。</p>
+<p>练习：</p>
+<p>He works in a factory where TV sets are made.</p>
+<p>We’ll put off the picnic until next week, when the weather may be better.</p>
+<p>She didn’t tell me the reason why she refused the offer.</p>
+<h1 id="第四十八讲-宾语从句的连词"><a href="#第四十八讲-宾语从句的连词" class="headerlink" title="第四十八讲  宾语从句的连词"></a>第四十八讲  宾语从句的连词</h1><p>宾语从句：在句子中起宾语作用的从句</p>
+<p>从属连词：that（不翻译）, if, whether（是否）</p>
+<p>He told me(that)he would go to college the next year.</p>
+<p>He said that he was there yesterday.</p>
+<p>He doesn’t know if/whether he was there.</p>
+<p>他不知道他是否在那儿</p>
+<p>连接代词：who谁, whom谁（宾）, whose谁的, what什么</p>
+<p>注意从句语序的排列</p>
+<p>Do you know who has won the game?</p>
+<p>你知道谁赢得了比赛？</p>
+<p>Do you know whom he likes?</p>
+<p>你知道他喜欢谁？</p>
+<p>Do you know whose book it is?</p>
+<p>你知道这是谁的书？</p>
+<p>Do you know what he is looking at?</p>
+<p>你知道他在看什么？</p>
+<p>连接副词：when何时, where哪儿, why为什么, how怎么</p>
+<p>He wants to know when the party is.</p>
+<p>He wants to know where the party is.</p>
+<p>He wants to know why they have a party.</p>
+<p>He wants to know how they come.</p>
+<p>练习：</p>
+<p>He doesn’t know that/if/whether she is at school.</p>
+<p>He wants to know where she is.</p>
+<p>He wants to know why she comes.</p>
+<p> when</p>
+<p> where</p>
+<p> how</p>
+<p> if/whether</p>
+<p>He wants to know what she is reading.</p>
+<p>He wants to know whose book it is.</p>
+<h1 id="第四十九讲-比较级-amp-最高级（1）"><a href="#第四十九讲-比较级-amp-最高级（1）" class="headerlink" title="第四十九讲  比较级&amp;最高级（1）"></a>第四十九讲  比较级&amp;最高级（1）</h1><p>1、通常在形容词和副词后面加“er”“est”</p>
+<p>  如：hard-harder-the hardest</p>
+<p>2、词尾是不发音的单音节e时，加“r”“st”</p>
+<p>  如：nice-nicer-the nicest</p>
+<p>3、词尾是辅音+y的双音节时，去掉“y”加“ier”“iest”</p>
+<p>  如：dry-drier-the driest</p>
+<p>4、以一个辅音结尾的重读闭音节时，双写最后一个字母，加“er”“est”。如：hot-hotter-the hottest</p>
+<p>5、多音节和双音节，在形容词和副词前加：</p>
+<p>  程度加强：“more”“the most”</p>
+<p>  程度减弱：“less”“the least”</p>
+<p>  如：interesting-more/less interesting 更有趣\更无趣</p>
+<p> -the most/the least interesting</p>
+<p>  最有趣\最无趣</p>
+<p>注：单词中有几个元音就有几个音节</p>
+<p>6、不规则变化：good-better-the best</p>
+<p> many-more-the most</p>
+<p>练习：</p>
+<p> high   -higher -the highest</p>
+<p> late   -later -the latest</p>
+<p> heavy   -heavier -the heaviest</p>
+<p> thin   -thinner -the thinnest</p>
+<p> famous -more/less famous -the most/the least famous</p>
+<p> little -less -the least</p>
+<h1 id="第五十讲-比较级-amp-最高级的应用（2）"><a href="#第五十讲-比较级-amp-最高级的应用（2）" class="headerlink" title="第五十讲  比较级&amp;最高级的应用（2）"></a>第五十讲  比较级&amp;最高级的应用（2）</h1><p>1、形容词或副词的比较级：表示“比较……”（…比…更…，两者间进行比较）</p>
+<p>He is taller than his brother.</p>
+<p>他比他的哥哥更高</p>
+<p>The book is more expensive than the pen.</p>
+<p>那本书比那支钢笔更贵</p>
+<p>Her English is better than his.</p>
+<p>她的英语比他好</p>
+<p>2、形容词的最高级：表示“最……”（三者或三者以上进行比较）</p>
+<p>He is the tallest in his class.</p>
+<p>The book is the most expensive of the three.</p>
+<p>Her English is the best among the three.</p>
+<p>3、练习：</p>
+<p> The girl is cleverer (clever)than the boy.</p>
+<p>The computer is the most expensive (expensive)among the three.</p>
+<p>The man is healthier (healthy) than his wife.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/11/30/Mac 远程登录 Mysql 并导入本地 CSV 文件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/30/Mac 远程登录 Mysql 并导入本地 CSV 文件/" itemprop="url">Mac 远程登录 Mysql 并导入本地 CSV 文件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-30T15:04:36+08:00">
+                2018-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MYSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MYSQL</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="首先通过-Navicat-Mysql-在目标数据库建立新的表。"><a href="#首先通过-Navicat-Mysql-在目标数据库建立新的表。" class="headerlink" title="首先通过 Navicat Mysql 在目标数据库建立新的表。"></a>首先通过 Navicat Mysql 在目标数据库建立新的表。</h1><p>新表和要导入的数据应该有一样的数据结构。主要是字段以及字段的类型。</p>
+<h1 id="远程登录-Mysql"><a href="#远程登录-Mysql" class="headerlink" title="远程登录 Mysql"></a>远程登录 Mysql</h1><p>打开终端，输入如下命令：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql <span class="comment">--local-infile -h (IP 地址或者 Mysql 域名地址) -P (Mysql 端口) -u (用户名) -p</span></span><br></pre></td></tr></table></figure></p>
+<p>然后就会显示要求你输入密码，输入后回车即可登录。<br>注意：<code>--local-infile</code>必须要加入登录命令，否则会提示无权限。</p>
+<h1 id="导入本地-CSV"><a href="#导入本地-CSV" class="headerlink" title="导入本地 CSV"></a>导入本地 CSV</h1><p>命令如下：<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; LOAD DATA LOCAL INFILE 'CSV 文件地址'</span><br><span class="line">    -&gt; INTO TABLE out10</span><br><span class="line">    -&gt; FIELDS TERMINATED BY ','</span><br><span class="line">    -&gt; IGNORE 1 LINES</span><br><span class="line">    -&gt; ;</span><br></pre></td></tr></table></figure></p>
+<p><strong>CSV 文件地址</strong>，可以通过把 CSV 文件拖入新的终端窗口获得。   </p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/11/26/PowerBI CALCULATE &  FILTER & ALL & VALUES/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/26/PowerBI CALCULATE &  FILTER & ALL & VALUES/" itemprop="url">PowerBI CALCULATE &  FILTER & ALL & VALUES</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-26T12:20:58+08:00">
+                2018-11-26
               </time>
             
 
@@ -1287,7 +2975,7 @@ AVERAGEX (
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/OSX下Txt格式小说制作ePub/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/11/21/MySQL 修复非法混合排序/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1306,7 +2994,7 @@ AVERAGEX (
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/02/OSX下Txt格式小说制作ePub/" itemprop="url">OSX 下 Txt 格式小说制作 ePub</a></h1>
+                <a class="post-title-link" href="/2018/11/21/MySQL 修复非法混合排序/" itemprop="url">修复MySQL的非法混合排序</a></h1>
         
 
         <div class="post-meta">
@@ -1318,8 +3006,8 @@ AVERAGEX (
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:56:30+08:00">
-                2018-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-21T01:01:06+08:00">
+                2018-11-21
               </time>
             
 
@@ -1341,8 +3029,8 @@ AVERAGEX (
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
-                    <span itemprop="name">SOFTWARE</span>
+                  <a href="/categories/MYSQL/" itemprop="url" rel="index">
+                    <span itemprop="name">MYSQL</span>
                   </a>
                 </span>
 
@@ -1380,30 +3068,10 @@ AVERAGEX (
       
         
           
-            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>虽然我要写的内容是 ePub 如何制作，实际上我极少看 ePub 格式的小说。绝大多数我是用看 Txt 格式的小说，主要还是方便。<br>例如，我在看小说的时候发现内容里被网站加入了类似于<em>“xxx.com 首发”</em>之类的内容，会让我感觉很烦躁。虽然可能一章内容里才出现一次，但是我依然会立即、马上、刻不容缓的打开UltraEdit，进行批处理删除。<br>然而，有时候还是会需要帮朋友转换一些 ePub 格式的小说。<br>如果在 Windows 下，其实还是有一些软件可以很方便的进行 Txt 和 ePub 的转换的，例如<strong>“epubbuilder”</strong>，这货绝对是一个神器。至少在 Windows 上我还没有遇到比它好用的另一个软件。<br>基本上就几步：</p>
-<ol>
-<li>载入 Txt 文件。</li>
-<li>智能分章节。</li>
-<li>导出为 ePub。</li>
-<li>结束</li>
-</ol>
-<p>这样出来的 ePub 自带目录，好用异常。<br>但是在 OSX 下，这简单的几步就变得很困难。<br>但是经过不懈的挖掘，最终还是找到了比较简单的方法。<br>这个简单从两点来看：</p>
-<ol>
-<li>只需要 Word for Mac 以及 Pages 两个 App。</li>
-<li>不需要复杂的功能，就是日常的替换以及导出功能。</li>
-</ol>
-<h1 id="那么就来看看怎么做"><a href="#那么就来看看怎么做" class="headerlink" title="那么就来看看怎么做"></a>那么就来看看怎么做</h1><h2 id="Txt-先转为-Docx"><a href="#Txt-先转为-Docx" class="headerlink" title="Txt 先转为 Docx"></a>Txt 先转为 Docx</h2><p>Txt 转 Docx 的目的，只有一个，给小说文档加入章节样式。<br>下面步骤，对于导航窗格熟悉的，请直接跳过第 2 &amp; 3 步。</p>
-<ol>
-<li>首先，用 Word 打开 Txt 文件，正常情况下不会有什么意外，可以直接打开。不过偶尔因为编码的问题，可能会出现下图情况，自行选择正确的编码，让预览窗里显示正确的汉字，然后点确定即可。<br><img src="https://i.loli.net/2018/11/06/5be16056e8de2.jpg" alt=""></li>
-<li>然后勾选【视图】-&gt; 【导航窗格】，左侧会出现侧边栏，但是是空的，因为 Txt 文档本身并没有文章的章节标题样式。<br><img src="https://i.loli.net/2018/11/06/5be160cb7360b.jpg" alt=""></li>
-<li>这时候，随便选择一个章节名的文字，然后按照下图所示选择【标题1】，就会发现左侧的侧边栏多了一个章节名。而我们要做的事情，就是把小说内的所有章节名文字全部变成【标题1】样式。<br><img src="https://i.loli.net/2018/11/06/5be161f21b720.jpg" alt=""></li>
-<li>第3步其实只是举个例子，下面要进行批量添加【标题1】样式的操作。按照下图顺序一步一步点选相应的内容，最终选择【全部替换】。<br><img src="https://i.loli.net/2018/11/07/5be2570b41803.jpg" alt=""><br><img src="https://i.loli.net/2018/11/06/5be16388d6610.jpg" alt=""></li>
-<li><p>这时候会发现左侧的侧边栏内，增加了10个章节标题。原理其实很简单，就是通配符替换。所以后续要做的就是把查找内容中的“第?章”换成：“第??章”、“第???章”、“第????章”,然后分别全部替换。其中的“?”数量不断增加，然后不断全部替换，直到某一次替换结果是“查找到0个”类似于这样的结果，则停止替换。这时候左侧栏已经把文章内的所有章节全部样式化了。<br><img src="https://i.loli.net/2018/11/06/5be163f4a1ec0.jpg" alt=""></p>
-</li>
-<li><p>这时候要做的就是保存为 Docx 格式（Doc 格式也可以）文件。<br><img src="https://i.loli.net/2018/11/07/5be257b16404a.jpg" alt=""></p>
-</li>
-</ol>
-<h2 id="Docx-转-ePub-格式"><a href="#Docx-转-ePub-格式" class="headerlink" title="Docx 转 ePub 格式"></a>Docx 转 ePub 格式</h2><p>Pages 本身就可以将文档导出为 ePub。<br>所以只需要用 Pages 打开之前保存的 Docx 文档，然后如下图导出即可。<br><img src="https://i.loli.net/2018/11/07/5be25c5dec9d1.jpg" alt=""></p>
+            <p>我最近开始遇到MySQL的的非法混合归类错误。偶尔的查询会导致</p>
+<p><code>Illegal mix of collations (latin1_swedish_ci,IMPLICIT) and (utf8_general_ci,COERCIBLE) for operation &#39;=&#39;</code>。</p>
+<p>解决方法如下：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> collation_connection = <span class="string">'utf8_general_ci'</span>;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">DATABASE</span> ECDatas <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Bapa15_100 <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Cd <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Fd <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Hamburger <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Lao <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Milk <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Naigai <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Naigai <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Count_DishesAll_Pizza <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Areas <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Cities <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DivisionsOfChina <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Streets <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> Villages <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DishesAll_Bapa15_100 <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DishesAll_Cd <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DishesAll_Fd <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DishesAll_Milktea <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> DishesAll_Qsr_20_60 <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> CustomerData <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> ProductData <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> SSD2018 <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> SSD20162017 <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> CtripHotels <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> PoiData <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> PoiDataTotal <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> CustomerAddress <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> SSDTotal <span class="keyword">CONVERT</span> <span class="keyword">TO</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci;</span><br></pre></td></tr></table></figure>
 
           
         
@@ -1452,7 +3120,7 @@ AVERAGEX (
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/Tableau Desktop 教程/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/11/17/Will & Be going to 区别/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1471,7 +3139,7 @@ AVERAGEX (
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/12/02/Tableau Desktop 教程/" itemprop="url">Tableau Desktop教程</a></h1>
+                <a class="post-title-link" href="/2018/11/17/Will & Be going to 区别/" itemprop="url">Will & Be going to 区别</a></h1>
         
 
         <div class="post-meta">
@@ -1483,8 +3151,8 @@ AVERAGEX (
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:56:04+08:00">
-                2018-12-02
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-17T19:47:22+08:00">
+                2018-11-17
               </time>
             
 
@@ -1506,8 +3174,8 @@ AVERAGEX (
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/TABLEAU/" itemprop="url" rel="index">
-                    <span itemprop="name">TABLEAU</span>
+                  <a href="/categories/ENGLISH/" itemprop="url" rel="index">
+                    <span itemprop="name">ENGLISH</span>
                   </a>
                 </span>
 
@@ -1545,1293 +3213,69 @@ AVERAGEX (
       
         
           
-            <h1 id="步骤-1：连接到数据"><a href="#步骤-1：连接到数据" class="headerlink" title="步骤 1：连接到数据"></a>步骤 1：连接到数据</h1><p>您的经理要求您调查公司的整体销售额和盈利能力并确定需要改进的重要方面。您有一堆数据，但是您不确定从何处着手。有了 <a href="http://www.tableau.com/zh-cn/products/trial" target="_blank" rel="noopener">Tableau Desktop 免费试用版</a>之后，您决定从此版本开始着手。</p>
-<h2 id="打开-Tableau-Desktop-并开始"><a href="#打开-Tableau-Desktop-并开始" class="headerlink" title="打开 Tableau Desktop 并开始"></a>打开 Tableau Desktop 并开始</h2><p>打开 Tableau Desktop 后首先看到的是<strong>开始页</strong>。您在此处选择要使用的连接器（您将如何连接到数据）。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Connect1.png" alt=""></p>
-<p>开始页为您提供了多个可从中进行选择的选项：</p>
+            <h1 id="will-和-be-going-to-表预测"><a href="#will-和-be-going-to-表预测" class="headerlink" title="will 和 be going to 表预测"></a>will 和 be going to 表预测</h1><p>will是一般将来时态的<strong>“代言人”</strong>，其最典型的用法就是对未来进行“预测”（prediction about the future – something we expect to happen）。</p>
+<p>be going to 也可以表示“预测”，是我们对未来某件事发生的可能性做出预测。</p>
 <ul>
-<li><p>单击任何页面左上角的 Tableau 图标 <img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Connect2.png" alt=""> 可以在开始页面和创作工作区之间切换。</p>
+<li><p>对于<strong>表预测</strong>，be going to 比 will 有更多的证据支持，而且事件发生的时间更近，并且更为客观</p>
 </li>
-<li><p>在<strong>“连接”</strong>下面，您可以：</p>
-</li>
-<li><p>连接到存储在文件（例如 Microsoft Excel、PDF、空间文件等）中的数据。</p>
-</li>
-<li><p>连接到存储在服务器（例如 Tableau Server、Microsoft SQL Server、Google Analytics 等）上的数据。</p>
-</li>
-<li><p>连接到之前已连接到的数据源。</p>
+<li><p>对于<strong>表预测</strong>，will 的语气比 be going to 更正式</p>
 </li>
 </ul>
-<p>Tableau 支持连接到存储在各个地方的各种数据的功能。“连接”窗格列出了您可能想要连接到的最常见地方，或者单击“更多”链接以查看更多选项。学习资料库中具有<strong>关于连接到数据源的更多信息</strong>（在顶部菜单中）。</p>
-<ul>
-<li><p>在<strong>“打开”</strong>下面，您可以打开已经创建的工作簿。</p>
-</li>
-<li><p>在<strong>“示例工作簿”</strong>下面，查看 Tableau Desktop 附带的示例仪表板和工作簿。</p>
-</li>
-<li><p>在<strong>“发现”</strong>下面，查找其他资源，如视频教程、论坛或“本周 Viz”，以了解可以生成的内容。</p>
-</li>
+<h1 id="be-going-to-表示“计划”与-will-表示意愿"><a href="#be-going-to-表示“计划”与-will-表示意愿" class="headerlink" title="be going to 表示“计划”与 will 表示意愿"></a>be going to 表示“计划”与 will 表示意愿</h1><ul>
+<li>be going to 表示“计划”，需要用“人”做主语</li>
+<li>be going to 表示“决心”，具有强烈的感情色彩</li>
+<li>will 表示“意愿”，一个当机立断的决定</li>
 </ul>
-<p>在“连接”窗格中的“已保存数据源”下，单击<strong>“Sample - Superstore”</strong>以连接到示例数据集。您的屏幕将如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Connect4.png" alt=""></p>
-<p>Tableau 附带“Sample - Superstore”数据集。它包含有关产品、销售额、利润等信息，您可以使用这些信息确定此虚构公司内部需要改进的重要方面。</p>
-<p><strong>了解更多信息：</strong> Tableau 将如何处理您的数据？</p>
-<p>连接到数据之后，Tableau 将执行以下操作：</p>
-<ul>
-<li><p>打开新工作表。这是一块白板，您可以在其中创建您的第一个视图。</p>
-</li>
-<li><p>显示您连接到的数据源。如果使用多个数据源，您可以看到它们都列在此处。</p>
-</li>
-<li><p>将数据源中的列添加到左边的“数据”窗格中。列会添加为字段。</p>
-</li>
-<li><p>将数据类型（如日期、数字、字符串等）和角色（维度或度量）自动分配给您的数据。（以后我们将详细讨论这些术语。）</p>
-</li>
+<h2 id="比较：will-表示“意愿”和-be-going-to-表示“打算”"><a href="#比较：will-表示“意愿”和-be-going-to-表示“打算”" class="headerlink" title="比较：will 表示“意愿”和 be going to 表示“打算”"></a>比较：will 表示“意愿”和 be going to 表示“打算”</h2><ul>
+<li>be going to 表示说话人对未来行动的计划或打算，通常是经过事先考虑并含有已经为这一行动做了某些准备的意思</li>
+<li>will表示意愿，表示在说话时立即做出决定将去做某事，事先并没有经过考虑，更没有事先的准备</li>
 </ul>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Connect3.png" alt=""></p>
-<p>如果需要有趣的详细信息，则可以在左下角选择“数据源”选项卡。在此，您可以查看您的前 1000 行数据，一些分析师将会发狂：排序或隐藏字段、将字段拆分为多个列，以及重命名列标题，这些都不需要修改原始数据。Tableau 中出现的情况存留在 Tableau 中；数据是安全的。</p>
-<p><strong>注意：</strong> 如果您导航到数据源以查看数据集的详细信息，则只需单击<strong>“工作表 1”</strong>标签即可回到开始位置。</p>
-<p><strong>了解更多信息：</strong> 准备您自己的数据。</p>
-<p>如果连接到自己的数据，则在 Tableau 中连接到该数据之前，您可能需要进行一些准备工作。这是因为 Tableau 会进行与数据相关的假设，以便能够正确显示数据以供您使用。</p>
-<hr>
-<h1 id="步骤-2：进行拖放以率先观看"><a href="#步骤-2：进行拖放以率先观看" class="headerlink" title="步骤 2：进行拖放以率先观看"></a>步骤 2：进行拖放以率先观看</h1><h2 id="创建视图"><a href="#创建视图" class="headerlink" title="创建视图"></a>创建视图</h2><p>您着手查明需要改进的重要方面，但是从哪里开始呢？有了四年的数据之后，您决定深入到 2014 年至 2017 年的总体销售数据中，看看会有什么发现。首先创建一个简单的图表。</p>
-<p><strong>了解更多信息：</strong> 本部分中的术语。</p>
-<table>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><table>
 <thead>
 <tr>
-<th><strong>术语</strong></th>
-<th><strong>说明</strong></th>
+<th>语意</th>
+<th>用法</th>
+<th>主语</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>聚合</td>
-<td>汇总到更高类别的行级别数据，如销售总额或总利润。Tableau 会自动执行此操作，因此您可以将数据细分成您想要使用的详细级别。</td>
+<td>预测</td>
+<td>will / be going to</td>
+<td>人称主语或非人称主语</td>
 </tr>
 <tr>
-<td>维度和度量</td>
-<td>维度是定性数据，例如名称或日期。默认情况下，Tableau 会自动将包含定性信息或分类信息的数据归类为维度，例如，任何具有文本或日期值的字段。<br>这些字段通常显示为数据行的列标题（例如“客户名称”或“订单日期”），并且还定义视图中显示的粒度级别。<br>度量是定量数值数据。默认情况下，Tableau 会将任何包含这种数据的字段视为度量，例如销售交易或利润。归类为度量的数据可以根据给定维度进行聚合，例如，按区域（维度）聚合总销售额（度量）。</td>
+<td>意图打算</td>
+<td>be going to</td>
+<td>人称主语</td>
 </tr>
 <tr>
-<td>连续与离散</td>
-<td>连续字段可以包含无数个值。这可以是一个值范围，例如特定日期范围内的销售额或数量。在 Tableau 中，连续字段显示为绿色。离散字段包含有限数目的值，例如国家/地区、州/省/市/自治区或客户名称。在 Tableau 中，离散字段显示为蓝色。</td>
+<td>意愿、当机立断的决定</td>
+<td>will</td>
+<td>人称主语</td>
 </tr>
 </tbody>
 </table>
-<p><strong>了解更多信息：</strong> Tableau 工作区控件和元素。</p>
-<p>在本部分中，您会将字段拖到“行”和“列”功能区，并且还将使用“标记”卡。下图标识了您将使用的一些工作区控件和元素。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag28.png" alt=""></p>
-<table>
-<thead>
-<tr>
-<th><strong>元素</strong></th>
-<th><strong>说明</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>撤消</td>
-<td>请尽管利用 Tableau 试验您的数据。您始终可以利用“撤消”按钮返回到开始位置。使用此按钮可以撤消您在工作簿中执行的上一次操作。您可以无限次撤消，恢复到您上次打开工作簿时的状态，即使是在保存工作之后也可以。</td>
-</tr>
-<tr>
-<td>显示/隐藏卡</td>
-<td>是否无意中隐藏了一个现在需要的卡？没问题！Tableau 工作区上的所有部分几乎都可以开启或关闭，以为您提供最大空间供您创建您的可视化项。<br>若要显示或隐藏卡，如“页面”、“筛选器”或“图例”，请单击工具栏上“显示/隐藏卡”<img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag30.png" alt=""> 按钮上的下拉箭头，并清除或启用卡复选标记。您甚至可以通过单击窗格右上角的“最小化”<img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag29.png" alt="">按钮将“数据和分析”窗格折叠到工作区的左下角。再次单击按钮可将窗格还原为原来的样子。</td>
-</tr>
-<tr>
-<td>“数据”窗格</td>
-<td>显示归类为维度或度量的数据集内视图和字段中所包含的数据集名称。</td>
-</tr>
-<tr>
-<td>卡和功能区</td>
-<td>卡是 Tableau 中可用的不同控件的容器。功能区是一种卡控件类型。当您将字段从“数据”窗格拖到“列”或“行”功能区时，会在视图中的轴上将数据添加为行或列。当您将字段从“数据”窗格拖到“标记”卡时，您可以按类型、颜色、大小、形状等控制视觉属性。此操作只影响视图中的标记；轴不会发生更改。</td>
-</tr>
-</tbody>
-</table>
-<ol>
-<li><p>从“数据”窗格的“维度”中，将<strong>“Order Date”（订单日期）</strong>拖到<strong>“列”</strong>功能区。</p>
-<p><strong>注意：</strong> 将“Order Date”（订单日期）拖到列功能区时，Tableau 会在数据集中为每个年度创建一个列。每个列下面都有一个“Abc”指示器。这表示您可以在此拖动文本或数值数据，像您可能在 Excel 电子表格中看到的一样。如果您要将“Sales”（销售额）拖到此区域，Tableau 会创建一个交叉表（如电子表格）并显示每个年度的总销售额。</p>
-</li>
-<li><p>从“度量”中，将<strong>“Sales”（销售额）</strong>拖到<strong>“行”</strong>功能区。</p>
-<p>Tableau 会使用累计（聚合）为总和的销售额生成以下图表。您可以按订单日期查看每年的总聚合销售额。</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag1.png" alt=""></p>
-<p><em>无论何时创建包括时间（在本例中为“订单日期”）的视图，Tableau 都会生成一个折线图。</em></p>
-<p>此折线图表明销售额看上去还不错，并且似乎随着时间的推移在增加。这是一条好信息，但是它并未真正详细告诉您哪些产品具有最高销售额，以及是否有些商品的表现比其他商品好。因为您刚开始，所以您决定深入研究一番，看看能有什么其他发现。</p>
-<p><strong>了解更多信息：</strong>浏览选项。</p>
-<p>若要快速更改图表类型，请选择<strong>“标记”</strong>卡上的下拉菜单。</p>
-<p>例如，对于区域图，您可以选择<strong>“区域”</strong>。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag2.png" alt=""></p>
-<p>Tableau 支持称为“标记”类型的多种不同图表类型。学习资料库中具有<strong>关于“标记”类型的更多信息</strong>（在顶部菜单中）。</p>
-<p><strong>注意：</strong> 继续本教程之前，请确保您的图表类型已设置回<strong>“自动”</strong>。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“创建视图”的实际运行效果。"><a href="#检查您的工作！注意操作中的“创建视图”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“创建视图”的实际运行效果。"></a>检查您的工作！注意操作中的“创建视图”的实际运行效果。</h3><p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag23.gif" alt=""></p>
-<hr>
-<h2 id="改善您的视图"><a href="#改善您的视图" class="headerlink" title="改善您的视图"></a>改善您的视图</h2><p>若要深入了解哪些产品推动了整体销售，可以尝试添加更多数据。首先添加产品类别，以不同的方式查看销售总额。</p>
-<ol>
-<li><p>从“维度”中，将<strong>“Category”（类别）”</strong>拖到<strong>“列”</strong>功能区，并将其放在 YEAR(Order Date) 的右边。</p>
-<p>您的视图将更新为条形图。通过将第二个离散维度添加到此视图中，您可以将您的数据分类为离散块，而不是在一段时间内连续查看您的数据。这将创建一个条形图并按年度向您显示每种产品类别的总体销售额。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag4.png" alt=""></p>
-</li>
-</ol>
-<p><strong>了解更多信息</strong>：显示数字。</p>
-<p>您可以查看数据点信息或将其添加到您的视图中。在此示例中，此信息按类别显示确切的销售总额。</p>
-<p>若要在您的视图中查看有关每个数据点的信息（即标记），请将光标悬停在其中一个条上以显示工具提示。工具提示会显示该类别的总销售额。以下是 2017 年的“Office Supplies”（办公用品）类别的工具提示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag5.png" alt=""></p>
-<p>若要将数据点信息作为标签添加到您的视图中，请单击工具栏上的<strong>“显示标记标签”</strong>。下面，我们将显示每个类别和年度的总销售额。</p>
-<p><strong>注意：</strong> 在“入门指南”教程中，文本标签未添加至视图。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag6.png" alt=""></p>
-<p><strong>了解更多信息：</strong>更改您的透视。</p>
-<p>若要水平而不是垂直显示条形图，请单击工具栏上的<strong>“交换”</strong>。</p>
-<p><strong>注意：</strong> 在继续学习“入门指南”教程之前，请先撤消此操作。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag7.png" alt=""></p>
-<p>您的视图做得很好，它现在按家具、办公用品和技术这些类别显示销售额。并且显示了一个有趣的细节！</p>
-<p>从此视图中，您可以看到，虽然办公用品在 2017 年的销量确实非常好，但是家具的销售增长速度超过了办公用品的销售增长速度。也许您可以建议您的公司将销售工作重点放在家具上而不是办公用品上？您的公司销售了这些类别中的大量不同产品，因此您需要更多信息才能提出建议。</p>
-<p>为了帮助回答这个问题，您决定按子类别查看产品，以查看哪些商品是畅销商品。例如，对于“家具”类别，您想要查看有关书柜、椅子、家具和桌子的详细信息。查看该数据可能会帮助您深入了解销售额，进而了解总体盈利能力，所以请向您的条形图添加子类：</p>
-<ol>
-<li>双击或将<strong>“Sub-Category”（子类别）</strong>维度拖到<strong>“列”</strong>功能区。</li>
-</ol>
-<p><strong>注意：</strong> 您可以拖放或双击字段以将它添加到您的视图中，但要小心。Tableau 会假设在何处添加该数据，数据可能不会放在您所期待的地方。您始终可以单击“撤消”以移除该字段，或者可以将其拖离 Tableau 将其放入到的区域以重新开始。</p>
-<p>子类是另一种离散字段。它会在视图底部创建另一个标题，并为按类别和年度细分的每个子类（68 个标记）显示一个条形。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag9.png" alt=""></p>
-<p>现在，您将会取得一些进展，但这是要在视觉上进行分类的大量数据。下一部分中，您将学习如何添加颜色、筛选器等，以将重点关注特定结果。</p>
-<p><strong>了解更多信息：</strong> 使用不同的视图来比较产品销售额。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“改善您的视图”的实际运行效果。"><a href="#检查您的工作！注意操作中的“改善您的视图”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“改善您的视图”的实际运行效果。"></a>检查您的工作！注意操作中的“改善您的视图”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag24.gif" alt=""></p>
-<hr>
-<h1 id="步骤-3：关注结果"><a href="#步骤-3：关注结果" class="headerlink" title="步骤 3：关注结果"></a>步骤 3：关注结果</h1><p>您创建了按类别和子类细分的产品销售额的视图。您将开始取得一些进展，但这是要进行分类的大量数据。您需要能够轻松地找到感兴趣的数据点并重点关注特定结果。那么，Tableau 具有一些非常适合做这项工作的选项！</p>
-<p>利用筛选器和颜色，您可以更多地去关注那些您感兴趣的详细信息。在增加对数据的重点关注后，您可以开始使用其他 Tableau Desktop 功能与该数据进行交互。</p>
-<h2 id="将筛选器添加到您的视图中"><a href="#将筛选器添加到您的视图中" class="headerlink" title="将筛选器添加到您的视图中"></a>将筛选器添加到您的视图中</h2><p>您可以使用筛选器在视图中包含或排除值。在本示例中，您决定将两个简单的筛选器添加到工作表中，以便能够更轻松地按子类查看特定年度的产品销售额。</p>
-<ol>
-<li><p>在“数据”窗格中的“维度”下面，右键单击<strong>“Order Date”（订单日期）</strong>，并选择<strong>“显示筛选器”</strong>。</p>
-</li>
-<li><p>对<strong>“子类”</strong>字段重复以上步骤。</p>
-<p>筛选器将按您选择它们的顺序添加到视图的右侧。筛选器是卡类型，并且通过单击筛选器并将其拖到视图中的另一个位置在画布上移动筛选器。拖动筛选器时，将会出现一条深黑色的线，显示您可拖动筛选器将其移动的位置。</p>
-<p><strong>注意</strong>：“入门指南”教程使用筛选器卡的默认位置。</p>
-<p>学习资料库中具有<strong>关于筛选的更多信息</strong>（在顶部菜单中）。</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag10.png" alt=""></p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“将筛选器应用于视图”的实际运行效果。"><a href="#检查您的工作！注意操作中的“将筛选器应用于视图”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“将筛选器应用于视图”的实际运行效果。"></a>检查您的工作！注意操作中的“将筛选器应用于视图”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag25.gif" alt=""></p>
-<hr>
-<h2 id="将颜色添加至视图"><a href="#将颜色添加至视图" class="headerlink" title="将颜色添加至视图"></a>将颜色添加至视图</h2><p>添加筛选器肯定可以帮助您对所有这些数据进行排序 - 但，哇，那么多的蓝色！该对这采取行动了。</p>
-<p>目前，您正在查看各种产品的销售总额。您肯定会看到一些产品的销售额一贯较低，并且可能非常适合减少这些产品线的销售工作，但其他产品的整体盈利能力表现如何？您决定将<strong>“Profit”（利润）</strong>拖到颜色上，以查看会发生什么情况。</p>
-<p>从“度量”中，将<strong>“Profit”（利润）</strong>拖到“标记”卡的<strong>“颜色”</strong>上。</p>
-<p>通过将利润拖到颜色上，您现在发现桌子、书柜甚至是计算机有负利润。并且显示了另一个细节！</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Dragcolor1.png" alt=""></p>
-<p><strong>注意：</strong> Tableau 会自动添加一个颜色图例并分配发散调色板，因为您的数据包括负值和正值。</p>
-<p><strong>信息：</strong>使用颜色：</p>
-<p>添加颜色可以增强视图的视觉效果，但是它也可能会使感兴趣的数据大众化。Tableau 会使用默认调色板将颜色分配给视图中的产品，但您并非只能使用该调色板。您可以做出选择！</p>
-<p>如果您想要使用所显示的颜色以外的其他颜色，则可以随时更改颜色或调色板。只需在“标记”卡上单击<strong>“颜色”</strong>，然后单击<strong>“编辑颜色”</strong>。您可以在打开的“编辑颜色”对话框中选择其他调色板。</p>
-<p><strong>注意：</strong> “入门指南”教程使用默认调色板。</p>
-<p>根据视图中的数据，“编辑颜色”对话框可能会向您显示发散调色板与分类调色板。</p>
-<p>发散调色板看起来如下图所示。发散调色板通常会分配给连续字段。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Dragcolor2.png" alt=""></p>
-<p>如果您将要使用图例，则它看起来可能如下图所示。像这样的分类调色板通常会分配给离散字段。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag12.png" alt=""></p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“将颜色添加至视图”的实际运行效果。"><a href="#检查您的工作！注意操作中的“将颜色添加至视图”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“将颜色添加至视图”的实际运行效果。"></a>检查您的工作！注意操作中的“将颜色添加至视图”的实际运行效果。</h3><p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag26.gif" alt=""></p>
-<hr>
-<h2 id="查找关键的细节"><a href="#查找关键的细节" class="headerlink" title="查找关键的细节"></a>查找关键的细节</h2><p>正如您所了解到的那样，在使用 Tableau Desktop 生成视图时，您可以浏览您的数据。通过添加筛选器和颜色，可以帮助您更好地呈现您的数据，并且可以马上找出问题。</p>
-<p>下一步是与您的视图进行交互，以便您可以开始得出结论。</p>
-<p>通过查看您的视图，您发现您肯定有一些不盈利的产品，但是现在您想要看看这些产品是否年复一年一直都不盈利。</p>
-<p>该使用筛选器仔细看看了。</p>
-<ol>
-<li><p>在视图内的<strong>“子类”</strong>筛选器卡中，清除除<strong>“书柜”</strong>、<strong>“计算机”</strong>和<strong>“桌子”</strong>之外的所有复选框。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/FocusFilter1.png" alt=""></p>
-<p>现在您可以看到，在某些年度，书柜和计算机实际上是盈利的。然而，在 2017 年，计算机变得不盈利了。虽然您已经取得了一项重要发现，但是在向您的上司提出任何行动项目之前，您需要收集更多信息。</p>
-<p>凭直觉，您决定按区域对视图进行细分：</p>
-</li>
-<li><p>选择<strong>“子类”</strong>筛选器卡中的<strong>“所有”</strong>以重新显示所有子类。</p>
-</li>
-<li><p>从“维度”中，将<strong>“Region”（区域）</strong>拖到<strong>“行”</strong>功能区，并将其放在 Sum(Sales) 的左边。</p>
-<p>Tableau 使用多个轴创建了一个按区域细分的视图。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/FocusRegions1.png" alt=""></p>
-</li>
-</ol>
-<p>现在，您会看到每个区域按产品列出的销售额和盈利能力。通过将区域添加到视图中，您注意到所报告的南部中计算机的负利润总的说来比其他区域高。您发现了隐藏的细节！</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Focus_MachineSpike.png" alt=""></p>
-<p>此视图以最佳方式概述了到目前为止的工作。选择<strong>“子类”</strong>筛选器卡（如果您更改了您的筛选器）中的<strong>“所有”</strong>以重新显示所有子类、命名此工作表和添加标题。</p>
-<ol start="4">
-<li><p>在工作区左下方，双击<strong>“工作表 1”</strong>并键入<strong>“Sales by Product/Region”（按产品/区域列出的销售额）</strong>。</p>
-<p>您选择将分析重点放在南部，但您不想失去已经创建的视图。在 Tableau Desktop 中，您可以复制您的工作表以从停下来的地方继续。</p>
-</li>
-<li><p>在工作簿中，右键单击<strong>“按产品/区域列出的销售额”</strong>工作表，并选择<strong>“复制”</strong>。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/FocusDuplicate1.png" alt=""></p>
-</li>
-<li><p>将复制的工作表重命名为<strong>“南部的销售额”</strong>。</p>
-</li>
-<li><p>从新工作表内的“维度”中，将<strong>“Region”（区域）</strong>拖到<strong>“筛选器”</strong>功能区，以在视图中将其添加为筛选器。</p>
-</li>
-<li><p>在“筛选器区域”对话框中，清除除<strong>“South”（南部）</strong>之外的所有复选框，然后单击<strong>“确定”</strong>。</p>
-</li>
-</ol>
-<p>您的视图将更新为如下图所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/FocusSouth1.png" alt=""></p>
-<p>现在，您可以重点关注南部的销售额和利润。您会立即看到计算机销售额在 2014 年有负利润，在 2017 年又有。这件事绝对需要调查！</p>
-<ol start="9">
-<li>选择<strong>“文件”</strong>&gt;<strong>“另存为”</strong>以保存您的工作。给您的工作簿提供一个名称，如“区域销售额和利润”。</li>
-</ol>
-<hr>
-<h3 id="检查您的工作！注意操作中的“查找关键细节”。"><a href="#检查您的工作！注意操作中的“查找关键细节”。" class="headerlink" title="检查您的工作！注意操作中的“查找关键细节”。"></a>检查您的工作！注意操作中的“查找关键细节”。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Drag27.gif" alt=""></p>
-<hr>
-<h1 id="步骤-4：通过地理方式浏览您的数据"><a href="#步骤-4：通过地理方式浏览您的数据" class="headerlink" title="步骤 4：通过地理方式浏览您的数据"></a>步骤 4：通过地理方式浏览您的数据</h1><p>您已经生成了一个出色的视图，它允许您按产品查看 2014 年至 2017 年的销售额和利润。在查看南部的产品销售额和盈利能力之后，您决定寻找该区域的趋势或模式。</p>
-<p>由于要查看地理数据（“区域”字段），因此您可以选择生成地图视图。地图视图非常适用于显示和分析这种信息。另外，它们简直太酷了！</p>
-<p>对于此示例，Tableau 已经为“国家/地区”、“州/省/市/自治区”、“城市”和“邮政编码”字段分配了适当的地理角色。这是因为它认识到这些字段中的每个字段都包含地理数据。您可以开始工作，并立即创建您的地图视图。</p>
-<h2 id="生成地图视图"><a href="#生成地图视图" class="headerlink" title="生成地图视图"></a>生成地图视图</h2><p>重新开始一个新工作表。</p>
-<ol>
-<li>在工作区的底部，单击<strong>“新建工作表”</strong>图标。</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/explore17.png" alt=""></p>
-<p>Tableau 将保留您以前的工作表并创建一个新工作表，以便您可以继续浏览您的数据而不会丢失您所做的工作。</p>
-<ol start="2">
-<li>在“数据”窗格中，双击<strong>“State”（州/省/市/自治区）</strong>并将其添加至“标记”卡上的<strong>“详细信息”</strong>。</li>
-</ol>
-<p>哇！您有了地图视图。</p>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore3.gif" alt=""></p>
-<p>因为 Tableau 已经知道州/省/市/自治区名称是地理数据，并且为“State”（州/省/市/自治区）维度分配了州/省/市/自治区地理角色，所以 Tableau 会自动创建一个地图视图。</p>
-<p>数据源中 48 个州/省/市/自治区中的每一个都具有一个标记。（糟糕的是，阿拉斯加和夏威夷未包含在您的数据源中，所以它们被遗漏了）。</p>
-<p>请注意，“国家/地区”字段也添加到了此视图中。之所以发生这种情况，是因为“Sample - Superstore”中的地理字段是分层结构的一部分。分层结构中的每个级别会添加为详细级别，如洋葱层。</p>
-<p>此外，还会将“经度”和“纬度”字段添加到“列”和“行”功能区中。您可以将这些看作 X 和 Y 字段。无论何时想要创建地图视图，它们都是必不可少的，因为为数据中的每个位置都分配了横向值和纵向值。有时，“经度”和“纬度”字段由 Tableau 生成。平常，您可能必须手动将它们包括在您的数据中。您可以在学习资料库中查找资源以详细了解这方面的内容。</p>
-<p>现在，拥有一个聚焦 48 个州/省/市/自治区的优秀地图是一回事，但是想要查看南部发生的情况又是另外一回事，记得吗？</p>
-<ol start="3">
-<li>将<strong>“Region”（区域）</strong>拖到<strong>“筛选器”</strong>功能区，然后仅向下筛选到<strong>“南部”</strong>。地图视图会放大到“南部”区域，并且每个州/省/市/自治区（共 11 个）都具有标记。</li>
-</ol>
-<p>现在，您想要实际了解如何显示此区域的数据趋势，因此您开始将其他字段拖到“标记”卡：</p>
-<ol start="4">
-<li><p>将<strong>“Sales”（销售额）</strong>度量拖到“标记”卡的<strong>“颜色”</strong>上。</p>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore4.gif" alt=""></p>
-</li>
-</ol>
-<p>此视图会自动更新为填充地图，并且会根据每个州/省/市/自治区的总销售额为每个州/省/市/自治区着色。</p>
-<p>无论何时将包含正数（如销售额）的连续度量添加到“标记”卡上的“颜色”时，您的填充地图都是蓝色。为负值分配的颜色为橙色。</p>
-<p>有时您可能不希望地图是蓝色。也许您喜欢绿色，或者您的数据不应该用蓝色来表示，如野火或交通堵塞。这只会令人感到困惑！</p>
-<p>不用担心，就像以前那样，您可以更改调色板。</p>
-<ol start="5">
-<li>在“标记”卡上单击<strong>“颜色”</strong>，然后选择<strong>“编辑颜色”</strong>。</li>
-</ol>
-<p>对于此示例，您想要知道销售业绩好的州/省/市/自治区以及销售业绩不好的州/省/市/自治区。</p>
-<ol start="6">
-<li>在“调色板”下拉列表中，选择<strong>“红色-绿色发散”</strong>并单击<strong>“确定”</strong>。这样，您应该可以快速查看业绩低和业绩高的州/省/市/自治区。</li>
-</ol>
-<p>视图将更新为如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore5.png" alt=""></p>
-<p>但是，稍等。刚才一切都变为红色了！发生了什么事？</p>
-<p>数据是准确的，并且<em>从技术上讲</em>，您可以比较业绩低和业绩高的州/省/市/自治区，但这真的是整个故事吗？</p>
-<p>这些州/省/市/自治区中某些州/省/市/自治区的销售额真的那么糟糕吗，或者佛罗里达州中是否就有更多人想买您的产品？或许您在显示为红色的州/省/市/自治区中有更小或更少的库存。或者也许显示为绿色的州/省/市/自治区中具有较高的人口密度，所以就会有更多的人买您的东西。</p>
-<p>无论是哪种情况，您都休想向您的上司显示此视图，因为您不确信数据讲述的故事是否有用。</p>
-<ol start="7">
-<li>单击工具栏中的<strong>“撤消”</strong>图标 <img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore22.png" alt=""> 以恢复为那个合适的蓝色视图。</li>
-</ol>
-<p>这里还有一个颜色问题。一切看起来都太好了 - 这也是个问题！</p>
-<p>乍一看，佛罗里达州的业绩似乎最好。如果将光标悬停在其标记上，则会显示销售总额为 89,474 美元，例如，与南卡罗莱纳州相比，其销售额仅有 8,482 美元。然而，南部中是否有任何州/省/市/自治区已经盈利？</p>
-<ol start="8">
-<li>将<strong>“Profit”（利润）</strong>拖到“标记”卡的<strong>“颜色”</strong>上，以查看是否可以回答此问题。</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore6.png" alt=""></p>
-<p>现在，这还差不多！由于利润往往包括正值和负值，所有 Tableau 将自动选择橙色-蓝色发散调色板，以快速显示具有负利润的州/省/市/自治区和具有正利润的州/省/市/自治区。</p>
-<p>现在清楚了，尽管田纳西州、北卡罗来纳州和佛罗里达州的销售额似乎还可以，甚至是很不错，但是它们具有负利润。但是原因是什么呢？您将在下一步中回答这个问题。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“生成地图视图”的实际运行效果。"><a href="#检查您的工作！注意操作中的“生成地图视图”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“生成地图视图”的实际运行效果。"></a>检查您的工作！注意操作中的“生成地图视图”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/explore18.gif" alt=""></p>
-<hr>
-<h1 id="步骤-5：下钻查询至详细信息"><a href="#步骤-5：下钻查询至详细信息" class="headerlink" title="步骤 5：下钻查询至详细信息"></a>步骤 5：下钻查询至详细信息</h1><p>在上一个步骤中，您发现田纳西州、北卡罗来纳州和佛罗里达州利润为负值。为了找出原因，您决定更进一步向下钻取，并重点关注这三个州/省/市/自治区中单独发生了什么事情。</p>
-<h2 id="从地图视图中停下来的地方接着讲"><a href="#从地图视图中停下来的地方接着讲" class="headerlink" title="从地图视图中停下来的地方接着讲"></a>从地图视图中停下来的地方接着讲</h2><p>正如您在上一个步骤中所看到的那样，地图非常适合大范围显现数据。条形图将帮助您进入本质性讨论。为此，您将创建另一个工作表。</p>
-<ol>
-<li><p>双击<strong>“工作表 3”</strong>并将此工作表命名为<strong>“利润地图”</strong>。</p>
-</li>
-<li><p>右键单击工作区底部的<strong>“Profit Map”（利润地图）</strong>，并选择<strong>“复制”</strong>。将此工作表命名为<strong>“负利润条形图”</strong>。</p>
-</li>
-<li><p>在“负利润条形图”工作表中，单击<strong>“智能显示”</strong>，然后选择<strong>水平条</strong>。</p>
-<p>“智能显示”会根据您添加到视图中的数据突出显示不同的图表类型。</p>
-<p><strong>注意：</strong> 您随时可以再次单击<strong>“智能显示”</strong>以将其折叠起来。</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore8.png" alt=""></p>
-<p>现在，您又有了一个条形图 - 就像下面这样。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore9.png" alt=""></p>
-<ol start="4">
-<li><p>单击并拖动光标，使选择范围覆盖<strong>“Tennessee”（田纳西州）</strong>、<strong>“North Carolina”（北卡罗来纳州）</strong>和<strong>“Florida”（佛罗里达州）</strong>之间的条，以选择多个条。在显示的工具提示上，选择<strong>“只保留”</strong>以重点关注这三个州/省/市/自治区。</p>
-<p><strong>注意：</strong> 您也可以右键单击其中一个突出显示的条，然后选择<strong>“只保留”</strong>。</p>
-<p>请注意，“州/省/市/自治区”的<em>“包含”</em>字段已添加到“筛选器”功能区中，以指明从视图中筛选了某些州/省/市/自治区。字段上带有两个圆圈的图标表示此字段是一个集。通过在“筛选器”功能区上右键单击字段，然后选择<strong>“编辑筛选器”</strong>，您可以编辑此字段。</p>
-</li>
-</ol>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore10.gif" alt=""></p>
-<p>现在您想要查看这些州/省/市/自治区中的城市数据。</p>
-<ol start="5">
-<li>在<strong>“行”</strong>功能区上，单击<strong>“州/省/市/自治区”</strong>字段上的<strong>加号</strong>图标，以下钻到“城市”详细级别。</li>
-</ol>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore11.gif" alt=""></p>
-<p>这里几乎有太多的信息，所以您决定对视图进一步进行筛选，以查看负利润最多的城市。您将如何执行此操作? 使用“前 N 个”筛选器。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“从地图视图中停下来的地方接着讲”的实际运行效果。"><a href="#检查您的工作！注意操作中的“从地图视图中停下来的地方接着讲”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“从地图视图中停下来的地方接着讲”的实际运行效果。"></a>检查您的工作！注意操作中的“从地图视图中停下来的地方接着讲”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/explore19.gif" alt=""></p>
-<h2 id="创建“前-N-个”筛选器"><a href="#创建“前-N-个”筛选器" class="headerlink" title="创建“前 N 个”筛选器"></a>创建“前 N 个”筛选器</h2><p>您可以在 Tableau Desktop 中使用“前 N 个”筛选器，以对视图中所显示的标记数设置限制。在本例中，您需要使用“前 N 个”筛选器以进一步查明业绩差的城市。</p>
-<ol>
-<li><p>从“数据”窗格中，将<strong>“城市”</strong>拖到<strong>“筛选器”</strong>功能区。</p>
-</li>
-<li><p>在“筛选器”对话框中，选择<strong>“前”</strong>选项卡，然后执行以下操作：</p>
-</li>
-<li><p>单击<strong>“按字段”</strong>。</p>
-</li>
-<li><p>单击<strong>“前”</strong>下拉列表，并选择<strong>“后”</strong>以显示表现最差者。</p>
-</li>
-<li><p>在文本框中键入 <strong>5</strong>，以显示数据集中业绩排在最后 5 位的城市。</p>
-</li>
-</ol>
-<p>Tableau Desktop 已经根据视图中的字段为“前 N 个”筛选器选择了字段（“利润”）和聚合（“总和”）。这些设置可以确保您的视图将只显示五个利润总和成绩最差的城市。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore12.png" alt=""></p>
-<ol start="6">
-<li>单击<strong>“确定”</strong>。</li>
-</ol>
-<p>现在，您可以看到，佛罗里达州的杰克逊维尔和迈阿密、北卡罗莱纳州的伯灵顿以及田纳西州的诺克斯维尔和孟菲斯是利润业绩最差的城市。</p>
-<p>视图中还有一个不该有的其他标志，即北卡罗莱纳州的杰克逊维尔，因为该城市的销售额实际上有利润。这是一个虚假项！</p>
-<p>这里发生了什么？为何在您创建了应该会将具有正利润的城市筛选掉的筛选器之后，这样的城市仍然会显示在视图中？</p>
-<p>这是一个大问题，也是引入 Tableau 操作顺序的重要原因。</p>
-<p>Tableau 操作顺序（也称为查询管道）是指 Tableau 执行各种操作的顺序，例如将筛选器应用于视图所采用的顺序。</p>
-<p>Tableau 按以下顺序应用筛选器：</p>
-<ol>
-<li><p>数据提取筛选器</p>
-</li>
-<li><p>数据源筛选器</p>
-</li>
-<li><p>上下文筛选器</p>
-</li>
-<li><p>“前 N 个”筛选器</p>
-</li>
-<li><p>维度筛选器</p>
-</li>
-<li><p>度量筛选器</p>
-</li>
-</ol>
-<p>您创建筛选器的顺序或者在“筛选器”功能区上排列筛选器的顺序与 Tableau 将这些筛选器应用于视图的顺序无关。</p>
-<p>好消息是，您可以在发现视图中的筛选器出现奇怪现象（比如现在视图中的冒名顶替者，卡罗莱纳州的杰克逊维尔）时指示 Tableau 更改此顺序。您只需向上下文中添加一个筛选器即可。这将指示 Tableau 先筛选该字段，而不管它位于操作顺序中的何处。</p>
-<p>但向上下文中添加哪个字段？“筛选器”功能区上有三个字段：“Region”（维度筛选器）、“City”（“前 N 个”筛选器）和<em>“包含（国家/地区, 州/省/市/自治区）（国家/地区, 州/省/市/自治区）”</em>（一个集）。</p>
-<p>如果再次查看操作顺序，您会知道集和“前 N 个”筛选器会在维度筛选器之前应用。但您是否知道是“前 N 个”筛选器还是集筛选器先应用？可能您并不知道。</p>
-<p>那么就要好好找一下罪魁祸首了。</p>
-<ol>
-<li><p>在“筛选器”功能区上，右键单击<strong>“City”（城市）</strong>字段，并选择<strong>“添加到上下文”</strong>。</p>
-<p>“City”（城市）字段将变为灰色并移到“筛选器”功能区的顶部，但视图中未发生任何变化。因此，即使您强制 Tableau 先筛选“City”（城市），问题也并未解决。</p>
-</li>
-<li><p>单击<strong>“撤消”</strong>。</p>
-</li>
-<li><p>在“筛选器”功能区上，右键单击<em>“包含（国家/地区, 州/省/市/自治区）（国家/地区, 州/省/市/自治区）”</em>集，并选择<strong>“添加到上下文”</strong>。</p>
-<p><em>“包含（国家/地区, 州/省/市/自治区）（国家/地区, 州/省/市/自治区）”</em>集变为灰色并移到“筛选器”功能区的顶部。另一个标记出现在视图中！北卡罗来纳州的康科德。您还注意到佛罗里达州的迈阿密消失了。这是因为康科德的利润实际比迈阿密低，但在应用了一系列筛选器后，它未被包括。</p>
-<p>您已经找到头绪了！但北卡罗来纳州的杰克逊维尔仍然在视图中。那么现在是怎么回事？</p>
-<p>之所以包括北卡罗来纳州的杰克逊维尔，是因为“City”（城市）是视图中显示的最低详细级别。为了让 Tableau Desktop 区分北卡罗莱纳州的杰克逊维尔与佛罗里达州的杰克逊维尔，您需要下钻到位置分层结构中的下一个详细级别，在本例中，此级别为“邮政编码”。执行此操作后，您可以排除北卡罗莱纳州的杰克逊维尔，但不排除佛罗里达州的杰克逊维尔。</p>
-</li>
-<li><p>在“行”功能区上，单击<strong>“城市”</strong>上的加号图标，以下钻到“邮政编码”详细级别。</p>
-</li>
-<li><p>右键单击北卡罗莱纳州的杰克逊维尔的邮政编码 <strong>28540</strong>，然后选择<strong>“排除”</strong>。</p>
-</li>
-</ol>
-<p>“邮政编码”已添加到“筛选器”功能区中，以指明从视图中筛选了“邮政编码”字段中的某些成员。即使从视图中移除了“邮政编码”字段，仍然会保留该筛选器。</p>
-<ol start="6">
-<li>将<strong>“邮政编码”</strong>拖出“行”功能区。</li>
-</ol>
-<p>视图将更新为如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore14.png" alt=""></p>
-<hr>
-<h3 id="检查您的工作！注意操作中的步骤-3-8。"><a href="#检查您的工作！注意操作中的步骤-3-8。" class="headerlink" title="检查您的工作！注意操作中的步骤 3-8。"></a>检查您的工作！注意操作中的步骤 3-8。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore13.gif" alt=""></p>
-<p>现在，您已经在您的视图中关注到利润最低的城市，您可以执行进一步的调查以确定导致利润最低的产品。</p>
-<hr>
-<h2 id="确定麻烦制造项"><a href="#确定麻烦制造项" class="headerlink" title="确定麻烦制造项"></a>确定麻烦制造项</h2><p>您决定按子类细分视图，以确定拖累利润的产品。您知道“子类”字段包含有关地点销售的产品的信息，所以您将从那里着手。</p>
-<ol>
-<li>将<strong>“Sub-Category”（子类）</strong>拖到<strong>“行”</strong>功能区，并将其放在“城市”的右边。</li>
-<li><p>将<strong>“Profit”（利润）</strong>拖到“标记”卡的<strong>“颜色”</strong>上，以更便于查看具有负利润的产品。</p>
-</li>
-<li><p>在“数据”窗格中，右键单击<strong>“Order Date”（订单日期）</strong>，并选择<strong>“显示筛选器”</strong>。</p>
-<p>如果需要，您现在可以浏览每一年的负利润，并快速找出造成亏损的产品。</p>
-<p>计算机、桌子和活页夹似乎表现得不怎么好。那么，如果您在杰克逊维尔、康科德、伯灵顿、诺克斯维尔和孟菲斯停止销售这些商品会怎样？</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore15.png" alt=""></p>
-<hr>
-<h2 id="验证您的发现"><a href="#验证您的发现" class="headerlink" title="验证您的发现"></a>验证您的发现</h2><p>排除活页夹、计算机和桌子能提高佛罗里达州、北卡罗莱纳州和田纳西州的利润吗？为了找出答案，您可以筛选出问题产品，看看会发生什么情况。</p>
-<ol>
-<li><p>通过单击<strong>“利润视图”</strong>工作表标签，回到您的地图地图。</p>
-</li>
-<li><p>在“数据”窗格上，右键单击<strong>“Sub-Category”（子类）</strong>，并选择<strong>“显示筛选器”</strong>。</p>
-<p>您提供的所有产品的筛选器卡将出现在地图视图旁边。过一会儿，这就会派上用场。</p>
-</li>
-<li><p>从“度量”中，将<strong>“Profit”（利润）</strong>和<strong>“Profit Ratio”（利润率）</strong>拖到“标记”卡的<strong>“标签”</strong>上。</p>
-<p>现在，您可以看到每个州/省/市/自治区的确切利润，而不必将光标悬停在它们上。</p>
-</li>
-<li><p>在“数据”窗格上，右键单击<strong>“Order Date”（订单日期）</strong>，并选择<strong>“显示筛选器”</strong>以提供一些视图上下文。</p>
-<p>视图中将显示 YEAR(Order Date) 的筛选器卡。现在，您可以查看所有年度或年度组合的利润。这可能对您的演示有用。</p>
-</li>
-<li><p>从视图内“子类”筛选器卡上的列表中清除<strong>“活页夹”</strong>、<strong>“计算机”</strong>和<strong>“桌子”</strong>。</p>
-<p>请记住，如果将筛选器添加到您的视图，则可以包括和排除值，以突出显示您的数据的某些部分。</p>
-</li>
-</ol>
-<p>当您清除每个成员时，田纳西州、北卡罗来纳州和佛罗里达州的利润将会提高，直到最后每个州/省/市/自治区都有正利润为止。</p>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Explore16.gif" alt=""></p>
-<p>嘿，您发现了一些情况！</p>
-<p>对于田纳西州、北卡罗来纳州和佛罗里达州，而不是对于南部其他各州，这些州的损失肯定是由活页夹、计算机和桌子造成的。当您从筛选器卡中清除项时，您是否注意到某些其他州/省/市/自治区的利润实际降低程度？举例来说，如果您切换“子类”筛选器卡上的<strong>“Binders”（装订机）</strong>，则阿肯色州的利润会下降四个百分点。您可以推断出装订机在阿肯色州实际上是可盈利的。</p>
-<p>您需要指导团队完成您所执行的步骤，以与他们共享这一发现。</p>
-<ol start="6">
-<li>选择“子类”筛选器卡上的<strong>“（所有）”</strong>以重新包括所有产品。</li>
-</ol>
-<hr>
-<h3 id="检查您的工作！注意操作中的“验证您的发现”的实际运行效果。"><a href="#检查您的工作！注意操作中的“验证您的发现”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“验证您的发现”的实际运行效果。"></a>检查您的工作！注意操作中的“验证您的发现”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/explore21.gif" alt=""></p>
-<p>现在，您知道计算机、桌子和活页夹是公司的问题产品。在重点关注南部时，您发现这些产品对利润具有不同的影响。这可能值得与您的上司交谈。</p>
-<p>接下来，您将汇编到目前为止在仪表板中完成的工作，以便可以清楚地演示您的发现。</p>
-<p>学习资料库中具有<strong>关于使用地图和地理角色的更多信息</strong>（在顶部菜单中）。</p>
-<hr>
-<h1 id="步骤-6：生成仪表板以显示您的见解"><a href="#步骤-6：生成仪表板以显示您的见解" class="headerlink" title="步骤 6：生成仪表板以显示您的见解"></a>步骤 6：生成仪表板以显示您的见解</h1><p>您已经创建了四个工作表，它们将传递您的上司需要知道的重要信息。现在，您需要用一种方法来表达“喂，是这么回事。看一看，我们在田纳西州、北卡罗来纳州和佛罗里达州怎么会有负利润？这就是其中的一个原因”。</p>
-<p>Tableau 具有适合做这项工作的应用程序，或者至少具有一个工作表：它叫做仪表板。您可以使用仪表板同时显示多个工作表，如果需要，可以让它们彼此进行交互。</p>
-<h2 id="设置仪表板"><a href="#设置仪表板" class="headerlink" title="设置仪表板"></a>设置仪表板</h2><p>您想要强调在某些地方销售的某些商品表现不佳。您的利润条形图视图和地图视图很好地证明这一点。</p>
-<ol>
-<li><p>单击<strong>“新建仪表板”</strong>按钮。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build1.png" alt=""></p>
-</li>
-<li><p>从左侧的“仪表板”窗格中，将<strong>“Sales in the South”</strong>（南部销售额）拖到空仪表板。</p>
-</li>
-<li><p>将<strong>“Profit Map”（利润地图）</strong>拖到仪表板，并将其放在“South”（南部）视图中的“Sales”（销售额）上。</p>
-<p>视图将更新为如下所示：</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build2.png" alt=""></p>
-<p>糟透的是，条形图有点扁，这不利于上司了解您的数据。</p>
-<hr>
-<h2 id="排列仪表板"><a href="#排列仪表板" class="headerlink" title="排列仪表板"></a>排列仪表板</h2><p>在您的“Sales in the South”（南部销售额）条形图内的“Sub-Category”（子类）中不容易查看每种商品的详细信息。而且，由于我们在视图中有地图，因此在“Sales in the South”（南部销售额）中可能也不需要“South”（南部）区域列。</p>
-<p>解决这些问题会给您更多的空间去传递您需要的信息。</p>
-<ol>
-<li><p>在“Sales in the South”（南部销售额）上，右键单击<strong>“Region”（区域）</strong>列标题下的列区域，并清除<strong>“显示标题”</strong>。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build2.5.png" alt=""></p>
-</li>
-<li><p>为<strong>“Category”（类别）</strong>行标题重复此过程。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build2.6.png" alt=""></p>
-<p>现在，您已经在仪表板中隐藏了不必要的列，同时保留了数据细分。啊，这些空白很漂亮。（但是，您或许可以使内容变得更加焕然一新。）</p>
-</li>
-<li><p>右键单击<strong>“Profit Map”（利润地图）</strong>标题，并选择<strong>“隐藏标题”</strong>。</p>
-<p>仪表板中即隐藏了“Profit Map”（利润地图）标题，创造了更多空间。</p>
-</li>
-<li><p>为<strong>“Sales in the South”（南部销售额）</strong>视图标题重复此步骤。</p>
-</li>
-<li><p>选择视图右边的<strong>“Sub-Category”（子类）</strong>筛选器卡，在卡的顶部，单击<strong>“移除”</strong>图标 <img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/build5.png" alt="">。</p>
-</li>
-<li><p>为第二个<strong>“Sub-Category”（子类）</strong>筛选器卡和其中一个<strong>“Year of Order Date”（订单日期年度）</strong>筛选器卡重复此步骤。</p>
-</li>
-<li><p>单击<strong>“利润颜色图例”</strong>，并将其从右边拖到“Sales in the South”（南部的销售额）下。</p>
-</li>
-<li><p>最后，选择其余<strong>“Year of Order Date”（订单日期年度）</strong>筛选器，单击其下拉箭头，然后选择<strong>“浮动”</strong>。将其移到地图视图中的空白区域。在此示例中，它放在“Atlantic Ocean”（大西洋）中的“East Coast”（东海岸）附近。</p>
-</li>
-</ol>
-<p>在“订单日期年份”筛选器上尝试选择其他年份。哦，您的数据经过了快速筛选，表明州/省/市/自治区的业绩因年而异。这样虽然很好，但是可以使其变得更容易比较。</p>
-<ol start="9">
-<li>单击<strong>“订单日期年份”</strong>筛选器顶部的下拉箭头，然后选择<strong>“单值(滑块)”</strong>。</li>
-</ol>
-<p>视图将更新为如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/build6.png" alt=""></p>
-<p>这还差不多！现在，您可以轻松地按年度比较利润和销售额。但是这与 PowerPoint 中的几个图片没有太大的不同 - 您使用的是 Tableau。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“排列仪表板”。"><a href="#检查您的工作！注意操作中的“排列仪表板”。" class="headerlink" title="检查您的工作！注意操作中的“排列仪表板”。"></a>检查您的工作！注意操作中的“排列仪表板”。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build3.gif" alt=""></p>
-<hr>
-<h2 id="添加交互功能"><a href="#添加交互功能" class="headerlink" title="添加交互功能"></a>添加交互功能</h2><p>如果可以查看哪些子类在州/省/市/自治区中可盈利岂不是很好？</p>
-<ol>
-<li><p>在仪表板中选择<strong>“Profit Map”（利润地图）</strong>，并单击右上角中的<strong>“用作筛选器”</strong>图标 <img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/build7.png" alt="">。</p>
-</li>
-<li><p>在地图中选择一个州/省/市/自治区。</p>
-<p>“Sales in the South”（南部销售额）条形图将自动更新以仅显示所选州/省/市/自治区中的子类销售额。您可以快速查看哪些子类可盈利。</p>
-</li>
-<li><p>单击美国的外部以清除您的选择。</p>
-</li>
-</ol>
-<p>您还希望 Viewer（查看者）能够查看基于订单日期的利润变化。</p>
-<ol start="4">
-<li><p>选择<strong>“Year of Order Date”（订单日期年度）</strong>筛选器，单击其下拉箭头，并选择<strong>“应用于工作表”</strong>&gt;<strong>“选定工作表”</strong>。</p>
-</li>
-<li><p>在“将筛选器应用于工作表”对话框中，选择<strong>“仪表板上的所有项”</strong>，然后单击<strong>“确定”</strong>。</p>
-<p>此选项指示 Tableau 将筛选器应用于仪表板中使用此相同数据源的所有工作表。</p>
-</li>
-</ol>
-<p>使用新交互式仪表板按年浏览州/省/市/自治区业绩！</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“添加交互功能”。"><a href="#检查您的工作！注意操作中的“添加交互功能”。" class="headerlink" title="检查您的工作！注意操作中的“添加交互功能”。"></a>检查您的工作！注意操作中的“添加交互功能”。</h3><p>在此，我们将筛选“Sales in the South”（南部销售额），以仅显示北卡罗莱纳州中销售的商品，然后逐年浏览利润。</p>
-<p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Build4.gif" alt=""></p>
-<hr>
-<h2 id="重命名并开始"><a href="#重命名并开始" class="headerlink" title="重命名并开始"></a>重命名并开始</h2><p>您向上司显示了您的仪表板，她很喜欢此仪表板。她将其命名为“Regional Sales and Profit”（区域销售额和利润），并且您通过双击<strong>“仪表板 1”</strong>选项卡并键入<strong>“Regional Sales and Profit”（区域销售额和利润）</strong>，也进行了重命名。</p>
-<p>在其调查中，您的上司还发现，2017 年在北卡罗来纳州市场引进计算机的决定是一个<em>糟糕的主意</em>。</p>
-<p>您的上司很高兴拥有这款用于浏览的仪表板，但是她还希望您为更大的团队拿出一项明确的行动计划。分派给您的任务是使用您的发现创建一个 PowerPoint 文件。</p>
-<p>幸好您知道 Tableau 中的故事。</p>
-<hr>
-<h1 id="步骤-7：生成故事以进行演示"><a href="#步骤-7：生成故事以进行演示" class="headerlink" title="步骤 7：生成故事以进行演示"></a>步骤 7：生成故事以进行演示</h1><p>您可能希望与较大团队共享您的发现。你们可能会一起重新评估北卡罗莱纳州的计算机销售情况。</p>
-<p>您决定在 Tableau 中创建一个故事，而不是必须猜测您的团队感兴趣的重要见解，也不必将它们包括在 PowerPoint 演示文稿中。这样，您就可以指导 Viewer（查看者）完成数据发现过程，并且可以选择以交互方式浏览您的数据，以回答演示过程中出现的任何问题。</p>
-<h2 id="创建您的第一个故事点"><a href="#创建您的第一个故事点" class="headerlink" title="创建您的第一个故事点"></a>创建您的第一个故事点</h2><p>为了演示，您将首先从概述开始。</p>
-<ol>
-<li>单击<strong>“新建故事”</strong>按钮。</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story1.png" alt=""></p>
-<p>现在系统向您呈现了一个空白的工作区，上面写着“将工作表拖到此处”。在此，您将创建您的第一个故事点。</p>
-<p>如果您认为空白故事很像空白仪表板，那是因为它们确实像。像仪表板一样，您可以将工作表拖到故事上以呈现工作表。您也可以将仪表板拖到故事上以在故事中呈现仪表板。</p>
-<ol start="2">
-<li><p>从左侧的“故事”空格中，将<strong>“南部销售额”</strong>工作表拖到视图上。</p>
-</li>
-<li><p>添加说明 - 或许是“按年度列出的销售额和利润”- 方法是在工作表上方的灰色框中编辑文本。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story2_updated.png" alt=""></p>
-</li>
-</ol>
-<p>此故事点将是让 Viewer（查看者）了解您的数据的有用方式。</p>
-<p>但是，您想要讲述一个关于在北卡罗莱纳州中销售计算机的故事，所以是时候朝着这个方向迈出一步了。</p>
-<hr>
-<h2 id="突出显示计算机销售额"><a href="#突出显示计算机销售额" class="headerlink" title="突出显示计算机销售额"></a>突出显示计算机销售额</h2><p>若要在图片中引入计算机，您可以利用“南部”条形图内“销售额”中所包括的“子类”筛选器。</p>
-<ol>
-<li><p>在“故事”空格中，单击<strong>“复制”</strong>以复制第一个说明。</p>
-<p>从您离开的地方继续，但是您知道您的第一个故事点将与您离开时的完全一样。</p>
-</li>
-<li><p>由于您知道要讲述一个关于计算机的故事，因此请在“子类”筛选器上清除所选择的<strong>“（所有）”</strong>，然后选择<strong>“计算机”</strong>。</p>
-<p>现在，您的 Viewer（查看者）可以按年度快速确定计算机的销售额和利润。</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story4_updated.png" alt=""></p>
-<ol start="3">
-<li><p>添加说明以强调您的 Viewer（查看者）所看到的内容，例如“按年度列出的计算机销售额和利润”。</p>
-<p>虽然您已成功地将关注重点转移到计算机，但是您意识到有些东西似乎很奇怪：在此视图中，您无法挑出哪个州造成了亏损。</p>
-<p>您将通过引入地图在下一个故事点中解决此问题。</p>
-</li>
-<li><p>在“故事”空格中，选择<strong>“空白”</strong>。</p>
-</li>
-</ol>
-<hr>
-<h3 id="检查您的工作！注意操作中的“创建您的第一个故事点”和“突出显示计算机销售额”的实际运行效果。"><a href="#检查您的工作！注意操作中的“创建您的第一个故事点”和“突出显示计算机销售额”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“创建您的第一个故事点”和“突出显示计算机销售额”的实际运行效果。"></a>检查您的工作！注意操作中的“创建您的第一个故事点”和“突出显示计算机销售额”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story5_updated.gif" alt=""></p>
-<hr>
-<h2 id="说明重点"><a href="#说明重点" class="headerlink" title="说明重点"></a>说明重点</h2><p>最后的结果是北卡罗莱纳州的计算机让您的公司亏损。您在自己创建的仪表板中发现了这一点。单靠按年度查看整体销售额和利润未证明这一点，但是区域利润却可以。</p>
-<ol>
-<li><p>将仪表板<strong>“区域销售额和利润”</strong>拖到画布上。</p>
-<p>这会给 Viewer（查看者）提供一个观察您的数据的新视角：负利润格外引人注目。</p>
-</li>
-</ol>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story6.png" alt=""></p>
-<ol start="2">
-<li>添加说明，如“南部中的商品表现不佳”。</li>
-</ol>
-<p>若要将您的结果缩小到仅限于北卡罗莱纳州，请从重复的故事点开始。</p>
-<ol>
-<li><p>选择<strong>“复制”</strong>以使用“区域利润”仪表板创建另一个故事点。</p>
-</li>
-<li><p>在地图上选择<strong>“North Carolina”（北卡罗莱纳州）</strong>，请注意条形图会自动更新。</p>
-</li>
-<li><p>在“Year of Order Date”（订单日期年份）筛选器卡上选择“全部”。</p>
-</li>
-<li><p>添加一个说明，例如“2014 年 - 2017 年北卡罗莱纳州的利润”。</p>
-</li>
-</ol>
-<p>现在，您可以指导 Viewer（查看者）查看北卡罗莱纳州的年度利润变化。为此，您将需要创建四个故事点：</p>
-<ol>
-<li><p>选择<strong>“复制”</strong>以从重点关注北卡罗莱纳州的“区域利润”仪表板开始。</p>
-</li>
-<li><p>在“Year of Order Date”（订单日期年份）筛选器上，单击右箭头按钮以显示<strong>“2014”</strong>年。</p>
-</li>
-<li><p>添加一个说明，例如“2014 年北卡罗莱纳州的利润”。然后单击<strong>“复制”</strong>。</p>
-</li>
-<li><p>为 2015 年、2016 年和 2017 年重复步骤 2 和 3。</p>
-</li>
-</ol>
-<p>现在，Viewer（查看者）将知道，哪些产品引入到了北卡罗莱纳州市场、何时引入的以及它们的销售情况如何。</p>
-<hr>
-<h3 id="检查您的工作！注意操作中的“说明重点”的实际运行效果。"><a href="#检查您的工作！注意操作中的“说明重点”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“说明重点”的实际运行效果。"></a>检查您的工作！注意操作中的“说明重点”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story7_updated.gif" alt=""></p>
-<hr>
-<h2 id="最后的润色"><a href="#最后的润色" class="headerlink" title="最后的润色"></a>最后的润色</h2><p>在重点关注 2017 年的数据的此故事点上，您想要描述您的发现。说明根本不管用。</p>
-<ol>
-<li><p>在左侧窗格中，选择<strong>“拖动以添加文本”</strong>并将它拖到您的视图上。</p>
-</li>
-<li><p>输入您的仪表板说明，强调北卡罗来纳州的计算机业绩不佳，例如“2017 年将计算机引入到北卡罗莱纳州市场导致严重亏损”。</p>
-<p>为了获得引人注目的效果，您或许可以在演示时将光标悬停在“南方销售额”条形图中的“计算机”上，以显示有用的工具提示：损失将近 4000 美元。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story9.png" alt=""></p>
-</li>
-</ol>
-<p>现在，对于最终幻灯片，您将下钻查询至详细信息。</p>
-<ol start="3">
-<li><p>在“故事”窗格中，单击<strong>“空白”</strong>。</p>
-</li>
-<li><p>从“故事”窗格中，将<strong>“负利润条形图”</strong>拖到视图上。</p>
-</li>
-<li><p>在<strong>“Year of Order Date”（订单日期年份）</strong>筛选器卡中，将视图范围缩小到 <strong>2017</strong> 年。</p>
-<p>现在，您可以轻松地看到计算机利润的亏损完全是由北卡罗莱纳州伯灵顿市场造成的。</p>
-</li>
-<li><p>在视图中，右键单击<strong>“Burlington”（伯灵顿）</strong>标记（条形），并选择<strong>“添加注释”</strong>&gt;<strong>“标记”</strong>。</p>
-</li>
-<li><p>在出现的“编辑注释”对话框中，删除筛选器文本并键入：“伯灵顿的计算机 2017 年亏损近 4,000 美元”。</p>
-</li>
-<li><p>单击<strong>“确定”</strong>。</p>
-</li>
-<li><p>在视图中，单击注释并调整其出现的位置。</p>
-</li>
-<li><p>为此故事点指定说明：“北卡罗莱纳州的哪个城市出现了计算机利润亏损？”</p>
-</li>
-<li><p>双击<strong>“故事 1”</strong>标签，并将故事重命名为“提高南部的利润”</p>
-</li>
-<li><p>通过选择<strong>“窗口”</strong>&gt;<strong>“演示模式”</strong>来查看您的故事。</p>
-</li>
-</ol>
-<hr>
-<h3 id="检查您的工作！注意操作中的“最后的润色”的实际运行效果。"><a href="#检查您的工作！注意操作中的“最后的润色”的实际运行效果。" class="headerlink" title="检查您的工作！注意操作中的“最后的润色”的实际运行效果。"></a>检查您的工作！注意操作中的“最后的润色”的实际运行效果。</h3><p><em>单击图像可重播</em><br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Story11.gif" alt=""></p>
-<hr>
-<h2 id="演示之后"><a href="#演示之后" class="headerlink" title="演示之后"></a>演示之后</h2><p>您的演示效果很好。团队确信要完成一些工作来提高北卡罗来纳州伯灵顿的利润。另外，他们很想知道为什么机器在第一位表现得那么差。您的老板很兴奋：您不仅确定了解决负利润问题的方式，而且还让团队问出了有关数据的问题。</p>
-<p>为了让团队对课程记忆深刻，您的老板要求您通过电子邮件将包含结果的 Word 文档发送给团队。幸好您知道使用 Tableau Server 和 Tableau Public 来分享可视化项。</p>
-<hr>
-<h1 id="步骤-8：共享您的发现"><a href="#步骤-8：共享您的发现" class="headerlink" title="步骤 8：共享您的发现"></a>步骤 8：共享您的发现</h1><p>您做了一堆的工作（出色的工作），发现北卡罗来纳州的伯灵顿需要一些关注。与您的队友共享此信息应该不难。幸运的是，有了 Tableau，这不是难事。</p>
-<p><strong>继续之前</strong>，请选择以下一个选项：</p>
+<h2 id="现在进行时表示将来"><a href="#现在进行时表示将来" class="headerlink" title="现在进行时表示将来"></a>现在进行时表示将来</h2><p>现在进行时可以表示以最近的将来做出计划或安排（definite future plans）。</p>
 <ul>
-<li><p>如果您或您的公司不使用 Tableau Server，或者如果您想要了解免费的替代共享选项，请跳转到<a href="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/get-started-tutorial-share.html#Use_Tableau_Public" target="_blank" rel="noopener">使用 Tableau Public</a>。</p>
-</li>
-<li><p>如果您或您的公司使用 Tableau Server，并且您熟悉分配给您的权限，请跳转到<a href="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/get-started-tutorial-share.html#Use_Tableau_Server" target="_blank" rel="noopener">使用 Tableau Server</a>。</p>
-</li>
+<li>必须带有表示将来的时间状语<br>避免与现在进行动作相混淆</li>
+<li>必须是人称主语</li>
 </ul>
-<h2 id="使用-Tableau-Public"><a href="#使用-Tableau-Public" class="headerlink" title="使用 Tableau Public"></a>使用 Tableau Public</h2><p>您的故事很受欢迎。您将要将其发布到 Tableau Public，以便您的团队可以联机查看它。</p>
-<p><strong>注意：</strong> 当您发布到 Tableau Public 时，顾名思义，这些视图可公开访问。这意味着您将与能够访问 Internet 的任何人共享您的视图以及您的基础数据。共享机密信息时，请考虑使用 <a href="http://www.tableau.com/zh-cn/products/server" target="_blank" rel="noopener">Tableau Server</a> 或 <a href="http://www.tableau.com/zh-cn/products/cloud-bi" target="_blank" rel="noopener">Tableau Online</a>。</p>
-<ol>
-<li><p>选择<strong>“服务器”</strong>&gt;<strong>“Tableau Public”</strong>&gt;<strong>“保存到 Tableau Public”</strong>。</p>
-</li>
-<li><p>在对话框中输入您的 Tableau Public 凭据。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share7.png" alt=""></p>
-<p>如果没有 Tableau Public 配置文件，请不要担心！只需单击<strong>“立即免费创建一个”</strong>并按提示操作即可。</p>
-</li>
-<li><p>在出现的对话框中，选择<strong>“创建数据提取”</strong>，然后单击<strong>“数据提取”</strong>。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share10.png" alt=""></p>
-</li>
-</ol>
-<ol start="4">
-<li><p>再次（也是最后一次）选择<strong>“服务器”</strong>&gt;<strong>“Tableau Public”</strong>&gt;<strong>“保存到 Tableau Public”</strong>。</p>
-</li>
-<li><p>当您的浏览器打开时，查看您的嵌入式故事。其内容将如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share8.png" alt=""></p>
-</li>
-<li><p>单击<strong>“编辑详细信息”</strong>以更新 VIZ 的标题、添加说明等等。</p>
-</li>
-<li><p>单击<strong>“保存”</strong>。</p>
-<p>现在，您的故事在 Web 上是实时故事。</p>
-</li>
-<li><p>若要与同事共享，请单击 VIZ 底部的<strong>“共享”</strong>。<br><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share9.png" alt=""></p>
-</li>
-<li><p>您想要如何分享您的故事？</p>
-<ul>
-<li>嵌入在网站上：复制<strong>嵌入代码</strong>，并将其粘贴在您的网页 HTML 中。</li>
-<li>发送链接：复制<strong>链接</strong>，并将其发送给您的同事。</li>
-<li>使用默认电子邮件客户端发送电子邮件：单击电子邮件图标。</li>
-<li>在 Twitter 或 Facebook 上共享：单击合适的图标。</li>
+<h2 id="与一般现在时表示将来的区别"><a href="#与一般现在时表示将来的区别" class="headerlink" title="与一般现在时表示将来的区别"></a>与一般现在时表示将来的区别</h2><ul>
+<li>一般现在时要比现在进行时听起来更正式，个人主观色彩要淡些</li>
+<li>如果是一系列预定的将来的安排，比如旅游行程安排，用进行时态显得累赘，而一般时态则较简洁</li>
 </ul>
-</li>
-</ol>
-<p>完成这些步骤之后，请<a href="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/get-started-tutorial-share.html#Congrats,_you_did_it!" target="_blank" rel="noopener">单击此处</a>跳转到本教程的最后一个部分。</p>
-<hr>
-<h2 id="使用-Tableau-Server"><a href="#使用-Tableau-Server" class="headerlink" title="使用 Tableau Server"></a>使用 Tableau Server</h2><p>您的故事很受欢迎。您将要将其发布到 Tableau Server，以便您的团队可以联机查看它。</p>
-<hr>
-<h3 id="发布到-Tableau-Server"><a href="#发布到-Tableau-Server" class="headerlink" title="发布到 Tableau Server"></a>发布到 Tableau Server</h3><ol>
-<li><p>选择<strong>“服务器”</strong>&gt;<strong>“发布工作簿”</strong>，或在工具栏上单击“共享” 。</p>
-</li>
-<li><p>在对话框中输入要连接到的服务器的名称（或 IP 地址），并单击“连接”。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share1-gs.png" alt=""></p>
-</li>
-<li><p>在“名称”字段中，输入<strong>“提高南部的利润”</strong>。</p>
-</li>
-<li><p>如果需要，请输入参考说明，例如“看看我在 Tableau Desktop 中构建的故事！”</p>
-</li>
-<li><p>在<strong>“工作表”</strong>下，单击<strong>“编辑”</strong>，然后清除所有工作表（<strong>“Improve Profits in the South”（提高南部的利润）</strong>除外。）</p>
-</li>
-<li><p>单击<strong>“发布”</strong>。</p>
-<p>Tableau Server 将在您的 Internet 浏览器中打开。如果遇到提示，请输入您的服务器凭据。</p>
-<p>当您的故事可以查看时，“发布完成”对话框将会通知您。</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share3-gs.png" alt=""></p>
-</li>
-</ol>
-<p>好了！您已使用 Tableau Server 成功发布了您的故事。现在，该通知您的媒体了。</p>
-<hr>
-<h3 id="发送工作链接"><a href="#发送工作链接" class="headerlink" title="发送工作链接"></a>发送工作链接</h3><p>如果不是应该通知媒体，那么至少该通知您的队友，以便他们能够与您的故事联机交互。</p>
-<ol>
-<li><p>在 Tableau Server 中，导航到您发布的“Improve Profits in the South”（提高南部的利润）故事。您将看到如下所示的屏幕：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share5.png" alt=""></p>
-<p><em>如果您发布了工作簿中的其他工作表，那么这些工作表将列在“提高南部的利润”旁边。</em></p>
-</li>
-<li><p>单击<strong>“提高南部的利润”</strong>。</p>
-<p>您的屏幕将更新为如下所示：</p>
-<p><img src="https://onlinehelp.tableau.com/current/guides/get-started-tutorial/zh-cn/Img/Share6.png" alt=""></p>
-<p>真棒！这是您的交互型嵌入式故事。</p>
-</li>
-<li><p>从菜单中，选择<strong>“共享”</strong>。</p>
-</li>
-<li><p>您想要如何分享您的故事？</p>
-<ul>
-<li>嵌入在网站上：复制<strong>嵌入代码</strong>，并将其粘贴在您的网页 HTML 中。</li>
-<li>发送链接：复制<strong>链接</strong>，并将其发送给您的同事。</li>
-<li>使用默认电子邮件客户端发送电子邮件：单击电子邮件图标。</li>
+<h2 id="与be-going-to表示计划与进行时态表示的计划区别"><a href="#与be-going-to表示计划与进行时态表示的计划区别" class="headerlink" title="与be going to表示计划与进行时态表示的计划区别"></a>与be going to表示计划与进行时态表示的计划区别</h2><p>be doing 表达的将来计划要比 be going to 的计划更确定。</p>
+<h1 id="其它表示将来的句型结构"><a href="#其它表示将来的句型结构" class="headerlink" title="其它表示将来的句型结构"></a>其它表示将来的句型结构</h1><h2 id="be-to-do"><a href="#be-to-do" class="headerlink" title="be to do"></a>be to do</h2><ul>
+<li>表示已经安排好在将来发生的事，是比较正式的用法</li>
+<li>表示强烈的命令</li>
 </ul>
-</li>
-</ol>
-<hr>
-<h2 id="恭喜，您成功了！"><a href="#恭喜，您成功了！" class="headerlink" title="恭喜，您成功了！"></a>恭喜，您成功了！</h2><p>您使用 Tableau Desktop 创建了产品数据视图、按区域绘制了产品销售额和盈利能力图、围绕着您的发现生成了一个仪表板、讲述了要演示的故事，在 Web 上共享了您的结果以便远程团队成员可以查看。</p>
-<p><strong>您是数据明星。 </strong></p>
-<p>干得漂亮！您已成功开始实践 Tableau“数据发现”方法：</p>
-<pre><code>*   提出问题
-*   收集数据
-*   构造数据
-*   浏览数据
-*   共享见解
-</code></pre><p>虽然您可能会发现与以前相比自己在每个阶段中做了更多的修改，但这是在 Tableau 中工作时将遵循的基本工作流程。例如，可能需要进行一些修改，以改进您的初始问题，将其从一般性问题（销售额是怎么回事？）更改为具体性问题（负利润由南部哪个城市造成的？）。</p>
-<p>您的修改内容可能会将您带向意想不到的方向。这太棒了。这是我们希望发生的，您将会发现一些机会，当您第一次看数据时，您甚至都不知道存在这些机会。</p>
-<p>如果您准备迅速行动并开始使用您的数据，那就去吧。但是，如果您想首先获得更多信息，请看看“学习资料库”！</p>
-<hr>
-<h1 id="学习资料库"><a href="#学习资料库" class="headerlink" title="学习资料库"></a>学习资料库</h1><p>欢迎使用学习资料库。查找您想要详细了解的过程中所包含的步骤名称。向下滚动到下一个表以获取附加的学习教程、视频、白皮书等等。</p>
-<table>
-<thead>
-<tr>
-<th>入门指南教程步骤</th>
-<th>主题</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>连接到示例数据源</td>
-<td><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#exampleconnections_overview.html" target="_blank" rel="noopener">连接器示例</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#environment_datasource_page.html" target="_blank" rel="noopener">“数据源”页面</a><br><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#qs_data_interpreter.html" target="_blank" rel="noopener">快速开始：使用 Data Interpreter 为分析准备数据源</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#datasource_plan.html" target="_blank" rel="noopener">策划数据源</a></td>
-<td><em>   描述您可以使用 Tableau 连接到的不同数据源以及如何连接到它们。<br></em>   描述数据源页面的特性和功能。<br><em>   描述如何使用数据解释器针对 Tableau 设置 Microsoft Excel 电子表格数据的格式。<br></em>   描述可用来对数据进行修整以从 Tableau 获得最佳效果的不同方法。</td>
-</tr>
-<tr>
-<td>进行拖放以率先观看</td>
-<td><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#datafields_typesandroles_dataroles_dimensionmeasure.html" target="_blank" rel="noopener">维度和度量</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#datafields_understanddatawindow.html" target="_blank" rel="noopener">了解“数据”窗格</a><br><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#environ_workspace_cardsandshelves.html" target="_blank" rel="noopener">其他卡</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#viewparts_marks_marktypes.html" target="_blank" rel="noopener">标记类型</a></td>
-<td><em>   描述 Tableau 中使用的数据角色之间的差异。</em>   描述“数据”窗格中的元素以及 Tableau 分配字段的方式。<br><em>   描述 Tableau 中可用的卡和功能区以及其他选项。</em>   描述 Tableau 支持的不同图表类型。</td>
-</tr>
-<tr>
-<td>关注结果</td>
-<td><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#filtering.html" target="_blank" rel="noopener">筛选</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#getstarted_save.html" target="_blank" rel="noopener">保存您的工作</a></td>
-<td><em>   描述 Tableau Desktop 中可用的不同筛选选项。<br></em>   描述 Tableau 中的不同文件类型。</td>
-</tr>
-<tr>
-<td>通过地理方式浏览您的数据</td>
-<td><em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#maps_geographicroles.html" target="_blank" rel="noopener">设置地理字段的格式</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#maps_options.html" target="_blank" rel="noopener">设置地图层</a><br>*   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#buildexamples_maps.html" target="_blank" rel="noopener">构建地图视图</a></td>
-<td><em>   描述 Tableau 使用的地理角色以及如何为字段分配地理角色。<br></em>   描述如何使用地图以及如何修改它们的外观。<br>*   描述如何构建地图视图。</td>
-</tr>
-<tr>
-<td>下钻查询至详细信息</td>
-<td>*   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#order_of_operations.html" target="_blank" rel="noopener">操作顺序</a></td>
-<td>*   描述 Tableau 执行操作的顺序。</td>
-</tr>
-<tr>
-<td>生成仪表板以显示您的见解</td>
-<td>*   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#qs_freeform_dashboards.html" target="_blank" rel="noopener">快速开始：平铺和浮动仪表板布局</a></td>
-<td>*   描述如何在您的仪表板上排列对象。</td>
-</tr>
-<tr>
-<td>将您的发现与其他人共享</td>
-<td><em>   <a href="http://onlinehelp.tableau.com/current/server/zh-cn/help.htm#permissions.htm" target="_blank" rel="noopener">管理权限</a><br></em>   <a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#extracting_data.html" target="_blank" rel="noopener">提取数据</a></td>
-<td><em>   描述如何在 Tableau Server 上针对视图设置内容权限<br></em>   描述数据提取以及如何及何时在 Tableau 上使用它们。</td>
-<td>以下是附加的学习教程、视频、白皮书等等。使用这些资源来提高您对 Tableau Desktop 的理解。</td>
-</tr>
-</tbody>
-</table>
-<table>
-<thead>
-<tr>
-<th>您要执行什么操作?</th>
-<th>尝试此位置</th>
-<th>适用于此内容类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>了解 Tableau 界面中需要的内容。</td>
-<td><a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#environment_workspace.html" target="_blank" rel="noopener">Tableau 工作区</a></td>
-<td>Tableau 用户界面 (UI) 中的标记图像。</td>
-</tr>
-<tr>
-<td>请查找更多教程，并效仿使用示例数据。</td>
-<td><a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#dataview_examples.html" target="_blank" rel="noopener">自己动手练习</a></td>
-<td>简单的操作方法演练，介绍如何创建最受欢迎的图表类型，并说明何时可能需要使用每种类型，包括：<br><em>   条形图<br></em>   文本表<br><em>   折线图<br></em>   散点图<br><em>   热图<br></em>   直方图<br><em>   甘特图<br></em>   饼图<br><em>   树状图<br></em>   盒形图<br><em>   填充气泡图<br></em>   地图</td>
-</tr>
-<tr>
-<td>使用特定功能快速启动并运行。</td>
-<td><a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#quickstarts.html" target="_blank" rel="noopener">快速入门指南</a></td>
-<td>旨在让您迅速熟悉特定功能的四到六步骤过程。</td>
-</tr>
-<tr>
-<td>查找示例，了解如何合并功能。</td>
-<td><a href="http://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.html#search-example" target="_blank" rel="noopener">联机帮助中的示例主题</a></td>
-<td>用于向您说明如何结合使用两个或更多功能完成一项较大任务的示例主题。</td>
-</tr>
-<tr>
-<td>查找示例，了解数据可视化的最佳做法</td>
-<td><em>   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#visual_best_practices.html" target="_blank" rel="noopener">可视化最佳做法</a><br></em>   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#dashboards_best_practices.html" target="_blank" rel="noopener">创建有效仪表板的最佳做法</a><br><em>   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#story_best_practices.html" target="_blank" rel="noopener">讲述精彩故事的最佳实践</a><br></em>   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#accessibility_best_practice.html" target="_blank" rel="noopener">设计无障碍视图的最佳做法</a><br>*   <a href="https://onlinehelp.tableau.com/current/pro/desktop/zh-cn/help.htm#publish_datasources_about.html" target="_blank" rel="noopener">发布的数据源的最佳做法</a></td>
-<td><em>   如何创建美观的可视化项。<br></em>   如何设计可帮助发现关键细节并加快决策速度的高效的仪表板。<br><em>   如何使用 Tableau 故事点来讲述精彩故事。<br></em>   如何创建有视觉或身体缺陷的用户可访问的可视化项。<br>*   如何使用发布的数据源使数据可用于分析。</td>
-</tr>
-<tr>
-<td>开始工作之前，请获得有关 Tableau 产品的更多上下文。</td>
-<td><a href="https://www.tableau.com/zh-cn/learn/whitepapers" target="_blank" rel="noopener">白皮书</a></td>
-<td>有关最佳做法、行业趋势以及数据分析中的下一步的深入讨论。</td>
-</tr>
-<tr>
-<td>查找在线培训或现场培训。</td>
-<td><a href="https://www.tableau.com/zh-cn/support/training" target="_blank" rel="noopener">培训</a></td>
-<td>参加免费的在线、按需培训课程，或者报名参加课堂培训，以加深您的专业知识。</td>
-</tr>
-<tr>
-<td>了解如何在您的系统配置环境中使用 Tableau，或者如何与其他公司的其他产品结合使用 Tableau。</td>
-<td><a href="https://www.tableau.com/zh-cn/support/knowledgebase" target="_blank" rel="noopener">知识库</a></td>
-<td>应支持请求而创建的内容，目的在于在特定的环境或情况下帮助使用 Tableau。</td>
-</tr>
-</tbody>
-</table>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/坚果云盘对 MKT 的帮助/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/02/坚果云盘对 MKT 的帮助/" itemprop="url">坚果云盘对 MKT 的帮助</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:55:54+08:00">
-                2018-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/WORK/" itemprop="url" rel="index">
-                    <span itemprop="name">WORK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>为了更好的为客户服务，FSEC启动了云盘项目，并提供给 MKT 团队以及部分客户进行使用。<br>下面简单介绍一下这个云盘系统的作用。</p>
-<p>现在客户索取品牌资料，MKT 提供给客户资料的流程是：<br><img src="https://i.loli.net/2018/07/31/5b5fddd65d7e7.png" alt="OldFlow"></p>
-<p>有了云盘后的流程如下：<br><img src="https://i.loli.net/2018/07/31/5b5fddd65d798.png" alt="NewFlow"></p>
-<p>可以看到新的流程里，不需要销售在其中传话，并且MKT 只需要定期更新云盘中的资料即可，而客户也只需要安装云盘客户端，就可以实时同步 MKT 更新的资料。</p>
-<p>通过以上的流程调整，解决了现在遇到的以下问题：</p>
-<ol>
-<li>省去了销售人员在中间传话。</li>
-<li>客户面对的是完整的品牌资料库，而不是今天收到一个文档，明天收到一张图片。</li>
-<li>MKT 只需要更新云盘中的资料，客户就可以实时同步最新的资料，而无需通过邮件分发。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/Excel 中空值概念/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/02/Excel 中空值概念/" itemprop="url">Excel 中空值概念</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:55:43+08:00">
-                2018-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/WORK/" itemprop="url" rel="index">
-                    <span itemprop="name">WORK</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>这里要清晰几个Excel里面的概念：<br><strong>空白</strong>、<strong>空值</strong>、<strong>零值</strong>、<strong>空字符串<code>（&quot;&quot;&quot;&quot;）</code></strong><br>其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。</p>
-<p>如果是严格意义上的“空值”，就应该用：<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="built_in">isblank</span>(<span class="symbol">a1</span>),<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>如果是“空白”，即包含空字符串的话，用<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="symbol">A1</span>=<span class="string">""</span><span class="string">""</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
-<p>另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的，<br><img src="https://i.loli.net/2018/06/22/5b2c9c753dee6.jpg" alt=""></p>
-<p>但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理</p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/02/如何临时修改 macOS 应用的界面语言/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/12/02/如何临时修改 macOS 应用的界面语言/" itemprop="url">如何临时修改 macOS 应用的界面语言</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-02T19:55:35+08:00">
-                2018-12-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
-                    <span itemprop="name">SOFTWARE</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><img src="https://i.loli.net/2018/06/08/5b1a3f9039562.jpg" alt="如何临时修改 macOS 应用的界面语言"></p>
-<h1 id="终端命令解决界面语言"><a href="#终端命令解决界面语言" class="headerlink" title="终端命令解决界面语言"></a>终端命令解决界面语言</h1><p>一般情况下，应用程序的界面语言会和系统语言保持一致。但有些时候，我们也会希望临时换用一种不同的界面语言。例如，一些程序的中文翻译词不达意，有必要参考英文界面来确定功能的准确含义；又如，一些网页会强制按照浏览器语言显示不同版本，因此必须通过切换浏览器语言来控制网页语言。</p>
-<p>问题是，并不是所有的应用程序都提供了切换界面语言的选项。事实上，大多数 macOS 的内建应用都没有这样的设置。如果每次遇到这种需求都去临时改变系统语言，未免过于耗时和麻烦。</p>
-<p>这个问题可以通过终端命令来解决。macOS 允许在运行应用程序时向其传递特定参数，其中，<strong><code>-AppleLanguages</code></strong> 参数就是用来控制应用程序的语言的。例如：</p>
-<pre><code># 以简体中文界面启动 Safari 浏览器 $ open -a /Applications/Safari.app --args -AppleLanguages &apos;(zh-CN)&apos;   # 以英文界面启动 Pages $ open -a /Applications/Pages.app --args -AppleLanguages &apos;(en)&apos; 
-</code></pre><p>如果想以其他语言启动某个应用程序，只需要修改将上述命令最后的地区代码。其他一些常用的代码包括繁体中文（<code>zh-TW</code>）、日文（<code>ja</code>）、法文（<code>fr</code>）、德文（<code>de</code>）等。</p>
-<p><strong>要知道一个应用都支持哪些界面语言</strong>，可以在 Finder 中找到该应用，点击右键选择 <strong>显示包内容</strong>，然后查看 <code>/Contents/Resources</code> 目录下以 <code>.lproj</code> 结尾的语言文件目录；<code>.lproj</code> 之前的部分就是各语言对应的地区代码。</p>
-<p><img src="https://i.loli.net/2018/06/08/5b1a3fb16bcec.jpg" alt=""><br>Safari 的语言文件</p>
-<p>当然，更快捷的方法还是使用终端命令。例如：</p>
-<pre><code># 查看 Ulysses 支持的界面语言 $ ls /Applications/Ulysses.app/Contents/Resources | grep lproj &gt; Base.lproj &gt; de.lproj &gt; en.lproj &gt; … 
-</code></pre><h1 id="为应用程序的特定语言创建快捷方式"><a href="#为应用程序的特定语言创建快捷方式" class="headerlink" title="为应用程序的特定语言创建快捷方式"></a>为应用程序的特定语言创建快捷方式</h1><p><strong>如果需要比较频繁地用不同语言显示某个应用</strong>，那么可以为其创建一个快捷方式。</p>
-<p>方法是：打开系统内建的「脚本编辑器」应用，新建一个文档，在命令栏输入：</p>
-<pre><code>do shell script &quot;&quot;open -a [应用程序路径] --args -AppleLanguages &apos;([要显示的语言])&apos;&quot;&quot; 
-</code></pre><p>点击 <strong>文件</strong> &gt; <strong>导出</strong>，起一个易认的名字（例如「Safari CN」），并将「文件格式」选为「脚本」，然后将其导出到 Applications 文件夹。</p>
-<p><img src="https://i.loli.net/2018/06/08/5b1a3fc09020f.jpg" alt=""><br>用脚本编辑器为特定语言创建快捷方式</p>
-<p>这样，就可以直接从 Launchpad 以特定语言启动这一应用了。</p>
-<p><a href="https://www.alfredapp.com/" target="_blank" rel="noopener">Alfred</a> 或 <a href="https://www.obdev.at/products/launchbar/index.html" target="_blank" rel="noopener">LaunchBar</a> 用户可以用该原理制作动作来实现同样效果，在此不赘。</p>
-<h1 id="默认以特定语言启动应用程序"><a href="#默认以特定语言启动应用程序" class="headerlink" title="默认以特定语言启动应用程序"></a>默认以特定语言启动应用程序</h1><p>最后，<strong>如果希望始终以某种与系统设置不同的语言启动特定应用</strong>，可以用 <code>defaults write</code> 命令来修改其默认设置。具体语法是：</p>
-<pre><code>$ defaults write [应用的 Bundle ID] AppleLanguages &apos;([要默认显示的语言])&apos; 
-</code></pre><p>例如：</p>
-<pre><code># 默认以简体中文打开「文本编辑」应用 $ defaults write com.apple.TextEdit AppleLanguages &apos;(zh-CN)&apos; 
-</code></pre><p>其中，应用的 Bundle ID 可以通过运行 <code>mdls -name kMDItemCFBundleIdentifier [应用程序路径]</code>来查找。例如：</p>
-<pre><code># Chrome 浏览器的 Bundle ID $ mdls -name kMDItemCFBundleIdentifier /Applications/Google\ Chrome.app &gt; kMDItemCFBundleIdentifier = &quot;&quot;com.google.Chrome&quot;&quot; 
-</code></pre><p>如果不再需要固定应用程序的显示语言，在终端运行：</p>
-<pre><code>$ defaults delete [应用的 Bundle ID] AppleLanguages 
-</code></pre><p>即可解除上述默认语言设置。</p>
-<p>转载自<a href="https://sspai.com/post/44536" target="_blank" rel="noopener">少数派</a></p>
+<h2 id="be-about-to-do"><a href="#be-about-to-do" class="headerlink" title="be about to do"></a>be about to do</h2><ul>
+<li>这一结构用来表示即将发生的动作，意思是“正要，马上就要”</li>
+</ul>
+<h2 id="be-on-the-point-verge-brink-eve-of-doing"><a href="#be-on-the-point-verge-brink-eve-of-doing" class="headerlink" title="be on the point / verge / brink / eve of doing"></a>be on the point / verge / brink / eve of doing</h2><ul>
+<li>与be about to do的意思差不多，但其动作发生的时间比 be about to do 还要快一点。</li>
+</ul>
 
           
         
@@ -2917,7 +3361,7 @@ AVERAGEX (
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
