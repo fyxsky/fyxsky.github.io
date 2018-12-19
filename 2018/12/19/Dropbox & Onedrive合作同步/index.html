@@ -90,7 +90,7 @@
 <meta property="og:image" content="https://i.loli.net/2018/12/19/5c1a3d4b74bb5.jpg">
 <meta property="og:image" content="https://i.loli.net/2018/12/19/5c1a46694dde0.png">
 <meta property="og:image" content="https://i.loli.net/2018/12/19/5c1a4717c5db7.png">
-<meta property="og:updated_time" content="2018-12-19T13:40:47.199Z">
+<meta property="og:updated_time" content="2018-12-19T13:43:20.019Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dropbox &amp; Onedrive 合作同步">
 <meta name="twitter:description" content="一直以来，对于同步文件，我一直主要使用 Dropbox. 虽然我也有 OneDrive 和 GoogleDrive 的教育版账号，但是对于工作的文件我还是只用 DropBox。主要是因为 Dropbox 的历史版本比较好用，而工作的文件大多都是各种格式的文档。 而 GoogleDrive，主要用来存一些音频视频以及小说之类的，毕竟空间比较大。 但是比较巧，这个月公司集团忽然不知道为什么，说是要全">
@@ -493,13 +493,13 @@
 <p>在 <strong>[OneDrive - Savencia]</strong> 文件夹中多了一个 <strong>[ JobDoc ]</strong> 文件夹，并且可以发现，OneDrive 开始对 <strong>[ JobDoc ]</strong> 文件夹进行了同步。也就是说 <strong>[OneDrive - Savencia]</strong> 文件夹认可了这个映射过来的 <strong>[ JobDoc ]</strong> 文件夹。虽然这个文件夹只是映射过来，本身文件还是在 Dropbox 文件夹中。</p>
 <p>而通过查看 <strong>[OneDrive - Savencia]</strong> 文件夹的属性，可以看到，此文件夹占用空间为 0 字节。</p>
 <p><img src="https://i.loli.net/2018/12/19/5c1a4717c5db7.png" alt="20181219_212639"></p>
-<p><strong>优点：</strong> 这样就完成了我最初的需求。并且不会出现同步错误的问题。<br><strong>缺点：</strong> 因为我在家里使用的是Windows，而我工作主力机是MacbookPro。因为我在Windows中已经使用了MKLINK命令在 <strong>[OneDrive - Savencia]</strong> 文件夹中创建了 Jobdoc 的映射。而造成，我在OSX下，无法再使用 ln 命令进行同样的映射，系统会告诉我Jobdoc文件夹已经存在了。而这个问题，我暂时还没想到好的解决方法。</p>
+<p><strong>优点：</strong> 这样就完成了我最初的需求。并且不会出现同步错误的问题。<br><strong>缺点：</strong> 因为我在家里使用的是Windows，而我工作主力机是MacbookPro。因为我在Windows中已经使用了MKLINK命令在 <strong>[OneDrive - Savencia]</strong> 文件夹中创建了 Jobdoc 的映射。而造成，我在 OSX 下，无法再使用 ln 命令进行同样的映射，系统会告诉我 Jobdoc 文件夹已经存在了。而这个问题，我暂时还没想到好的解决方法。</p>
 <p>因为我家中的 PC 全年不关机。所以暂时我的同步方式是：</p>
 <ol>
-<li>工作的时候Mac对JobDoc文件夹中的内容进行了修改。</li>
-<li>Dropbox对修改的文件进行同步，并同步到家中的 PC。</li>
-<li>PC 中Dropbox的Jobdoc文件夹的文件会因为映射的原因而激活OneDrive开始同步修改后的文件。</li>
-<li>公司的MacbookPro再把OneDrive同步到云端的文件同步到MacbookPro本地的OneDrive中。</li>
+<li>工作的时候 Mac 对 JobDoc 文件夹中的内容进行了修改。</li>
+<li>Dropbox 对修改的文件进行同步，并同步到家中的 PC。</li>
+<li>PC 中 Dropbox 的 Jobdoc 文件夹的文件会因为映射的原因而激活 OneDrive 开始同步修改后的文件。</li>
+<li>公司的 MacbookPro 再把 OneDrive 同步到云端的文件同步到 MacbookPro 本地的 OneDrive 中。</li>
 </ol>
 
       
