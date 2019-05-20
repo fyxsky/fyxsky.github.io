@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next1.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon32.ico?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon16.ico?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo1.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="（本文采用批量翻译，所以其中会有少数翻译不准确之处，但是个人认为不影响阅读理解。原文链接） 篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。基本模型示例假设您有一个Sales表，其中包含订单中每行详细信息的一行。 SalesOrderNumber列标识属于同一订单的行，如图1所示。  图1 在Sales表中，具有相同SalesOrde">
+<meta property="og:type" content="article">
+<meta property="og:title" content="购物篮分析">
+<meta property="og:url" content="http://fyxsky.github.io/2019/05/20/购物车分析/index.html">
+<meta property="og:site_name" content="夜色凉薄">
+<meta property="og:description" content="（本文采用批量翻译，所以其中会有少数翻译不准确之处，但是个人认为不影响阅读理解。原文链接） 篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。基本模型示例假设您有一个Sales表，其中包含订单中每行详细信息的一行。 SalesOrderNumber列标识属于同一订单的行，如图1所示。  图1 在Sales表中，具有相同SalesOrde">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_01.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_02.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_03.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_04.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_05.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_06.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_07.png">
+<meta property="og:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_08.png">
+<meta property="og:updated_time" content="2019-05-20T04:19:54.236Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="购物篮分析">
+<meta name="twitter:description" content="（本文采用批量翻译，所以其中会有少数翻译不准确之处，但是个人认为不影响阅读理解。原文链接） 篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。基本模型示例假设您有一个Sales表，其中包含订单中每行详细信息的一行。 SalesOrderNumber列标识属于同一订单的行，如图1所示。  图1 在Sales表中，具有相同SalesOrde">
+<meta name="twitter:image" content="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_01.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":true,"scrollpercent":true,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://fyxsky.github.io/2019/05/20/购物车分析/"/>
+
+
+
+
+
+  <title>购物篮分析 | 夜色凉薄</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">夜色凉薄</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">十年过去了，我还是想做工程师。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-markdown">
+          <a href="/editor/editor.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-edit"></i> <br />
+            
+            撰写
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup search-popup local-search-popup">
+  <div class="local-search-header clearfix">
+    <span class="search-icon">
+      <i class="fa fa-search"></i>
+    </span>
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+    <div class="local-search-input-wrapper">
+      <input autocomplete="off"
+             placeholder="搜索..." spellcheck="false"
+             type="text" id="local-search-input">
+    </div>
+  </div>
+  <div id="local-search-result"></div>
+</div>
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/05/20/购物车分析/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">购物篮分析</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-20T11:44:11+08:00">
+                2019-05-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/POWERBI/" itemprop="url" rel="index">
+                    <span itemprop="name">POWERBI</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>（本文采用批量翻译，所以其中会有少数翻译不准确之处，但是个人认为不影响阅读理解。<a href="https://www.daxpatterns.com/basket-analysis/#complete-pattern" target="_blank" rel="noopener">原文链接</a>）</p>
+<h1 id="篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。"><a href="#篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。" class="headerlink" title="篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。"></a>篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。</h1><h2 id="基本模型示例"><a href="#基本模型示例" class="headerlink" title="基本模型示例"></a>基本模型示例</h2><p>假设您有一个Sales表，其中包含订单中每行详细信息的一行。 SalesOrderNumber列标识属于同一订单的行，如图1所示。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_01.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_01.png" alt="图1在Sales表中，具有相同SalesOrderNumber值的行是同一订单的详细信息。"></a></p>
+<p><strong>图1</strong> 在Sales表中，具有相同SalesOrderNumber值的行是同一订单的详细信息。</p>
+<p>OrderDateKey和ProductCode列分别引用Date和Product表。 Product表包含作为分析目标的属性，例如产品名称或类别。 您可以创建名为Filter Product的Product表的副本，该表包含相同的数据，并且在所有表名和列名之前都有前缀“Filter”。 Sales表和Filter Product表之间的关系处于非活动状态，如图2所示。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_02.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_02.png" alt="图2 Product表有一个副本Filter Product，它与Sales表具有非活动关系。"></a></p>
+<p><strong>图2</strong> Product表有一个副本Filter Product，它与Sales表具有非活动关系。</p>
+<p>过滤器产品表使用户能够将第二个产品（或相关属性）指定为数据透视表中的过滤器，以用于仅考虑包含两个产品的订单的度量。 例如，图3中的数据透视表显示了每个自行车配件的订单数量，并且在同一行中显示了该配件的订单数量以及过滤器产品切片机过滤的产品（在本例中为Patch Kit/8 Patches）。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_03.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_03.png" alt="图3“两种产品的订单”度量显示的订单数量包括行中列出的产品（来自“产品”表）和筛选产品切片器中选择的产品。"></a></p>
+<p><strong>图3</strong> “两种产品的订单”度量显示的订单数量包括行中列出的产品（来自“产品”表）和筛选产品切片器中选择的产品。</p>
+<p>Orders度量是SalesOrderNumber列的简单不同计数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Orders] := DISTINCTCOUNT ( Sales[SalesOrderNumber] )</span><br></pre></td></tr></table></figure>
+<p>具有两种产品的订单度量实施类似的计算，应用仅考虑包含在过滤产品表中选择的产品的订单的过滤器：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Orders with Both Products] :=</span><br><span class="line">    CALCULATE (</span><br><span class="line">        DISTINCTCOUNT ( Sales[SalesOrderNumber] ) ,</span><br><span class="line">        CALCULATETABLE (</span><br><span class="line">            SUMMARIZE ( Sales, Sales[SalesOrderNumber] ),</span><br><span class="line">            ALL ( Product ) ,</span><br><span class="line">            USERELATIONSHIP ( Sales[ProductCode], 'Filter Product'[Filter ProductCode] )</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>这是一种通用的篮子分析方法，对于许多不同的计算非常有用.</p>
+<h2 id="用例"><a href="#用例" class="headerlink" title="用例"></a>用例</h2><p>如果要分析同一表中由位于同一表或查找表中的属性连接的不同行之间的关系，则可以在方案中使用Basket Analysis(购物篮)模型。 以下是一些有趣的用例列表。</p>
+<h3 id="交叉销售"><a href="#交叉销售" class="headerlink" title="交叉销售"></a>交叉销售</h3><p>通过购物篮分析，您可以确定向客户提供哪些产品，增加收入并改善与客户的关系。 例如，您可以分析其他客户一起购买的产品，然后向您的客户提供具有类似购买历史记录的其他人购买的产品。</p>
+<h3 id="向上销售"><a href="#向上销售" class="headerlink" title="向上销售"></a>向上销售</h3><p>在定义订单期间，您可以提供升级，附加或更昂贵的项目。 购物篮分析可帮助您根据订单历史记录确定哪种产品组合更成功。</p>
+<h3 id="打折促销"><a href="#打折促销" class="headerlink" title="打折促销"></a>打折促销</h3><p>您可以使用购买历史记录来定义组合或折扣某些产品的特殊促销。 购物篮分析可帮助您确定成功的产品组合，并评估促销活动的成功率，鼓励客户以相同的顺序购买更多产品。</p>
+<h2 id="完整模型"><a href="#完整模型" class="headerlink" title="完整模型"></a>完整模型</h2><p>创建一个如图4所示的数据模型.Filter Product表是Product表的副本，每个名称（表，列，层次结构和层次结构级别）都有前缀“Filter”。 Sales和Filter Product表之间的关系处于非活动状态。 在进行购物篮分析时，用户将使用“过滤产品”表将第二个过滤器应用于产品属性。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_04.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_04.png" alt="图4数据模型在Sales和Filter Product表之间具有非活动关系。"></a></p>
+<p><strong>图4</strong> 数据模型在Sales和Filter Product表之间具有非活动关系。</p>
+<p>图5中的数据透视表显示了具有不同条件的订单数量，具体取决于行和切片器中产品的选择。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_05.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_05.png" alt="图5包含在行和切片器中选择的一个或两个产品的订单的度量。"></a></p>
+<p><strong>图5</strong> 包含在行和切片器中选择的一个或两个产品的订单的度量。</p>
+<p>数据透视表行中的产品层次结构过滤所有订单，订单度量显示至少包含一个所选产品的订单数量（这是包含所选类别/子类别中至少一个产品的订单数量在粗体行中）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Orders] := DISTINCTCOUNT ( Sales[SalesOrderNumber] )</span><br></pre></td></tr></table></figure>
+<p>数据透视表周围的切片器显示过滤器产品表（过滤器类别，过滤器子类别和过滤器产品）中的属性选择。 在此示例中，仅选择了一个产品（Patch Kit / 8 Patches）。 “包含两个产品的订单”度量显示有多少订单包含在数据透视表行中选择的至少一个产品以及在过滤器产品切片器中选择的过滤产品（补丁工具包/ 8个补丁）。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Orders with Both Products] :=</span><br><span class="line">    CALCULATE (</span><br><span class="line">        DISTINCTCOUNT ( Sales[SalesOrderNumber] ) ,</span><br><span class="line">            CALCULATETABLE (</span><br><span class="line">            SUMMARIZE ( Sales, Sales[SalesOrderNumber] ),</span><br><span class="line">                ALL ( Product ) ,</span><br><span class="line">                USERELATIONSHIP ( Sales[ProductCode], 'Filter Product'[Filter ProductCode] )</span><br><span class="line">        )</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+<p>具有两种产品的订单％度量显示具有两种产品的订单的百分比; 它是通过将订单与两种产品的度量与订单度量进行比较而获得的。 但是，如果在Product和Filter Product表中选择的产品相同，则隐藏返回BLANK的结果，因为在这些情况下看100％是没有用的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[SameProductSelection] :=</span><br><span class="line">IF (</span><br><span class="line">    HASONEVALUE ( Product[ProductCode] )</span><br><span class="line">        &amp;&amp; HASONEVALUE ( 'Filter Product' [Filter ProductCode] ),</span><br><span class="line">        IF (</span><br><span class="line">        VALUES ( Product[ProductCode] )</span><br><span class="line">        = VALUES ( 'Filter Product' [Filter ProductCode] ),</span><br><span class="line">    TRUE</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Orders with Both Products %] :=</span><br><span class="line">IF (</span><br><span class="line">    NOT ( [SameProductSelection] ) ,</span><br><span class="line">        DIVIDE ( [Orders with Both Products], [Orders] )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>没有两种产品的订单度量只是订单和订单与两种产品度量之间的差异。 此数字表示包含在数据透视表中选择的产品的订单数，但不包括在筛选产品切片器中选择的产品。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Orders without Both Products] :=</span><br><span class="line">    [Orders] - [Orders with Both Products]</span><br></pre></td></tr></table></figure>
+<p>您还可以创建分析每个客户在不同订单中进行的购买的度量。 图6中的数据透视表显示了具有不同条件的客户数量，具体取决于行和切片器中产品的选择。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_06.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_06.png" alt="图6购买在行和切片机中选择的一种或两种产品的客户的度量。"></a></p>
+<p><strong>图6</strong> 购买在行和切片机中选择的一种或两种产品的客户的度量。</p>
+<p>数据透视表中的选择与用于计算订单的选项相同。 度量也类似 - 您只需使用Sales表上的CustomerKey列替换公式中的非重复计数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[Customers] := DISTINCTCOUNT ( Sales[CustomerKey] )</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[Customers with Both Products] :=</span><br><span class="line">CALCULATE (</span><br><span class="line">    DISTINCTCOUNT ( Sales[CustomerKey] ) ,</span><br><span class="line">        CALCULATETABLE (</span><br><span class="line">            SUMMARIZE ( Sales, Sales[CustomerKey] ),</span><br><span class="line">            ALL ( Product ) ,</span><br><span class="line">            USERELATIONSHIP ( Sales[ProductCode], 'Filter Product'[Filter ProductCode] )</span><br><span class="line">        )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Customers with Both Products %] :=</span><br><span class="line">IF (</span><br><span class="line">    NOT ( [SameProductSelection] ) ,</span><br><span class="line">        DIVIDE ( [Customers with Both Products], [Customers] )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>要计算或列出从未购买过您想要过滤的产品的客户数量，有一种更有效的技术。 使用“无过滤产品的客户”度量，如下所述。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[Customers with No Filter Products] :=</span><br><span class="line">COUNTROWS (</span><br><span class="line">    FILTER (</span><br><span class="line">    CALCULATETABLE ( Customer, Sales ) ,</span><br><span class="line">        ISEMPTY (</span><br><span class="line">            CALCULATETABLE (</span><br><span class="line">                Sales,</span><br><span class="line">                ALL ( Product ),</span><br><span class="line">                USERELATIONSHIP ( Sales[ProductCode], 'Filter Product'[Filter ProductCode] )</span><br><span class="line">            )</span><br><span class="line">        )</span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>您可以使用FILTER语句的结果作为CALCULATE语句的过滤器参数 - 例如，评估过滤的客户选择的销售额。 如果您的DAX版本中没有ISEMPTY功能，请使用以下实现：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[Customers with No Filter Products Classic] :=</span><br><span class="line">COUNTROWS (</span><br><span class="line">    FILTER (</span><br><span class="line">        CALCULATETABLE ( Customer, Sales ) ,</span><br><span class="line">            CALCULATE (</span><br><span class="line">                COUNTROWS ( Sales ),</span><br><span class="line">                ALL ( Product ),</span><br><span class="line">                USERELATIONSHIP ( Sales[ProductCode], 'Filter Product'[Filter ProductCode] )</span><br><span class="line">        )  = <span class="number">0</span></span><br><span class="line">    )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p> |</p>
+<blockquote>
+<p><strong>重要</strong> 说明ISEMPTY功能仅在Microsoft SQL Server 2012 Service Pack 1累积更新4或更高版本中可用。 因此，ISEMPTY仅在Power Pivot for Excel 2010 build 11.00.3368（或更高版本）和SQL Server Analysis Services 2012 build 11.00.3368（或更高版本）中可用。 在撰写本文时，ISEMPTY在任何版本的Excel 2013中都不可用，其更新取决于Microsoft Office发布周期，而不取决于SQL Server Service Pack。</p>
+</blockquote>
+<h2 id="更多模型示例"><a href="#更多模型示例" class="headerlink" title="更多模型示例"></a>更多模型示例</h2><p>在本节中，您将看到一些篮子分析模型的示例。</p>
+<h3 id="产品更可能与另一种产品一起购买"><a href="#产品更可能与另一种产品一起购买" class="headerlink" title="产品更可能与另一种产品一起购买"></a>产品更可能与另一种产品一起购买</h3><p>如果您想确定哪些产品最有可能与其他产品一起购买，您可以使用数据透视表，按照您在 [完整模型中] 看到的百分比度量之一对产品进行分类 。 例如，您可以将筛选器用于筛选器产品，并将产品名称放在数据透视表行中。 您可以使用具有两种产品的订单％度量或具有两种产品的客户％度量来按行对产品进行排序，以便数据透视表中的第一行显示最有可能与产品中选择的产品一起销售的产品。切片机。 图7中显示的示例按客户对产品进行排序，以两种产品％递减测量，以便您了解哪些产品最常销售给购买过滤产品切片机中所选产品的客户。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_07.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_07.png" alt="图7最常销售给购买Mountain Tire Tube产品的客户的产品。"></a></p>
+<p><strong>图7</strong> 最常销售给购买Mountain Tire Tube产品的客户的产品。</p>
+<h3 id="购买产品A而非产品B的客户"><a href="#购买产品A而非产品B的客户" class="headerlink" title="购买产品A而非产品B的客户"></a>购买产品A而非产品B的客户</h3><p>一旦您知道某些产品很有可能被一起购买，您就可以获得购买产品A但从未购买产品B的客户列表。您使用两个切片机，产品和过滤产品，在每个产品中选择一个或多个产品。 数据透视表的行名称中包含客户名称。 对于购买了产品切片机中选择的至少一种产品但从未购买过滤产品切片机中选择的任何产品的客户，无过滤产品测量的客户应返回1。</p>
+<p>图8所示的示例显示了购买HL Mountain Tire或ML Mountain Tire但从未购买过Mountain Tire Tube的客户列表。 您可能想联系这些客户并提供Mountain Tire Tube。</p>
+<p><a href="http://www.sqlbi.com/daxpatterns/wp-content/uploads/sites/151/2014/04/FIG_19_08.png" target="_blank" rel="noopener"><img src="https://www.daxpatterns.com/wp-content/uploads/sites/151/2014/04/FIG_19_08.png" alt="图8购买一种产品（HL Mountain Tire或ML Mountain Tire）而非过滤产品表（Mountain Tire Tube）中的项目的客户。"></a></p>
+<p><strong>图8</strong> 购买一种产品（HL Mountain Tire或ML Mountain Tire）而非过滤产品表（Mountain Tire Tube）中的项目的客户。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/16/秋风/" rel="next" title="秋风">
+                <i class="fa fa-chevron-left"></i> 秋风
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">Rocky.Guo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。"><span class="nav-number">1.</span> <span class="nav-text">篮子分析模型使得能够分析与特定实体相关的交易之间的共现关系，例如以相同顺序购买的产品，或者由不同购买的同一客户。</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本模型示例"><span class="nav-number">1.1.</span> <span class="nav-text">基本模型示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用例"><span class="nav-number">1.2.</span> <span class="nav-text">用例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#交叉销售"><span class="nav-number">1.2.1.</span> <span class="nav-text">交叉销售</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#向上销售"><span class="nav-number">1.2.2.</span> <span class="nav-text">向上销售</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#打折促销"><span class="nav-number">1.2.3.</span> <span class="nav-text">打折促销</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整模型"><span class="nav-number">1.3.</span> <span class="nav-text">完整模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更多模型示例"><span class="nav-number">1.4.</span> <span class="nav-text">更多模型示例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#产品更可能与另一种产品一起购买"><span class="nav-number">1.4.1.</span> <span class="nav-text">产品更可能与另一种产品一起购买</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#购买产品A而非产品B的客户"><span class="nav-number">1.4.2.</span> <span class="nav-text">购买产品A而非产品B的客户</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+        <div class="back-to-top">
+          <i class="fa fa-arrow-up"></i>
+          
+            <span id="scrollpercent"><span>0</span>%</span>
+          
+        </div>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Rocky.Guo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    var isXml = true;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length === 0) {
+      search_path = "search.xml";
+    } else if (/json$/i.test(search_path)) {
+      isXml = false;
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    var onPopupClose = function (e) {
+      $('.popup').hide();
+      $('#local-search-input').val('');
+      $('.search-result-list').remove();
+      $('#no-result').remove();
+      $(".local-search-pop-overlay").remove();
+      $('body').css('overflow', '');
+    }
+
+    function proceedsearch() {
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay"></div>')
+        .css('overflow', 'hidden');
+      $('.search-popup-overlay').click(onPopupClose);
+      $('.popup').toggle();
+      var $localSearchInput = $('#local-search-input');
+      $localSearchInput.attr("autocapitalize", "none");
+      $localSearchInput.attr("autocorrect", "off");
+      $localSearchInput.focus();
+    }
+
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+
+      // start loading animation
+      $("body")
+        .append('<div class="search-popup-overlay local-search-pop-overlay">' +
+          '<div id="search-loading-icon">' +
+          '<i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>' +
+          '</div>' +
+          '</div>')
+        .css('overflow', 'hidden');
+      $("#search-loading-icon").css('margin', '20% auto 0 auto').css('text-align', 'center');
+
+      $.ajax({
+        url: path,
+        dataType: isXml ? "xml" : "json",
+        async: true,
+        success: function(res) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = isXml ? $("entry", res).map(function() {
+            return {
+              title: $("title", this).text(),
+              content: $("content",this).text(),
+              url: $("url" , this).text()
+            };
+          }).get() : res;
+          var input = document.getElementById(search_id);
+          var resultContent = document.getElementById(content_id);
+          var inputEventFunction = function() {
+            var searchText = input.value.trim().toLowerCase();
+            var keywords = searchText.split(/[\s\-]+/);
+            if (keywords.length > 1) {
+              keywords.push(searchText);
+            }
+            var resultItems = [];
+            if (searchText.length > 0) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var hitCount = 0;
+                var searchTextCount = 0;
+                var title = data.title.trim();
+                var titleInLowerCase = title.toLowerCase();
+                var content = data.content.trim().replace(/<[^>]+>/g,"");
+                var contentInLowerCase = content.toLowerCase();
+                var articleUrl = decodeURIComponent(data.url);
+                var indexOfTitle = [];
+                var indexOfContent = [];
+                // only match articles with not empty titles
+                if(title != '') {
+                  keywords.forEach(function(keyword) {
+                    function getIndexByWord(word, text, caseSensitive) {
+                      var wordLen = word.length;
+                      if (wordLen === 0) {
+                        return [];
+                      }
+                      var startPosition = 0, position = [], index = [];
+                      if (!caseSensitive) {
+                        text = text.toLowerCase();
+                        word = word.toLowerCase();
+                      }
+                      while ((position = text.indexOf(word, startPosition)) > -1) {
+                        index.push({position: position, word: word});
+                        startPosition = position + wordLen;
+                      }
+                      return index;
+                    }
+
+                    indexOfTitle = indexOfTitle.concat(getIndexByWord(keyword, titleInLowerCase, false));
+                    indexOfContent = indexOfContent.concat(getIndexByWord(keyword, contentInLowerCase, false));
+                  });
+                  if (indexOfTitle.length > 0 || indexOfContent.length > 0) {
+                    isMatch = true;
+                    hitCount = indexOfTitle.length + indexOfContent.length;
+                  }
+                }
+
+                // show search results
+
+                if (isMatch) {
+                  // sort index by position of keyword
+
+                  [indexOfTitle, indexOfContent].forEach(function (index) {
+                    index.sort(function (itemLeft, itemRight) {
+                      if (itemRight.position !== itemLeft.position) {
+                        return itemRight.position - itemLeft.position;
+                      } else {
+                        return itemLeft.word.length - itemRight.word.length;
+                      }
+                    });
+                  });
+
+                  // merge hits into slices
+
+                  function mergeIntoSlice(text, start, end, index) {
+                    var item = index[index.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    var hits = [];
+                    var searchTextCountInSlice = 0;
+                    while (position + word.length <= end && index.length != 0) {
+                      if (word === searchText) {
+                        searchTextCountInSlice++;
+                      }
+                      hits.push({position: position, length: word.length});
+                      var wordEnd = position + word.length;
+
+                      // move to next position of hit
+
+                      index.pop();
+                      while (index.length != 0) {
+                        item = index[index.length - 1];
+                        position = item.position;
+                        word = item.word;
+                        if (wordEnd > position) {
+                          index.pop();
+                        } else {
+                          break;
+                        }
+                      }
+                    }
+                    searchTextCount += searchTextCountInSlice;
+                    return {
+                      hits: hits,
+                      start: start,
+                      end: end,
+                      searchTextCount: searchTextCountInSlice
+                    };
+                  }
+
+                  var slicesOfTitle = [];
+                  if (indexOfTitle.length != 0) {
+                    slicesOfTitle.push(mergeIntoSlice(title, 0, title.length, indexOfTitle));
+                  }
+
+                  var slicesOfContent = [];
+                  while (indexOfContent.length != 0) {
+                    var item = indexOfContent[indexOfContent.length - 1];
+                    var position = item.position;
+                    var word = item.word;
+                    // cut out 100 characters
+                    var start = position - 20;
+                    var end = position + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if (end < position + word.length) {
+                      end = position + word.length;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    slicesOfContent.push(mergeIntoSlice(content, start, end, indexOfContent));
+                  }
+
+                  // sort slices in content by search text's count and hits' count
+
+                  slicesOfContent.sort(function (sliceLeft, sliceRight) {
+                    if (sliceLeft.searchTextCount !== sliceRight.searchTextCount) {
+                      return sliceRight.searchTextCount - sliceLeft.searchTextCount;
+                    } else if (sliceLeft.hits.length !== sliceRight.hits.length) {
+                      return sliceRight.hits.length - sliceLeft.hits.length;
+                    } else {
+                      return sliceLeft.start - sliceRight.start;
+                    }
+                  });
+
+                  // select top N slices in content
+
+                  var upperBound = parseInt('1');
+                  if (upperBound >= 0) {
+                    slicesOfContent = slicesOfContent.slice(0, upperBound);
+                  }
+
+                  // highlight title and content
+
+                  function highlightKeyword(text, slice) {
+                    var result = '';
+                    var prevEnd = slice.start;
+                    slice.hits.forEach(function (hit) {
+                      result += text.substring(prevEnd, hit.position);
+                      var end = hit.position + hit.length;
+                      result += '<b class="search-keyword">' + text.substring(hit.position, end) + '</b>';
+                      prevEnd = end;
+                    });
+                    result += text.substring(prevEnd, slice.end);
+                    return result;
+                  }
+
+                  var resultItem = '';
+
+                  if (slicesOfTitle.length != 0) {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + highlightKeyword(title, slicesOfTitle[0]) + "</a>";
+                  } else {
+                    resultItem += "<li><a href='" + articleUrl + "' class='search-result-title'>" + title + "</a>";
+                  }
+
+                  slicesOfContent.forEach(function (slice) {
+                    resultItem += "<a href='" + articleUrl + "'>" +
+                      "<p class=\"search-result\">" + highlightKeyword(content, slice) +
+                      "...</p>" + "</a>";
+                  });
+
+                  resultItem += "</li>";
+                  resultItems.push({
+                    item: resultItem,
+                    searchTextCount: searchTextCount,
+                    hitCount: hitCount,
+                    id: resultItems.length
+                  });
+                }
+              })
+            };
+            if (keywords.length === 1 && keywords[0] === "") {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>'
+            } else if (resultItems.length === 0) {
+              resultContent.innerHTML = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>'
+            } else {
+              resultItems.sort(function (resultLeft, resultRight) {
+                if (resultLeft.searchTextCount !== resultRight.searchTextCount) {
+                  return resultRight.searchTextCount - resultLeft.searchTextCount;
+                } else if (resultLeft.hitCount !== resultRight.hitCount) {
+                  return resultRight.hitCount - resultLeft.hitCount;
+                } else {
+                  return resultRight.id - resultLeft.id;
+                }
+              });
+              var searchResultList = '<ul class=\"search-result-list\">';
+              resultItems.forEach(function (result) {
+                searchResultList += result.item;
+              })
+              searchResultList += "</ul>";
+              resultContent.innerHTML = searchResultList;
+            }
+          }
+
+          if ('auto' === 'auto') {
+            input.addEventListener('input', inputEventFunction);
+          } else {
+            $('.search-icon').click(inputEventFunction);
+            input.addEventListener('keypress', function (event) {
+              if (event.keyCode === 13) {
+                inputEventFunction();
+              }
+            });
+          }
+
+          // remove loading animation
+          $(".local-search-pop-overlay").remove();
+          $('body').css('overflow', '');
+
+          proceedsearch();
+        }
+      });
+    }
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched === false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(onPopupClose);
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+    $(document).on('keyup', function (event) {
+      var shouldDismissSearchPopup = event.which === 27 &&
+        $('.search-popup').is(':visible');
+      if (shouldDismissSearchPopup) {
+        onPopupClose();
+      }
+    });
+  </script>
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
