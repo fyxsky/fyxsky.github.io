@@ -283,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/29/Navicat 导入 CSV 文件/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/04/24/Lede-K3无法连接公司域邮箱问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -302,7 +302,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/29/Navicat 导入 CSV 文件/" itemprop="url">Navicat 导入 CSV 文件</a></h1>
+                <a class="post-title-link" href="/2019/04/24/Lede-K3无法连接公司域邮箱问题/" itemprop="url">Lede-K3无法连接公司域邮箱问题</a></h1>
         
 
         <div class="post-meta">
@@ -314,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-29T11:47:49+08:00">
-                2018-08-29
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T21:54:15+08:00">
+                2019-04-24
               </time>
             
 
@@ -337,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MYSQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MYSQL</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -376,512 +376,26 @@
       
         
           
-            <ol>
-<li>安装好 Mysql 在 Mac 中。</li>
-<li>配置 PATH : <code>PATH=&quot;$PATH&quot;:/usr/local/mysql/bin</code></li>
-<li>登录 Mysql： <code>mysql -u root -p</code></li>
-<li>关闭 Mysql 限制：<code>set @@global.sql_mode=&#39;&#39;;</code></li>
-<li>然后登录 Navicat 连接数据库，导入 CSV。</li>
-</ol>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/24/Mysql 常用命令大全/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/24/Mysql 常用命令大全/" itemprop="url">Mysql常用命令大全</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-24T21:11:22+08:00">
-                2018-08-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MYSQL/" itemprop="url" rel="index">
-                    <span itemprop="name">MYSQL</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h2><p>我下面所有的SQL语句是基于Mysql5.6+运行。 </p>
-<p>Mysql为关系型数据库(Relational Database Management System)，一个关系型数据库由一个或数个表格组成：</p>
-<ul>
-<li><code>表头(header)</code>: 每一列的名称;</li>
-<li><code>列(col)</code>: 具有相同数据类型的数据的集合;</li>
-<li><code>行(row)</code>: 每一行用来描述某个人/物的具体信息;</li>
-<li><code>值(value)</code>: 行的具体信息, 每个值必须与该列的数据类型相同;</li>
-<li><code>键(key)</code>: 表中用来识别某个特定的人\物的方法, 键的值在当前列中具有唯一性。</li>
-</ul>
-<h3 id="登录MySQL"><a href="#登录MySQL" class="headerlink" title="登录MySQL"></a>登录MySQL</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mysql-h 127.0.0.1 -u 用户名 -p</span><br><span class="line">mysql-D 所选择的数据库名 -h 主机名 -u 用户名 -p</span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> <span class="built_in">exit</span> <span class="comment"># 退出 使用 “quit;” 或 “\q;” 一样的效果</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> status;  <span class="comment"># 显示当前mysql的version的各种信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> select version(); <span class="comment"># 显示当前mysql的version信息</span></span></span><br><span class="line"><span class="meta">mysql&gt;</span><span class="bash"> show global variables like <span class="string">'port'</span>; <span class="comment"># 查看MySQL端口号</span></span></span><br></pre></td></tr></table></figure>
-<h3 id="创建数据库"><a href="#创建数据库" class="headerlink" title="创建数据库"></a>创建数据库</h3><p>对于表的操作需要先进入库<code>use 库名;</code></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 创建一个名为 samp_db 的数据库，数据库字符编码指定为 gbk</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> samp_db <span class="built_in">character</span> <span class="keyword">set</span> gbk;</span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> samp_db; <span class="comment">-- 删除 库名为samp_db的库</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">databases</span>;        <span class="comment">-- 显示数据库列表。</span></span><br><span class="line"><span class="keyword">use</span> samp_db;     <span class="comment">-- 选择创建的数据库samp_db</span></span><br><span class="line"><span class="keyword">show</span> <span class="keyword">tables</span>;     <span class="comment">-- 显示samp_db下面所有的表名字</span></span><br><span class="line"><span class="keyword">describe</span> 表名;    <span class="comment">-- 显示数据表的结构</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> 表名; <span class="comment">-- 清空表中记录</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建数据库表"><a href="#创建数据库表" class="headerlink" title="创建数据库表"></a>创建数据库表</h3><blockquote>
-<p>使用 create table 语句可完成对表的创建, create table 的常见形式:<br>语法：create table 表名称(列声明);</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 如果数据库中存在user_accounts表，就把它从数据库中drop掉</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> <span class="string">`user_accounts`</span>;</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user_accounts`</span> (</span><br><span class="line">  <span class="string">`id`</span>             <span class="built_in">int</span>(<span class="number">100</span>) <span class="keyword">unsigned</span> <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT primary <span class="keyword">key</span>,</span><br><span class="line">  <span class="string">`password`</span>       <span class="built_in">varchar</span>(<span class="number">32</span>)       <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">''</span> <span class="keyword">COMMENT</span> <span class="string">'用户密码'</span>,</span><br><span class="line">  <span class="string">`reset_password`</span> tinyint(<span class="number">32</span>)       <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="number">0</span> <span class="keyword">COMMENT</span> <span class="string">'用户类型：0－不需要重置密码；1-需要重置密码'</span>,</span><br><span class="line">  <span class="string">`mobile`</span>         <span class="built_in">varchar</span>(<span class="number">20</span>)       <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">''</span> <span class="keyword">COMMENT</span> <span class="string">'手机'</span>,</span><br><span class="line">  <span class="string">`create_at`</span>      <span class="keyword">timestamp</span>(<span class="number">6</span>)      <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">6</span>),</span><br><span class="line">  <span class="string">`update_at`</span>      <span class="keyword">timestamp</span>(<span class="number">6</span>)      <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">6</span>) <span class="keyword">ON</span> <span class="keyword">UPDATE</span> <span class="keyword">CURRENT_TIMESTAMP</span>(<span class="number">6</span>),</span><br><span class="line">  <span class="comment">-- 创建唯一索引，不允许重复</span></span><br><span class="line">  <span class="keyword">UNIQUE</span> <span class="keyword">INDEX</span> idx_user_mobile(<span class="string">`mobile`</span>)</span><br><span class="line">)</span><br><span class="line"><span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span> <span class="keyword">DEFAULT</span> <span class="keyword">CHARSET</span>=utf8</span><br><span class="line"><span class="keyword">COMMENT</span>=<span class="string">'用户表信息'</span>;</span><br></pre></td></tr></table></figure>
-<p>数据类型的属性解释</p>
-<ul>
-<li><code>NULL</code>：数据列可包含NULL值；</li>
-<li><code>NOT NULL</code>：数据列不允许包含NULL值；</li>
-<li><code>DEFAULT</code>：默认值；</li>
-<li><code>PRIMARY</code>：KEY 主键；</li>
-<li><code>AUTO_INCREMENT</code>：自动递增，适用于整数类型；</li>
-<li><code>UNSIGNED</code>：是指数值类型只能为正数；</li>
-<li><code>CHARACTER SET name</code>：指定一个字符集；</li>
-<li><code>COMMENT</code>：对表或者字段说明；</li>
-</ul>
-<h2 id="增删改查"><a href="#增删改查" class="headerlink" title="增删改查"></a>增删改查</h2><h3 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h3><blockquote>
-<p>SELECT 语句用于从表中选取数据。<br>语法：<code>SELECT 列名称 FROM 表名称</code><br>语法：<code>SELECT * FROM 表名称</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 表station取个别名叫s，表station中不包含 字段id=13或者14 的，并且id不等于4的 查询出来，只显示id</span></span><br><span class="line"><span class="keyword">SELECT</span> s.id <span class="keyword">from</span> station s <span class="keyword">WHERE</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="number">13</span>,<span class="number">14</span>) <span class="keyword">and</span> <span class="keyword">id</span> <span class="keyword">not</span> <span class="keyword">in</span> (<span class="number">4</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 从表 Persons 选取 LastName 列的数据</span></span><br><span class="line"><span class="keyword">SELECT</span> LastName <span class="keyword">FROM</span> Persons</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 从表 users 选取 id=3 的数据，并只拉一条数据(据说能优化性能)</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> <span class="keyword">users</span> <span class="keyword">where</span> <span class="keyword">id</span>=<span class="number">3</span> <span class="keyword">limit</span> <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 结果集中会自动去重复数据</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">DISTINCT</span> Company <span class="keyword">FROM</span> Orders </span><br><span class="line"><span class="comment">-- 表 Persons 字段 Id_P 等于 Orders 字段 Id_P 的值，</span></span><br><span class="line"><span class="comment">-- 结果集显示 Persons表的 LastName、FirstName字段，Orders表的OrderNo字段</span></span><br><span class="line"><span class="keyword">SELECT</span> p.LastName, p.FirstName, o.OrderNo <span class="keyword">FROM</span> Persons p, Orders o <span class="keyword">WHERE</span> p.Id_P = o.Id_P </span><br><span class="line"></span><br><span class="line"><span class="comment">-- gbk 和 utf8 中英文混合排序最简单的办法 </span></span><br><span class="line"><span class="comment">-- ci是 case insensitive, 即 “大小写不敏感”</span></span><br><span class="line"><span class="keyword">SELECT</span> tag, <span class="keyword">COUNT</span>(tag) <span class="keyword">from</span> news <span class="keyword">GROUP</span> <span class="keyword">BY</span> tag <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">convert</span>(tag <span class="keyword">using</span> gbk) <span class="keyword">collate</span> gbk_chinese_ci;</span><br><span class="line"><span class="keyword">SELECT</span> tag, <span class="keyword">COUNT</span>(tag) <span class="keyword">from</span> news <span class="keyword">GROUP</span> <span class="keyword">BY</span> tag <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">convert</span>(tag <span class="keyword">using</span> utf8) <span class="keyword">collate</span> utf8_unicode_ci;</span><br></pre></td></tr></table></figure>
-<h3 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h3><blockquote>
-<p>Update 语句用于修改表中的数据。<br>语法：<code>UPDATE 表名称 SET 列名称 = 新值 WHERE 列名称 = 某值</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- update语句设置字段值为另一个结果取出来的字段</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">user</span> <span class="keyword">set</span> <span class="keyword">name</span> = (<span class="keyword">select</span> <span class="keyword">name</span> <span class="keyword">from</span> user1 <span class="keyword">where</span> user1 .id = <span class="number">1</span> )</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">id</span> = (<span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> user2 <span class="keyword">where</span> user2 .name=<span class="string">'小苏'</span>);</span><br><span class="line"><span class="comment">-- 更新表 orders 中 id=1 的那一行数据更新它的 title 字段</span></span><br><span class="line"><span class="keyword">UPDATE</span> <span class="string">`orders`</span> <span class="keyword">set</span> title=<span class="string">'这里是标题'</span> <span class="keyword">WHERE</span> <span class="keyword">id</span>=<span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="INSERT"><a href="#INSERT" class="headerlink" title="INSERT"></a>INSERT</h3><blockquote>
-<p>INSERT INTO 语句用于向表格中插入新的行。<br>语法：<code>INSERT INTO 表名称 VALUES (值1, 值2,....)</code><br>语法：<code>INSERT INTO 表名称 (列1, 列2,...) VALUES (值1, 值2,....)</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 向表 Persons 插入一条字段 LastName = JSLite 字段 Address = shanghai</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> Persons (LastName, Address) <span class="keyword">VALUES</span> (<span class="string">'JSLite'</span>, <span class="string">'shanghai'</span>);</span><br><span class="line"><span class="comment">-- 向表 meeting 插入 字段 a=1 和字段 b=2</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> meeting <span class="keyword">SET</span> a=<span class="number">1</span>,b=<span class="number">2</span>;</span><br><span class="line"><span class="comment">-- </span></span><br><span class="line"><span class="comment">-- SQL实现将一个表的数据插入到另外一个表的代码</span></span><br><span class="line"><span class="comment">-- 如果只希望导入指定字段，可以用这种方法：</span></span><br><span class="line"><span class="comment">-- INSERT INTO 目标表 (字段1, 字段2, ...) SELECT 字段1, 字段2, ... FROM 来源表;</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> orders (user_account_id, title) <span class="keyword">SELECT</span> m.user_id, m.title <span class="keyword">FROM</span> meeting m <span class="keyword">where</span> m.id=<span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 向表 charger 插入一条数据，已存在就对表 charger 更新 `type`,`update_at` 字段；</span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> <span class="string">`charger`</span> (<span class="string">`id`</span>,<span class="string">`type`</span>,<span class="string">`create_at`</span>,<span class="string">`update_at`</span>) <span class="keyword">VALUES</span> (<span class="number">3</span>,<span class="number">2</span>,<span class="string">'2017-05-18 11:06:17'</span>,<span class="string">'2017-05-18 11:06:17'</span>) <span class="keyword">ON</span> <span class="keyword">DUPLICATE</span> <span class="keyword">KEY</span> <span class="keyword">UPDATE</span> <span class="string">`id`</span>=<span class="keyword">VALUES</span>(<span class="string">`id`</span>), <span class="string">`type`</span>=<span class="keyword">VALUES</span>(<span class="string">`type`</span>), <span class="string">`update_at`</span>=<span class="keyword">VALUES</span>(<span class="string">`update_at`</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h3><blockquote>
-<p>DELETE 语句用于删除表中的行。<br>语法：<code>DELETE FROM 表名称 WHERE 列名称 = 值</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在不删除table_name表的情况下删除所有的行，清空表。</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="comment">-- 或者</span></span><br><span class="line"><span class="keyword">DELETE</span> * <span class="keyword">FROM</span> table_name</span><br><span class="line"><span class="comment">-- 删除 Person表字段 LastName = 'JSLite' </span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">FROM</span> Person <span class="keyword">WHERE</span> LastName = <span class="string">'JSLite'</span> </span><br><span class="line"><span class="comment">-- 删除 表meeting id 为2和3的两条数据</span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">from</span> meeting <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>);</span><br></pre></td></tr></table></figure>
-<h2 id="WHERE"><a href="#WHERE" class="headerlink" title="WHERE"></a>WHERE</h2><blockquote>
-<p>WHERE 子句用于规定选择的标准。<br>语法：<code>SELECT 列名称 FROM 表名称 WHERE 列 运算符 值</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 从表 Persons 中选出 Year 字段大于 1965 的数据</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> <span class="keyword">Year</span>&gt;<span class="number">1965</span></span><br></pre></td></tr></table></figure>
-<h2 id="AND-和-OR"><a href="#AND-和-OR" class="headerlink" title="AND 和 OR"></a>AND 和 OR</h2><blockquote>
-<p>AND - 如果第一个条件和第二个条件都成立；<br>OR - 如果第一个条件和第二个条件中只要有一个成立；  </p>
-</blockquote>
-<h3 id="AND"><a href="#AND" class="headerlink" title="AND"></a>AND</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除 meeting 表字段 </span></span><br><span class="line"><span class="comment">-- id=2 并且 user_id=5 的数据  和</span></span><br><span class="line"><span class="comment">-- id=3 并且 user_id=6 的数据 </span></span><br><span class="line"><span class="keyword">DELETE</span> <span class="keyword">from</span> meeting <span class="keyword">where</span> <span class="keyword">id</span> <span class="keyword">in</span> (<span class="number">2</span>,<span class="number">3</span>) <span class="keyword">and</span> user_id <span class="keyword">in</span> (<span class="number">5</span>,<span class="number">6</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 使用 AND 来显示所有姓为 "Carter" 并且名为 "Thomas" 的人：</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> FirstName=<span class="string">'Thomas'</span> <span class="keyword">AND</span> LastName=<span class="string">'Carter'</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="OR"><a href="#OR" class="headerlink" title="OR"></a>OR</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 使用 OR 来显示所有姓为 "Carter" 或者名为 "Thomas" 的人：</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> firstname=<span class="string">'Thomas'</span> <span class="keyword">OR</span> lastname=<span class="string">'Carter'</span></span><br></pre></td></tr></table></figure>
-<h2 id="ORDER-BY"><a href="#ORDER-BY" class="headerlink" title="ORDER BY"></a>ORDER BY</h2><blockquote>
-<p>语句默认按照升序对记录进行排序。<br><code>ORDER BY</code> - 语句用于根据指定的列对结果集进行排序。<br><code>DESC</code> - 按照降序对记录进行排序。<br><code>ASC</code> - 按照顺序对记录进行排序。  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- Company在表Orders中为字母，则会以字母顺序显示公司名称</span></span><br><span class="line"><span class="keyword">SELECT</span> Company, OrderNumber <span class="keyword">FROM</span> Orders <span class="keyword">ORDER</span> <span class="keyword">BY</span> Company</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 后面跟上 DESC 则为降序显示</span></span><br><span class="line"><span class="keyword">SELECT</span> Company, OrderNumber <span class="keyword">FROM</span> Orders <span class="keyword">ORDER</span> <span class="keyword">BY</span> Company <span class="keyword">DESC</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- Company以降序显示公司名称，并OrderNumber以顺序显示</span></span><br><span class="line"><span class="keyword">SELECT</span> Company, OrderNumber <span class="keyword">FROM</span> Orders <span class="keyword">ORDER</span> <span class="keyword">BY</span> Company <span class="keyword">DESC</span>, OrderNumber <span class="keyword">ASC</span></span><br></pre></td></tr></table></figure>
-<h2 id="IN"><a href="#IN" class="headerlink" title="IN"></a>IN</h2><blockquote>
-<p>IN - 操作符允许我们在 WHERE 子句中规定多个值。<br>IN - 操作符用来指定范围，范围中的每一条，都进行匹配。IN取值规律，由逗号分割，全部放置括号中。<br>语法：<code>SELECT &quot;字段名&quot;FROM &quot;表格名&quot;WHERE &quot;字段名&quot; IN (&#39;值一&#39;, &#39;值二&#39;, ...);</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 从表 Persons 选取 字段 LastName 等于 Adams、Carter</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Persons <span class="keyword">WHERE</span> LastName <span class="keyword">IN</span> (<span class="string">'Adams'</span>,<span class="string">'Carter'</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="NOT"><a href="#NOT" class="headerlink" title="NOT"></a>NOT</h2><blockquote>
-<p>NOT - 操作符总是与其他操作符一起使用，用在要过滤的前面。</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> vend_id, prod_name <span class="keyword">FROM</span> Products <span class="keyword">WHERE</span> <span class="keyword">NOT</span> vend_id = <span class="string">'DLL01'</span> <span class="keyword">ORDER</span> <span class="keyword">BY</span> prod_name;</span><br></pre></td></tr></table></figure>
-<h2 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h2><blockquote>
-<p>UNION - 操作符用于合并两个或多个 SELECT 语句的结果集。</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 列出所有在中国表（Employees_China）和美国（Employees_USA）的不同的雇员名</span></span><br><span class="line"><span class="keyword">SELECT</span> E_Name <span class="keyword">FROM</span> Employees_China <span class="keyword">UNION</span> <span class="keyword">SELECT</span> E_Name <span class="keyword">FROM</span> Employees_USA</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 列出 meeting 表中的 pic_url，</span></span><br><span class="line"><span class="comment">-- station 表中的 number_station 别名设置成 pic_url 避免字段不一样报错</span></span><br><span class="line"><span class="comment">-- 按更新时间排序</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">id</span>,pic_url <span class="keyword">FROM</span> meeting <span class="keyword">UNION</span> ALL <span class="keyword">SELECT</span> <span class="keyword">id</span>,number_station <span class="keyword">AS</span> pic_url <span class="keyword">FROM</span> station  <span class="keyword">ORDER</span> <span class="keyword">BY</span> update_at;</span><br><span class="line"><span class="comment">-- 通过 UNION 语法同时查询了 products 表 和 comments 表的总记录数，并且按照 count 排序</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="string">'product'</span> <span class="keyword">AS</span> <span class="keyword">type</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">FROM</span> <span class="string">`products`</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="string">'comment'</span> <span class="keyword">as</span> <span class="keyword">type</span>, <span class="keyword">count</span>(*) <span class="keyword">as</span> <span class="keyword">count</span> <span class="keyword">FROM</span> <span class="string">`comments`</span> <span class="keyword">order</span> <span class="keyword">by</span> <span class="keyword">count</span>;</span><br></pre></td></tr></table></figure>
-<h2 id="AS"><a href="#AS" class="headerlink" title="AS"></a>AS</h2><blockquote>
-<p>as - 可理解为：用作、当成，作为；别名<br>一般是重命名列名或者表名。<br>语法：<code>select column_1 as 列1,column_2 as 列2 from table as 表</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> Employee <span class="keyword">AS</span> emp</span><br><span class="line"><span class="comment">-- 这句意思是查找所有Employee 表里面的数据，并把Employee表格命名为 emp。</span></span><br><span class="line"><span class="comment">-- 当你命名一个表之后，你可以在下面用 emp 代替 Employee.</span></span><br><span class="line"><span class="comment">-- 例如 SELECT * FROM emp.</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(OrderPrice) <span class="keyword">AS</span> LargestOrderPrice <span class="keyword">FROM</span> Orders</span><br><span class="line"><span class="comment">-- 列出表 Orders 字段 OrderPrice 列最大值，</span></span><br><span class="line"><span class="comment">-- 结果集列不显示 OrderPrice 显示 LargestOrderPrice</span></span><br><span class="line"></span><br><span class="line"><span class="comment">-- 显示表 users_profile 中的 name 列</span></span><br><span class="line"><span class="keyword">SELECT</span> t.name <span class="keyword">from</span> (<span class="keyword">SELECT</span> * <span class="keyword">from</span> users_profile a) <span class="keyword">AS</span> t;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 表 user_accounts 命名别名 ua，表 users_profile 命名别名 up</span></span><br><span class="line"><span class="comment">-- 满足条件 表 user_accounts 字段 id 等于 表 users_profile 字段 user_id</span></span><br><span class="line"><span class="comment">-- 结果集只显示mobile、name两列</span></span><br><span class="line"><span class="keyword">SELECT</span> ua.mobile,up.name <span class="keyword">FROM</span> user_accounts <span class="keyword">as</span> ua <span class="keyword">INNER</span> <span class="keyword">JOIN</span> users_profile <span class="keyword">as</span> up <span class="keyword">ON</span> ua.id = up.user_id;</span><br></pre></td></tr></table></figure>
-<h2 id="JOIN"><a href="#JOIN" class="headerlink" title="JOIN"></a>JOIN</h2><blockquote>
-<p>用于根据两个或多个表中的列之间的关系，从这些表中查询数据。  </p>
-</blockquote>
-<ul>
-<li><code>JOIN</code>: 如果表中有至少一个匹配，则返回行</li>
-<li><code>INNER JOIN</code>:在表中存在至少一个匹配时，INNER JOIN 关键字返回行。</li>
-<li><code>LEFT JOIN</code>: 即使右表中没有匹配，也从左表返回所有的行</li>
-<li><code>RIGHT JOIN</code>: 即使左表中没有匹配，也从右表返回所有的行</li>
-<li><code>FULL JOIN</code>: 只要其中一个表中存在匹配，就返回行(Mysql是不支持的，通过  <code>LEFT JOIN + UNION + RIGHT JOIN</code> 的方式 来实现)</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> Persons.LastName, Persons.FirstName, Orders.OrderNo</span><br><span class="line"><span class="keyword">FROM</span> Persons</span><br><span class="line"><span class="keyword">INNER</span> <span class="keyword">JOIN</span> Orders</span><br><span class="line"><span class="keyword">ON</span> Persons.Id_P = Orders.Id_P</span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> Persons.LastName;</span><br></pre></td></tr></table></figure>
-<h2 id="sql函数"><a href="#sql函数" class="headerlink" title="sql函数"></a>sql函数</h2><h3 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT"></a>COUNT</h3><blockquote>
-<p>COUNT 让我们能够数出在表格中有多少笔资料被选出来。<br>语法：<code>SELECT COUNT(&quot;字段名&quot;) FROM &quot;表格名&quot;;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 表 Store_Information 有几笔 store_name 栏不是空白的资料。</span></span><br><span class="line"><span class="comment">-- "IS NOT NULL" 是 "这个栏位不是空白" 的意思。</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span> (Store_Name) <span class="keyword">FROM</span> Store_Information <span class="keyword">WHERE</span> Store_Name <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="literal">NULL</span>; </span><br><span class="line"><span class="comment">-- 获取 Persons 表的总数</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">COUNT</span>(<span class="number">1</span>) <span class="keyword">AS</span> totals <span class="keyword">FROM</span> Persons;</span><br><span class="line"><span class="comment">-- 获取表 station 字段 user_id 相同的总数</span></span><br><span class="line"><span class="keyword">select</span> user_id, <span class="keyword">count</span>(*) <span class="keyword">as</span> totals <span class="keyword">from</span> station <span class="keyword">group</span> <span class="keyword">by</span> user_id;</span><br></pre></td></tr></table></figure>
-<h3 id="MAX"><a href="#MAX" class="headerlink" title="MAX"></a>MAX</h3><blockquote>
-<p>MAX 函数返回一列中的最大值。NULL 值不包括在计算中。<br>语法：<code>SELECT MAX(&quot;字段名&quot;) FROM &quot;表格名&quot;</code>  </p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 列出表 Orders 字段 OrderPrice 列最大值，</span></span><br><span class="line"><span class="comment">-- 结果集列不显示 OrderPrice 显示 LargestOrderPrice</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">MAX</span>(OrderPrice) <span class="keyword">AS</span> LargestOrderPrice <span class="keyword">FROM</span> Orders</span><br></pre></td></tr></table></figure>
-<h2 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h2><blockquote>
-<p>语法：<br>create trigger &lt;触发器名称&gt;<br>{ before | after}             # 之前或者之后出发<br>insert | update | delete      # 指明了激活触发程序的语句的类型<br>on &lt;表名&gt;                     # 操作哪张表<br>for each row                  # 触发器的执行间隔，for each row 通知触发器每隔一行执行一次动作，而不是对整个表执行一次。<br>&lt;触发器SQL语句&gt;</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">delimiter $</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> set_userdate <span class="keyword">BEFORE</span> <span class="keyword">INSERT</span> </span><br><span class="line"><span class="keyword">on</span> <span class="string">`message`</span></span><br><span class="line"><span class="keyword">for</span> <span class="keyword">EACH</span> <span class="keyword">ROW</span></span><br><span class="line"><span class="keyword">BEGIN</span></span><br><span class="line">  <span class="keyword">set</span> @statu = new.status; <span class="comment">-- 声明复制变量 statu</span></span><br><span class="line">  if @statu = 0 then       <span class="comment">-- 判断 statu 是否等于 0</span></span><br><span class="line">    <span class="keyword">UPDATE</span> <span class="string">`user_accounts`</span> <span class="keyword">SET</span> <span class="keyword">status</span>=<span class="number">1</span> <span class="keyword">WHERE</span> openid=NEW.openid;</span><br><span class="line">  <span class="keyword">end</span> <span class="keyword">if</span>;</span><br><span class="line"><span class="keyword">END</span></span><br><span class="line">$</span><br><span class="line">DELIMITER ; <span class="comment">-- 恢复结束符号</span></span><br></pre></td></tr></table></figure>
-<p>OLD和NEW不区分大小写</p>
-<ul>
-<li>NEW 用NEW.col_name，没有旧行。在DELETE触发程序中，仅能使用OLD.col_name，没有新行。</li>
-<li>OLD 用OLD.col_name来引用更新前的某一行的列</li>
-</ul>
-<h2 id="添加索引"><a href="#添加索引" class="headerlink" title="添加索引"></a>添加索引</h2><h3 id="普通索引-INDEX"><a href="#普通索引-INDEX" class="headerlink" title="普通索引(INDEX)"></a>普通索引(INDEX)</h3><blockquote>
-<p>语法：ALTER TABLE <code>表名字</code> ADD INDEX 索引名字 ( <code>字段名字</code> )</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- –直接创建索引</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">INDEX</span> index_user <span class="keyword">ON</span> <span class="keyword">user</span>(title)</span><br><span class="line"><span class="comment">-- –修改表结构的方式添加索引</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> (<span class="keyword">column</span>(<span class="keyword">length</span>))</span><br><span class="line"><span class="comment">-- 给 user 表中的 name 字段 添加普通索引(INDEX)</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> <span class="keyword">ADD</span> <span class="keyword">INDEX</span> index_name (<span class="keyword">name</span>)</span><br><span class="line"><span class="comment">-- –创建表的时候同时创建索引</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> (</span><br><span class="line">    <span class="string">`id`</span> <span class="built_in">int</span>(<span class="number">11</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> AUTO_INCREMENT ,</span><br><span class="line">    <span class="string">`title`</span> <span class="built_in">char</span>(<span class="number">255</span>) <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="keyword">NOT</span> <span class="literal">NULL</span> ,</span><br><span class="line">    <span class="string">`content`</span> <span class="built_in">text</span> <span class="built_in">CHARACTER</span> <span class="keyword">SET</span> utf8 <span class="keyword">COLLATE</span> utf8_general_ci <span class="literal">NULL</span> ,</span><br><span class="line">    <span class="string">`time`</span> <span class="built_in">int</span>(<span class="number">10</span>) <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="literal">NULL</span> ,</span><br><span class="line">    PRIMARY <span class="keyword">KEY</span> (<span class="string">`id`</span>),</span><br><span class="line">    <span class="keyword">INDEX</span> index_name (title(<span class="keyword">length</span>))</span><br><span class="line">)</span><br><span class="line"><span class="comment">-- –删除索引</span></span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">INDEX</span> index_name <span class="keyword">ON</span> <span class="keyword">table</span></span><br></pre></td></tr></table></figure>
-<h3 id="主键索引-PRIMARY-key"><a href="#主键索引-PRIMARY-key" class="headerlink" title="主键索引(PRIMARY key)"></a>主键索引(PRIMARY key)</h3><blockquote>
-<p>语法：ALTER TABLE <code>表名字</code> ADD PRIMARY KEY ( <code>字段名字</code> )</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给 user 表中的 id字段 添加主键索引(PRIMARY key)</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> <span class="keyword">ADD</span> PRIMARY <span class="keyword">key</span> (<span class="keyword">id</span>);</span><br></pre></td></tr></table></figure>
-<h3 id="唯一索引-UNIQUE"><a href="#唯一索引-UNIQUE" class="headerlink" title="唯一索引(UNIQUE)"></a>唯一索引(UNIQUE)</h3><blockquote>
-<p>语法：ALTER TABLE <code>表名字</code> ADD UNIQUE (<code>字段名字</code>)</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给 user 表中的 creattime 字段添加唯一索引(UNIQUE)</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> <span class="keyword">ADD</span> <span class="keyword">UNIQUE</span> (creattime);</span><br></pre></td></tr></table></figure>
-<h3 id="全文索引-FULLTEXT"><a href="#全文索引-FULLTEXT" class="headerlink" title="全文索引(FULLTEXT)"></a>全文索引(FULLTEXT)</h3><blockquote>
-<p>语法：ALTER TABLE <code>表名字</code> ADD FULLTEXT (<code>字段名字</code>)</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给 user 表中的 description 字段添加全文索引(FULLTEXT)</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`user`</span> <span class="keyword">ADD</span> FULLTEXT (description);</span><br></pre></td></tr></table></figure>
-<h3 id="添加多列索引"><a href="#添加多列索引" class="headerlink" title="添加多列索引"></a>添加多列索引</h3><blockquote>
-<p>语法：<br>ALTER TABLE <code>table_name</code> ADD INDEX index_name ( <code>column1</code>, <code>column2</code>, <code>column3</code>)</p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 给 user 表中的 name、city、age 字段添加名字为name_city_age的普通索引(INDEX)</span></span><br><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="keyword">user</span> <span class="keyword">ADD</span> <span class="keyword">INDEX</span> name_city_age (<span class="keyword">name</span>(<span class="number">10</span>),city,age);</span><br></pre></td></tr></table></figure>
-<h3 id="建立索引的时机"><a href="#建立索引的时机" class="headerlink" title="建立索引的时机"></a>建立索引的时机</h3><p>在<code>WHERE</code>和<code>JOIN</code>中出现的列需要建立索引，但也不完全如此：</p>
-<ul>
-<li>MySQL只对<code>&lt;</code>，<code>&lt;=</code>，<code>=</code>，<code>&gt;</code>，<code>&gt;=</code>，<code>BETWEEN</code>，<code>IN</code>使用索引</li>
-<li>某些时候的<code>LIKE</code>也会使用索引。</li>
-<li>在<code>LIKE</code>以通配符%和_开头作查询时，MySQL不会使用索引。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 此时就需要对city和age建立索引，</span></span><br><span class="line"><span class="comment">-- 由于mytable表的userame也出现在了JOIN子句中，也有对它建立索引的必要。</span></span><br><span class="line"><span class="keyword">SELECT</span> t.Name  </span><br><span class="line"><span class="keyword">FROM</span> mytable t <span class="keyword">LEFT</span> <span class="keyword">JOIN</span> mytable m <span class="keyword">ON</span> t.Name=m.username </span><br><span class="line"><span class="keyword">WHERE</span> m.age=<span class="number">20</span> <span class="keyword">AND</span> m.city=<span class="string">'上海'</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mytable <span class="keyword">WHERE</span> username <span class="keyword">like</span><span class="string">'admin%'</span>; <span class="comment">-- 而下句就不会使用：</span></span><br><span class="line"><span class="keyword">SELECT</span> * <span class="keyword">FROM</span> mytable <span class="keyword">WHERE</span> <span class="keyword">Name</span> <span class="keyword">like</span><span class="string">'%admin'</span>; <span class="comment">-- 因此，在使用LIKE时应注意以上的区别。</span></span><br></pre></td></tr></table></figure>
-<p>索引的注意事项</p>
-<ul>
-<li>索引不会包含有NULL值的列</li>
-<li>使用短索引</li>
-<li>不要在列上进行运算 索引会失效</li>
-</ul>
-<h2 id="创建后表的修改"><a href="#创建后表的修改" class="headerlink" title="创建后表的修改"></a>创建后表的修改</h2><h3 id="添加列"><a href="#添加列" class="headerlink" title="添加列"></a>添加列</h3><blockquote>
-<p>语法：<code>alter table 表名 add 列名 列数据类型 [after 插入位置];</code></p>
-</blockquote>
-<p>示例:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 在表students的最后追加列 address: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">add</span> address <span class="built_in">char</span>(<span class="number">60</span>);</span><br><span class="line"><span class="comment">-- 在名为 age 的列后插入列 birthday: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">add</span> birthday <span class="built_in">date</span> <span class="keyword">after</span> age;</span><br><span class="line"><span class="comment">-- 在名为 number_people 的列后插入列 weeks: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">add</span> <span class="keyword">column</span> <span class="string">`weeks`</span> <span class="built_in">varchar</span>(<span class="number">5</span>) <span class="keyword">not</span> <span class="literal">null</span> <span class="keyword">default</span> <span class="string">""</span> <span class="keyword">after</span> <span class="string">`number_people`</span>;</span><br></pre></td></tr></table></figure>
-<h3 id="修改列"><a href="#修改列" class="headerlink" title="修改列"></a>修改列</h3><blockquote>
-<p>语法：<code>alter table 表名 change 列名称 列新名称 新数据类型;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 将表 tel 列改名为 telphone: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">change</span> tel telphone <span class="built_in">char</span>(<span class="number">13</span>) <span class="keyword">default</span> <span class="string">"-"</span>;</span><br><span class="line"><span class="comment">-- 将 name 列的数据类型改为 char(16): </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">change</span> <span class="keyword">name</span> <span class="keyword">name</span> <span class="built_in">char</span>(<span class="number">16</span>) <span class="keyword">not</span> <span class="literal">null</span>;</span><br><span class="line"><span class="comment">-- 修改 COMMENT 前面必须得有类型属性</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">change</span> <span class="keyword">name</span> <span class="keyword">name</span> <span class="built_in">char</span>(<span class="number">16</span>) <span class="keyword">COMMENT</span> <span class="string">'这里是名字'</span>;</span><br><span class="line"><span class="comment">-- 修改列属性的时候 建议使用modify,不需要重建表</span></span><br><span class="line"><span class="comment">-- change用于修改列名字，这个需要重建表</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> meeting <span class="keyword">modify</span> <span class="string">`weeks`</span> <span class="built_in">varchar</span>(<span class="number">20</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">DEFAULT</span> <span class="string">''</span> <span class="keyword">COMMENT</span> <span class="string">'开放日期 周一到周日：0~6，间隔用英文逗号隔开'</span>;</span><br><span class="line"><span class="comment">-- `user`表的`id`列，修改成字符串类型长度50，不能为空，`FIRST`放在第一列的位置</span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> <span class="string">`user`</span> <span class="keyword">modify</span> <span class="keyword">COLUMN</span> <span class="string">`id`</span> <span class="built_in">varchar</span>(<span class="number">50</span>) <span class="keyword">NOT</span> <span class="literal">NULL</span> <span class="keyword">FIRST</span> ;</span><br></pre></td></tr></table></figure>
-<h3 id="删除列"><a href="#删除列" class="headerlink" title="删除列"></a>删除列</h3><blockquote>
-<p>语法：<code>alter table 表名 drop 列名称;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除表students中的 birthday 列: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">drop</span> birthday;</span><br></pre></td></tr></table></figure>
-<h3 id="重命名表"><a href="#重命名表" class="headerlink" title="重命名表"></a>重命名表</h3><blockquote>
-<p>语法：<code>alter table 表名 rename 新表名;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 重命名 students 表为 workmates: </span></span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> students <span class="keyword">rename</span> workmates;</span><br></pre></td></tr></table></figure>
-<h3 id="清空表数据"><a href="#清空表数据" class="headerlink" title="清空表数据"></a>清空表数据</h3><blockquote>
-<p>方法一：<code>delete from 表名;</code><br>方法二：<code>truncate from &quot;表名&quot;;</code></p>
-</blockquote>
-<ul>
-<li><code>DELETE:</code>1. DML语言;2. 可以回退;3. 可以有条件的删除;</li>
-<li><code>TRUNCATE:</code>1. DDL语言;2. 无法回退;3. 默认所有的表内容都删除;4. 删除速度比delete快。</li>
-</ul>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 清空表为 workmates 里面的数据，不删除表。 </span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> workmates;</span><br><span class="line"><span class="comment">-- 删除workmates表中的所有数据，且无法恢复</span></span><br><span class="line"><span class="keyword">truncate</span> <span class="keyword">table</span> workmates;</span><br></pre></td></tr></table></figure>
-<h3 id="删除整张表"><a href="#删除整张表" class="headerlink" title="删除整张表"></a>删除整张表</h3><blockquote>
-<p>语法：<code>drop table 表名;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除 workmates 表: </span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> workmates;</span><br></pre></td></tr></table></figure>
-<h3 id="删除整个数据库"><a href="#删除整个数据库" class="headerlink" title="删除整个数据库"></a>删除整个数据库</h3><blockquote>
-<p>语法：<code>drop database 数据库名;</code></p>
-</blockquote>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 删除 samp_db 数据库: </span></span><br><span class="line"><span class="keyword">drop</span> <span class="keyword">database</span> samp_db;</span><br></pre></td></tr></table></figure>
-<h2 id="其它实例"><a href="#其它实例" class="headerlink" title="其它实例"></a>其它实例</h2><h3 id="SQL删除重复记录"><a href="#SQL删除重复记录" class="headerlink" title="SQL删除重复记录"></a>SQL删除重复记录</h3><p><a href="http://www.xiangguo.li/sql_and_nosql/2015/01/01/sql" target="_blank" rel="noopener">转载</a></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 查找表中多余的重复记录，重复记录是根据单个字段（peopleId）来判断</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> people <span class="keyword">where</span> peopleId <span class="keyword">in</span> (<span class="keyword">select</span> peopleId <span class="keyword">from</span> people <span class="keyword">group</span> <span class="keyword">by</span> peopleId <span class="keyword">having</span> <span class="keyword">count</span>(peopleId) &gt; <span class="number">1</span>)</span><br><span class="line"><span class="comment">-- 删除表中多余的重复记录，重复记录是根据单个字段（peopleId）来判断，只留有rowid最小的记录</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> people </span><br><span class="line"><span class="keyword">where</span> peopleId <span class="keyword">in</span> (<span class="keyword">select</span> peopleId <span class="keyword">from</span> people <span class="keyword">group</span> <span class="keyword">by</span> peopleId <span class="keyword">having</span> <span class="keyword">count</span>(peopleId) &gt; <span class="number">1</span>)</span><br><span class="line"><span class="keyword">and</span> <span class="keyword">rowid</span> <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">min</span>(<span class="keyword">rowid</span>) <span class="keyword">from</span> people <span class="keyword">group</span> <span class="keyword">by</span> peopleId <span class="keyword">having</span> <span class="keyword">count</span>(peopleId )&gt;<span class="number">1</span>)</span><br><span class="line"><span class="comment">-- 查找表中多余的重复记录（多个字段）</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> vitae a</span><br><span class="line"><span class="keyword">where</span> (a.peopleId,a.seq) <span class="keyword">in</span> (<span class="keyword">select</span> peopleId,seq <span class="keyword">from</span> vitae <span class="keyword">group</span> <span class="keyword">by</span> peopleId,seq <span class="keyword">having</span> <span class="keyword">count</span>(*) &gt; <span class="number">1</span>)</span><br><span class="line"><span class="comment">-- 删除表中多余的重复记录（多个字段），只留有rowid最小的记录</span></span><br><span class="line"><span class="keyword">delete</span> <span class="keyword">from</span> vitae a</span><br><span class="line"><span class="keyword">where</span> (a.peopleId,a.seq) <span class="keyword">in</span> (<span class="keyword">select</span> peopleId,seq <span class="keyword">from</span> vitae <span class="keyword">group</span> <span class="keyword">by</span> peopleId,seq <span class="keyword">having</span> <span class="keyword">count</span>(*) &gt; <span class="number">1</span>) <span class="keyword">and</span> <span class="keyword">rowid</span> <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">min</span>(<span class="keyword">rowid</span>) <span class="keyword">from</span> vitae <span class="keyword">group</span> <span class="keyword">by</span> peopleId,seq <span class="keyword">having</span> <span class="keyword">count</span>(*)&gt;<span class="number">1</span>)</span><br><span class="line"><span class="comment">-- 查找表中多余的重复记录（多个字段），不包含rowid最小的记录</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> vitae a</span><br><span class="line"><span class="keyword">where</span> (a.peopleId,a.seq) <span class="keyword">in</span> (<span class="keyword">select</span> peopleId,seq <span class="keyword">from</span> vitae <span class="keyword">group</span> <span class="keyword">by</span> peopleId,seq <span class="keyword">having</span> <span class="keyword">count</span>(*) &gt; <span class="number">1</span>) <span class="keyword">and</span> <span class="keyword">rowid</span> <span class="keyword">not</span> <span class="keyword">in</span> (<span class="keyword">select</span> <span class="keyword">min</span>(<span class="keyword">rowid</span>) <span class="keyword">from</span> vitae <span class="keyword">group</span> <span class="keyword">by</span> peopleId,seq <span class="keyword">having</span> <span class="keyword">count</span>(*)&gt;<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="参考手册"><a href="#参考手册" class="headerlink" title="参考手册"></a>参考手册</h2><ul>
-<li><a href="http://www.w3school.com.cn/sql/index.asp" target="_blank" rel="noopener">http://www.w3school.com.cn/sql/index.asp</a></li>
-<li><a href="http://www.1keydata.com/cn/sql/sql-count.php" target="_blank" rel="noopener">http://www.1keydata.com/cn/sql/sql-count.php</a></li>
-</ul>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/21/销售目标计划使用指南/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Rocky.Guo">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="夜色凉薄">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/08/21/销售目标计划使用指南/" itemprop="url">销售目标计划使用指南</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T11:02:19+08:00">
-                2018-08-21
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C4C/" itemprop="url" rel="index">
-                    <span itemprop="name">C4C</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h1 id="下载安装加载项"><a href="#下载安装加载项" class="headerlink" title="下载安装加载项"></a>下载安装加载项</h1><ol>
-<li><p>因为C4C的销售目标计划&amp;报表等功能提供了本地Excel表格编辑、更新、同步等功能。所以，我们首先要下载“SAP Microsoft Excel® 加载项”，以给Excel提供完善的C4C表格编辑能力。<br><img src="https://i.loli.net/2018/08/21/5b7b7ec60a25a.jpg" alt=""></p>
-</li>
-<li><p>下载后得到  图标的“EXCLADN1305SP33_0-20011021.EXE”文件。双击打开运行，一路下一步，最终完成。<br><img src="https://i.loli.net/2018/08/21/5b7b7ed55f7ec.jpg" alt=""></p>
-</li>
-</ol>
-<ol start="3">
-<li>打开任意Excel表格，会发现Excel功能区多了“SAP CLOUD FOR CUSTOMER”，在此功能区下，点击“登录”，会弹出登录SAP Cloud for Customer窗口。请按照如下内容填写登录：<blockquote>
-<p>SAP系统URL： <a href="https://my3XXXX8.crm.ondemand.com/" target="_blank" rel="noopener">https://my3XXXX8.crm.ondemand.com/</a><br>选择证书：默认即可，无需选择。<br>用户名：C4C用户名<br>密码：C4C密码<br><img src="https://i.loli.net/2018/08/21/5b7b7f1c0401a.jpg" alt=""></p>
-</blockquote>
-</li>
-</ol>
-<h1 id="销售目标计划"><a href="#销售目标计划" class="headerlink" title="销售目标计划"></a>销售目标计划</h1><ol>
-<li>登录C4C ，打开“销售”-&gt;“销售目标计划”视图。<br><img src="https://i.loli.net/2018/08/21/5b7b7f5f1df9d.jpg" alt=""></li>
-</ol>
-<ol start="2">
-<li>新建销售目标</li>
-</ol>
-<ul>
-<li>点击“新建”，进入“新建销售目标计划”窗口。填入必填项（带有星号*的选项）后，点击“下一步”。<br><img src="https://i.loli.net/2018/08/21/5b7b7f6a59bc8.jpg" alt=""></li>
-</ul>
+            <p>我在公司内网装了一个 K3路由器，自然也K3也就摆在我的办公桌上。</p>
+<p>固件版本</p>
 <blockquote>
-<p><strong>*销售单位：</strong>点击输入框右侧的  图标，选择此销售目标计划所属的销售部门。<br><strong>*期间自/至：</strong>输入目标期限。（不允许同一销售单位的期间重叠。例如，如果已经做了一个本部门的销售计划为2018年8月——2018年10月，则不能再做一个本部门销售计划为2018年9月——2018年10月，因为时间重叠，C4C系统无法判断应该采用哪个计划。所以当出现时间重叠的情况，C4C会报错。）<br><strong>计划名称：</strong>当“销售单位”以及“期间自/至”填好后，计划名称会自动生成，格式为“销售单位+期间自/至”。例如“FS Key Account（餐饮重要客户团队） (FS12000):2018/09-2018/09”。计划名称可以自行修改为自己想要的名称。<br><strong>计划编号：</strong>自动生成内容，无需修改。<br><strong>负责员工：</strong>自动生成为登录C4C账号员工。可以修改为其他人。<br><strong>计划货币：</strong>自动生成为“CNY – 人民币”，无需修改。<br><strong>直属经理：</strong>会根据C4C的组织架构自动填入，无需修改。<br><strong>销售单位的总目标：</strong>无需修改。</p>
+<p><strong>OpenWrt v2.7 By stones r6132-c6e0c02d75 / LuCI Master (git-18.023.74248-ee409b6)</strong></p>
 </blockquote>
-<ul>
-<li>选择计划维度<br>计划维度分为六个类型：“~区域~”“~客户~”“~员工~”“~产品类别~”“~产品~”“~销售单位~”。</li>
-</ul>
+<p>具体拿来做什么用，想来也不必多说，无非就是 SSR 以及 Koolproxy 以及其他的一些功能。</p>
+<p>但是，装好后，忽然发现，无法连接公司的 Exchange 域邮箱了。想来想去，应该是 DNS 解析的问题。</p>
+<p>于是，进入后台，看看网络-&gt;HDCP/DNS 设置，逐条查看。</p>
+<p>其实说查看也不妥，因为所有的和 DNS 有关的条目，我只有一半能看懂。所以我就把我看不懂的条目，一个一个的开关测试。</p>
+<p>最后找到了问题之所在<strong>『重绑定保护』</strong></p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a400fb3a81.jpg" alt=""></p>
+<p>其实说到底，我的理解是：公司内网的 DNS 解析设置是，如果终端在公司内网，用公司私有网络地址（RFC1918）进行公司邮箱域名解析。</p>
+<p><strong>例如<br>如果你的内网 IP 地址是公司私有域内的 IP，那么公司邮箱 mail.example.com 解析为 192.18.1.60</strong></p>
 <blockquote>
-<p><strong>区域：</strong>因为SINODIS C4C并未严格对销售进行区域区分，所以SINODIS C4C中“区域”和“销售单位”是相同的。建议选择计划维度的时候，选择“销售单位”，不要选择“区域”。<br><strong>客户：</strong>点选客户行，并勾选右侧“激活”框，再对右侧的“客户详细信息”进行编辑，可以通过筛选按钮，进行筛选客户。相对来说最方便的方式是建立一个<strong>~目标组~</strong>，然后在此处选择建立的<strong>~目标组~</strong>，即可直接显示出<strong>~目标组~</strong>中的所有客户。<br><img src="https://i.loli.net/2018/08/21/5b7b7fdf310a4.jpg" alt=""><br><strong>员工：</strong>选择此销售目标计划针对的是哪些员工。<br><strong>产品类别：</strong>C4C中产品类别非常详细，下图中可以看到，所以根据自身的情况考虑是否选择产品类别作为计划的维度之一。<br><strong>产品：</strong>根据具体情况自行选择。<br><strong>销售单位：</strong>根据具体情况自行选择。<br>可以根据自己/部门的具体需要进行选择，例如销售人员做个人的销售目标计划的时候，可以选择“客户”“产品类别”，而销售经理做部门的销售目标计划，可以选择“客户”“销售单位”等。<br>选择完毕，点击“下一步”。</p>
+<p><img src="https://i.loli.net/2018/06/08/5b1a4022b12cb.jpg" alt=""></p>
 </blockquote>
-<ul>
-<li>管理计划版本<br>在此页，可以设置本次制作的销售目标计划的版本名称以及描述。填完后点击“下一步”，进入“复制目标数据”。<br><img src="https://i.loli.net/2018/08/21/5b7b802b8b695.jpg" alt=""></li>
-</ul>
-<ul>
-<li>复制目标数据<br>本页是用在当你之前做过一个销售目标计划，例如“2018年9月——2018年10月”的销售计划，现在要做“2018年11月——2018年12月”的销售计划，则可以通过本页对“2018年9月——2018年10月”的销售计划进行复制，然后只需要做修改即可完成新的销售计划。<br>如果不需要复制之前的销售计划，则本页全部留空，直接点击下一步。<br><img src="https://i.loli.net/2018/08/21/5b7b8034a5cac.jpg" alt=""></li>
-</ul>
-<ul>
-<li><p>检查 &amp; 确认<br>本页，将显示之前几步的所有设定，方便你检查之前的选择是否正确。如果确认无误，则点击“完成”即可。最后会打开“确认”页面，点击“再Excel中打开计划”，则会下载一个“AnalyticalWorkbook.xml”文件。</p>
-</li>
-<li><p>用Excel打开销售目标计划XML文件<br>如第1章“下载安装加载项”中所写，打开XML文件后，会自动弹出下图登录窗口，按照之前的说明进行填写，并登陆。然后Excel会对C4C中的数据进行载入，此过程可能会需要一些时间，具体时间，视网络情况决定。</p>
-</li>
-</ul>
-<ul>
-<li>登陆后Excel表格编辑。<br>打开后的Excel表格类似于一个数据透视表，可以根据自身需要，定制表格的行&amp;列的字段。可以看到，如果对某个数据进行修改，则单元格会变成黄色底色。当数据修改完毕，点选上部的“上传输入”按钮，则Excel表格内的数据会同步到C4C系统中。</li>
-</ul>
+<p><strong>如果你的内网 IP 地址不是公司私有域内的 IP，例如你在自己家里，那么公司邮箱 mail.example.com 解析为外网 IP 27.115.1.1</strong></p>
+<blockquote>
+<p><img src="https://i.loli.net/2018/06/08/5b1a40317e829.jpg" alt=""></p>
+</blockquote>
 
           
         
@@ -930,7 +444,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/17/C4C 客户附加属性地域选项修改/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/04/24/HEXO文章发布命令/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -949,7 +463,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/17/C4C 客户附加属性地域选项修改/" itemprop="url">C4C 客户附加属性地域选项修改</a></h1>
+                <a class="post-title-link" href="/2019/04/24/HEXO文章发布命令/" itemprop="url">HEXO 文章发布命令</a></h1>
         
 
         <div class="post-meta">
@@ -961,8 +475,297 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-17T17:46:54+08:00">
-                2018-08-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T21:54:15+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/HEXO/" itemprop="url" rel="index">
+                    <span itemprop="name">HEXO</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo <span class="built_in">clean</span> &amp;&amp; hexo g &amp;&amp; hexo deploy &amp;&amp; hexo <span class="built_in">clean</span></span><br></pre></td></tr></table></figure>
+<p><strong> hexo clean :</strong> 清理 database 和 /public 目录， /public 目录里是生成的静态文件数据。<br><strong> hexo generaet :</strong> 简写是 “hexo g” 命令是用来生成静态页面的 会创建 /public 目录静态页面数据都在这个文件夹里。<br><strong> hexo deploy ：</strong> 一键部署命令上面在 _config.yml 文件中配置了部署信息。这个命令会帮助你一键部署。</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/04/24/Excel 中空值概念/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/24/Excel 中空值概念/" itemprop="url">Excel 中空值概念</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T21:54:15+08:00">
+                2019-04-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/WORK/" itemprop="url" rel="index">
+                    <span itemprop="name">WORK</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>这里要清晰几个Excel里面的概念：<br><strong>空白</strong>、<strong>空值</strong>、<strong>零值</strong>、<strong>空字符串<code>（&quot;&quot;&quot;&quot;）</code></strong><br>其中，空白包含空值和空字符串，而空值在运算时，“当”零值处理。</p>
+<p>如果是严格意义上的“空值”，就应该用：<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="built_in">isblank</span>(<span class="symbol">a1</span>),<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>如果是“空白”，即包含空字符串的话，用<br><figure class="highlight excel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">=<span class="built_in">if</span>(<span class="symbol">A1</span>=<span class="string">""</span><span class="string">""</span>,<span class="number">0</span>,<span class="number">1</span>)</span><br></pre></td></tr></table></figure></p>
+<p>另外，定位操作(按 F5弹出定位窗口)时，可以定位“空值”，这时不包括空字符串的，<br><img src="https://i.loli.net/2018/06/22/5b2c9c753dee6.jpg" alt=""></p>
+<p>但在筛选的时候，有选项是“空白”或“非空白”的，要小心处理</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/04/24/C4C 客户附加属性地域选项修改/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Rocky.Guo">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夜色凉薄">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/04/24/C4C 客户附加属性地域选项修改/" itemprop="url">C4C 客户附加属性地域选项修改</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T21:54:15+08:00">
+                2019-04-24
               </time>
             
 
@@ -1092,7 +895,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/08/05/大清亡了/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2019/04/24/ALLEXCEPT 解释/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1111,7 +914,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/08/05/大清亡了/" itemprop="url">大清亡了</a></h1>
+                <a class="post-title-link" href="/2019/04/24/ALLEXCEPT 解释/" itemprop="url">ALLEXCEPT 解释</a></h1>
         
 
         <div class="post-meta">
@@ -1123,8 +926,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-05T14:07:06+08:00">
-                2018-08-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-24T21:54:15+08:00">
+                2019-04-24
               </time>
             
 
@@ -1146,8 +949,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/随笔/" itemprop="url" rel="index">
-                    <span itemprop="name">随笔</span>
+                  <a href="/categories/POWERBI/" itemprop="url" rel="index">
+                    <span itemprop="name">POWERBI</span>
                   </a>
                 </span>
 
@@ -1185,14 +988,12 @@
       
         
           
-            <p>那一天，一个时代的代表人物，大魔头离开了她肆虐了多年的国家。而她的宿敌小天使也躺在病榻上，仿佛眼光可以穿透病房的墙壁一般，远远的看着离开的方向，最终喃喃自语，也许只是默默的念着黑暗的咒语诅咒着什么。</p>
-<p>城门口，不知道存在了多少年的大石，仿佛龟背一般沉寂。一位白发老翁吧嗒着旱烟，许久，吐出一口白烟。清明的双眼忽然混浊起来，时间在他眼中飞过，静止的那一刻，化作层层的忧伤刻画在眼底。<br>城内不远处，惊慌的孩子从一处小巷跑出，手中紧紧攥着一张信纸，信纸因被攥紧而皱裂，却还是能看到上面有几个红色的字迹。</p>
-<p>孩子跑到老人面前，双手撑在膝盖上努力的喘息着”爷……爷爷……，不好了”，不知是紧张还是惊慌，又或者跑的太急，孩子只能断断续续的说着。</p>
-<p>老人转头慈爱的笑着说：”蛋蛋，别急，喘口气，慢慢说。”</p>
-<p>孩子深喘几口气，咽了一口唾沫，”内买没了”，说着把皱巴的信纸递给老人。</p>
-<p>老人并没有接过信纸，只是抬起手，抽了一口手中的旱烟，似乎思绪已经飘往许多许多年前。</p>
-<p>半晌，老人轻轻吐出烟云，在石头上磕了磕烟锅，转头看向城门内，笑了，笑得那般苦涩，那般死气沉沉。那一瞬间似乎眼角的皱纹更深刻了许多。随后，老人叹了一口气。</p>
-<p>“大清，亡了！”</p>
+            <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FODOfCustomer = CALCULATE (    MIN ( 'ECDatas SSDTotal'[BillingDate] ),    ALLEXCEPT( 'ECDatas SSDTotal', 'ECDatas SSDTotal'[Customer] ))</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SNVOfNewCustomer = </span><br><span class="line">CALCULATE (</span><br><span class="line">     [SumNetValue],FILTER('ECDatas SSDTotal' , YEAR( [FODOfCustomer] ) = 2019 )</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p><code>官方说明：ALLEXCEPT（返回表中除受指定的列筛选器影响的那些行之外的所有行）</code></p>
+<p>解释：<br>ALLEXCEPT(Table,column)<br>Table是要筛选的表，Column是要接受筛选的列，除了Column之外的列，均不接受筛选。</p>
+<p>例如上面例子中：<br>[FODOfCustomer]中对’ECDatas SSDTotal’[Customer]进行了保留上下文筛选，那么，当[SNVOfNewCustomer]调用[FODOfCustomer]的时候，[SNVOfNewCustomer]中对Year的筛选，就不会影响[FODOfCustomer]。</p>
+<p>[FODOfCustomer]是在计算客户第一次下单的时间，假设[SNVOfNewCustomer]中 “Year=2019”，如果[FODOfCustomer]没有【 ALLEXCEPT( ‘ECDatas SSDTotal’, ‘ECDatas SSDTotal’[Customer] )】，最后计算出来的就是2019年客户的第一次下单时间。 因为有了 ALLEXCEPT()函数，所以计算出来的结果依然是所有时间内的第一次下单。</p>
 
           
         
@@ -1241,7 +1042,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/07/12/SAP C4C 报表中关键值-销售目标-的系统计算方式/">
+    <link itemprop="mainEntityOfPage" href="http://fyxsky.github.io/2018/12/19/Dropbox & Onedrive合作同步/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Rocky.Guo">
@@ -1260,7 +1061,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/07/12/SAP C4C 报表中关键值-销售目标-的系统计算方式/" itemprop="url">SAP C4C 报表中关键值-销售目标-的系统计算方式</a></h1>
+                <a class="post-title-link" href="/2018/12/19/Dropbox & Onedrive合作同步/" itemprop="url">Dropbox & Onedrive 合作同步</a></h1>
         
 
         <div class="post-meta">
@@ -1272,8 +1073,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-12T11:19:55+08:00">
-                2018-07-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-19T20:17:31+08:00">
+                2018-12-19
               </time>
             
 
@@ -1295,8 +1096,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/C4C/" itemprop="url" rel="index">
-                    <span itemprop="name">C4C</span>
+                  <a href="/categories/SOFTWARE/" itemprop="url" rel="index">
+                    <span itemprop="name">SOFTWARE</span>
                   </a>
                 </span>
 
@@ -1334,18 +1135,127 @@
       
         
           
-            <p>这个问题其实很有意思，首先，C4C 中客户的窗口中，左边的基本信息中是有销售目标的，这个销售目标，可以由客户的负责销售进行修改填入。如下图<br><img src="https://i.loli.net/2018/07/12/5b46bdb34cb57.jpg" alt=""></p>
-<p>所以，我的本意是想要通过报表自动计算出每个客户当月的销售目标完成率，计算方法很简单<code>（Sales Net Value / 销售目标） x 100%</code> 即可。</p>
-<p>但是，我在实际生成报表的时候发现，<code>Customer Sales Report</code>报表中由 SAP 内置的关键值<code>销售目标</code>并不是直接调用<code>客户主数据</code>数据源中的<code>销售目标</code>字段。如下图，下图中的基础关键值-&gt;销售目标，并不是数据源中的<code>销售目标</code>字段。原因很简单，因为 C4C 中的关键值，均为根据数据源中的字段计算出来的值。<br>这一段话，理解起来有点困难，是因为必须理解什么是 C4C 报表中的关键值。<br><code>在C4C报表中，计算的关键值被定义为包含一些计算规则或公式的关键值。 可以从所选数据源中的现有关键值创建计算的关键值。</code><br><img src="https://i.loli.net/2018/07/12/5b46c1aca93fa.jpg" alt=""></p>
-<p>上面说了关键值中的<code>销售目标</code>是一个计算值，为什么呢？<br>我认为原因是销售填入了客户的销售目标，但是实际上销售目标这个值写入到客户主数据中后，这个销售目标是没有时间规范的，例如销售填入，A 客户的销售目标是100W。那么问题来了，这个销售目标数值100W 在 C4C 系统中只是一个数字，而 C4C 不知道这个100W 代表了什么？</p>
-<ul>
-<li>填入数值当前月的销售目标？</li>
-<li>填入数值当前天的销售目标？</li>
-<li>填入数值当前年的销售目标？</li>
-<li>………………</li>
-</ul>
-<p>总之，因为 C4C 默认是不知道这个数值代表了什么，那么报表中的关键值<code>销售目标</code>是怎么计算出来的？<br>因为这个关键值是 SAP 内置的，所以无法查看也无法修改，导致我无法知道这个关键值是怎么根据字段数值计算出来的指数。（也许是因为我没有找到地方）</p>
-<p>最后，我只能根据真实数据报表，进行核对，最终推算出来<code>销售目标</code>具体的计算公式。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">销售目标 = 字段销售目标值 x （销售 <span class="built_in">SKU</span> 数量 - 未发货 <span class="built_in">SKU</span> 数量）</span><br><span class="line"></span><br><span class="line">字段销售目标： 销售填入客户信息页面的销售目标</span><br><span class="line">销售 <span class="built_in">SKU</span> 数量：  选定时间段内，此客户的所有订单中，总的 <span class="built_in">SKU</span> 数量（去重）。</span><br><span class="line">未发货 <span class="built_in">SKU</span> 数量： 因为有缺货、短保等问题导致部分 <span class="built_in">SKU</span> 未发货。</span><br></pre></td></tr></table></figure></p>
+            <p><img src="https://i.loli.net/2018/12/19/5c1a38b85c495.jpg" alt="1"></p>
+<p>一直以来，对于同步文件，我一直主要使用 Dropbox.</p>
+<p>虽然我也有 OneDrive 和 GoogleDrive 的教育版账号，但是对于工作的文件我还是只用 DropBox。主要是因为 Dropbox 的历史版本比较好用，而工作的文件大多都是各种格式的文档。</p>
+<p>而 GoogleDrive，主要用来存一些音频视频以及小说之类的，毕竟空间比较大。</p>
+<p>但是比较巧，这个月公司集团忽然不知道为什么，说是要全球上云。感觉可能是考虑中国区只能用微软的全套，所以就上了 Office365，这样我就忽然多了一个 OneDrive for Business 账号。</p>
+<p>其实，从我自己来说，OneDrive 用不用都可以，不过在工作中，因为经常要给同事分享文件，想了想，OneDrive 在分享文件，以及协同编辑上确实比较有用。所以就考虑把 Dropbox 中的工作文件夹用 OneDrive 同步。而 Dropbox 中的其他文件夹，我还是沿用 Dropbox，毕竟大家都知道，Onedrive for Business 的管理员是可以随意查看员工的同步文件的。</p>
+<p>不过，我的工作文件夹，我还是希望能同时用 Dropbox 同步，也就是工作文件夹，我希望能 Dropbox 和 Onedrive 同时同步。</p>
+<p>仔细想想，这个问题，我觉得有两种方式可以解决，但是两种方式各有利弊。甚至我下面写的第一种方法，我怀疑有问题。<br>下面就分别说明一下两种方式以及利弊。</p>
+<h1 id="OneDrive-目录放在-Dropbox-目录中"><a href="#OneDrive-目录放在-Dropbox-目录中" class="headerlink" title="OneDrive 目录放在 Dropbox 目录中"></a>OneDrive 目录放在 Dropbox 目录中</h1><p>这个方法，其实就是在设置 OneDrive 的目录的时候，把 Dropbox 根目录作为 OneDrive 的根目录。<br>也就是下图。<br><img src="https://i.loli.net/2018/12/19/5c1a3d4b74bb5.jpg" alt=""></p>
+<p>图中可以看到有一个 <strong>[JobDoc]</strong> 文件夹，就是我的工作文件夹。<br>这个方法，就是把 <strong>[JobDoc]</strong> 文件夹放入 <strong>[ OneDrive - Savencia ]</strong> 文件夹中。</p>
+<p>这样就可以 Dropbox 同步所有文件的同时，OneDrive 还可以对  <strong>[OneDrive - Savencia]</strong> 文件夹中的 <strong>[ JobDoc ]</strong> 文件夹进行同步。</p>
+<p><strong>优点：</strong> 就是上面所说，比较简单的就实现了最初我的目的，Dropbox 同步所有文件的同时，OneDrive 对其中某个文件夹进行同步。</p>
+<p>但是实际操作中，我会发现会有一个严重的问题，或者说我自己难以接受的问题。<br><strong>缺点：</strong> <strong>[OneDrive - Savencia]</strong> 文件夹内会有一个以 <code>.</code> 开头命名的文件（例如 <code>.85sa5465dfef-354fe8fasdf8e1</code>）, 而 Dropbox 会始终提示这个文件无法被同步。同时，时不时的 Dropbox 还会提示 <strong>[OneDrive - Savencia]</strong> 文件夹内文件大量无法被同步。但是我的观察是最终这些无法被同步的文件，还是会被同步。（可能是被 OneDrive 同步了）</p>
+<h1 id="Windows-MKLINK-做文件夹映射"><a href="#Windows-MKLINK-做文件夹映射" class="headerlink" title="Windows MKLINK 做文件夹映射"></a>Windows MKLINK 做文件夹映射</h1><p>我个人感觉 MKLINK 命令其实就是 Linux 中的 ln，都是做符号连接的。<br>简单的说，就是在目标目录创建一个源文件 / 文件夹的映射。具体我用文字不太容易说清楚。下面我用操作和截图来说明。</p>
+<p>MKLINK 命令在 Windows 中名字叫做 <strong>Symbolic Link(符号连接)</strong> 。<br>MKLINK 说明如下表：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>不带参数</th>
+<th><code>/D</code> 参数</th>
+<th><code>/H</code> 参数</th>
+<th><code>/J</code> 参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>中文名称</td>
+<td>符号链接</td>
+<td>符号链接</td>
+<td>硬链接</td>
+<td>联接</td>
+</tr>
+<tr>
+<td>英文名称</td>
+<td>Symbolic Link</td>
+<td>Symbolic Link</td>
+<td>Hard Link</td>
+<td>Junction</td>
+</tr>
+<tr>
+<td>作用对象</td>
+<td>文件</td>
+<td>目录</td>
+<td>文件</td>
+<td>目录</td>
+</tr>
+<tr>
+<td>是否一定指向路径</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+<td>是</td>
+</tr>
+<tr>
+<td>dir 类型</td>
+<td>SYMLINK</td>
+<td>SYMLINK</td>
+<td>无特殊显示</td>
+<td>JUNCTION</td>
+</tr>
+<tr>
+<td>资源管理器类型</td>
+<td>.symlink</td>
+<td>文件夹</td>
+<td>无特殊显示</td>
+<td>文件夹</td>
+</tr>
+<tr>
+<td>资源管理器图标</td>
+<td>快捷方式</td>
+<td>文件夹快捷方式</td>
+<td>无特殊显示</td>
+<td>文件夹快捷方式</td>
+</tr>
+<tr>
+<td>修改同步</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+<td>是</td>
+</tr>
+<tr>
+<td>删除同步</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+<td>否</td>
+</tr>
+<tr>
+<td>彻底删除源</td>
+<td>删除源路径</td>
+<td>删除源路径</td>
+<td>删除所有硬链接</td>
+<td>删除源路径</td>
+</tr>
+<tr>
+<td>引用错误报错</td>
+<td>无</td>
+<td>引用了一个不可用的位置</td>
+<td>-</td>
+<td>引用了一个不可用的位置</td>
+</tr>
+</tbody>
+</table>
+<p>MKLINK 命令需要使用管理员权限（实测如果不操作 C 盘文件，不需要管理员权限），在 cmd.exe 中运行。在 Windows 10 中，可以在开始菜单中搜索 cmd，而后右键搜索结果，选择「以管理员身份运行」。 或者 CMD + R，然后输入 CMD 回车即可（非 C 盘文件操作）。</p>
+<p>对于我来说，我的操作如下：<br>首先看一下 MKLINK 的命令规则。<br><figure class="highlight jboss-cli"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\AAA&gt;MKLINK</span><br><span class="line">创建符号链接。</span><br><span class="line"></span><br><span class="line">MKLINK [[<span class="string">/D</span>] | [<span class="string">/H</span>] | [<span class="string">/J</span>]] Link Target</span><br><span class="line"></span><br><span class="line">        <span class="string">/D</span>      创建目录符号链接。默认为文件</span><br><span class="line">                符号链接。</span><br><span class="line">        <span class="string">/H</span>      创建硬链接而非符号链接。</span><br><span class="line">        <span class="string">/J</span>      创建目录联接。</span><br><span class="line">        Link    指定新的符号链接名称。</span><br><span class="line">        Target  指定新链接引用的路径</span><br><span class="line">                <span class="params">(相对或绝对)</span>。</span><br></pre></td></tr></table></figure></p>
+<p>因为我要做的是把 Dropbox 目录下的 <strong>[JobDoc]</strong> 文件夹映射到 <strong>[OneDrive - Savencia]</strong> 文件夹内，所以命令如下：</p>
+<figure class="highlight taggerscript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:<span class="symbol">\U</span>sers<span class="symbol">\A</span>AA&gt;MKLINK "E:<span class="symbol">\O</span>neDrive - Savencia<span class="symbol">\J</span>obDoc" E:<span class="symbol">\D</span>ropbox<span class="symbol">\J</span>obDoc</span><br><span class="line">// 回车后结果如下</span><br><span class="line">为 E:<span class="symbol">\O</span>neDrive - Savencia<span class="symbol">\J</span>obDoc1 &lt;&lt;===&gt;&gt; E:<span class="symbol">\D</span>ropbox<span class="symbol">\J</span>obDoc 创建的符号链接</span><br></pre></td></tr></table></figure>
+<p>操作完成后，可以看到下图<br><img src="https://i.loli.net/2018/12/19/5c1a46694dde0.png" alt="20181219_212336"></p>
+<p>在 <strong>[OneDrive - Savencia]</strong> 文件夹中多了一个 <strong>[ JobDoc ]</strong> 文件夹，并且可以发现，OneDrive 开始对 <strong>[ JobDoc ]</strong> 文件夹进行了同步。也就是说 <strong>[OneDrive - Savencia]</strong> 文件夹认可了这个映射过来的 <strong>[ JobDoc ]</strong> 文件夹。虽然这个文件夹只是映射过来，本身文件还是在 Dropbox 文件夹中。</p>
+<p>而通过查看 <strong>[OneDrive - Savencia]</strong> 文件夹的属性，可以看到，此文件夹占用空间为 0 字节。</p>
+<p><img src="https://i.loli.net/2018/12/19/5c1a4717c5db7.png" alt="20181219_212639"></p>
+<p><strong>优点：</strong> 这样就完成了我最初的需求。并且不会出现同步错误的问题。<br><strong>缺点：</strong> 因为我在家里使用的是Windows，而我工作主力机是MacbookPro。因为我在Windows中已经使用了MKLINK命令在 <strong>[OneDrive - Savencia]</strong> 文件夹中创建了 Jobdoc 的映射。而造成，我在 OSX 下，无法再使用 ln 命令进行同样的映射，系统会告诉我 Jobdoc 文件夹已经存在了。而这个问题，我暂时还没想到好的解决方法。</p>
+<p>因为我家中的 PC 全年不关机。所以暂时我的同步方式是：</p>
+<ol>
+<li>工作的时候 Mac 对 JobDoc 文件夹中的内容进行了修改。</li>
+<li>Dropbox 对修改的文件进行同步，并同步到家中的 PC。</li>
+<li>PC 中 Dropbox 的 Jobdoc 文件夹的文件会因为映射的原因而激活 OneDrive 开始同步修改后的文件。</li>
+<li>公司的 MacbookPro 再把 OneDrive 同步到云端的文件同步到 MacbookPro 本地的 OneDrive 中。</li>
+</ol>
 
           
         
